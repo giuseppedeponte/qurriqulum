@@ -1,14 +1,33 @@
 // FACTORY FUNCTION FOR THE GAME PLAYER
 var createPlayer = (function() {
-  var Player = function(game, context, config) {
+  var Player = function(game, context, firstTile) {
     this.game = game;
     this.context = context;
-    this.img = config.img;
+    this.img = null;
     this.lives = 5;
+    this.currentTile = firstTile;
+  };
+  // common props and methods
+  Player.prototype.position = {
+    x: 0,
+    y: 0,
+    dirX: 0,
+    dirY: 0
+  };
+  Player.prototype.width = 50;
+  Player.prototype.height = 75;
+  Player.prototype.frame = {
+    src: 'file:///C:/Users/drventisette/qbert/img/player.png',
+    sourceWidth: 417,
+    sourceHeight: 156,
+    x: 0,
+    y: 0,
+    w: 104.25,
+    h: 156
   };
   // PUB/SUB MECHANISM
   Player.prototype.events = {
-    loading: [],
+    load: [],
     standing: [],
     jumping: [],
     falling: [],
@@ -29,17 +48,13 @@ var createPlayer = (function() {
     }
   };
   // STATE MACHINE MECHANISM
-  Player.prototype.currentState = "";
-  Player.prototype.nextState = "loading";
+  Player.prototype.currentState = '';
+  Player.prototype.nextState = 'load';
   Player.prototype.transition = function() {
     var that = this;
     if (this.nextState !== this.currentState) {
       if (this.states[this.currentState].exit) {
-        this.states[this.currentState].exit(
-          that.currentState,
-          that.nextState,
-          that
-        );
+        this.states[this.currentState].exit(that.currentState, that.nextState, that);
       }
       var from = this.currentState;
       this.currentState = this.nextState;
@@ -48,6 +63,7 @@ var createPlayer = (function() {
       }
     }
     this.publish(that.currentState, that);
+    return this;
   };
   Player.prototype.update = function() {
     if (this.states[this.currentState].update) {
@@ -65,30 +81,25 @@ var createPlayer = (function() {
     }
   };
   Player.prototype.states = {
-    loading: {
-      ready: false,
-      done: function() {
-        var that = this;
-        this.ready = true;
-      },
+    load: {
       init: function(from, to, player) {
-        var that = this;
+        // load player initial position
+        player.position.x = player.currentTile.landingPoint.x;
+        player.position.y = player.currentTile.landingPoint.y;
         // load player img
         player.img = new Image();
-        player.img.addEventListener("load", that.done);
+        player.img.addEventListener("load", function() {
+          player.nextState = 'standing';
+        });
         player.img.src = player.frame.src;
       },
-      update: function(attr, player) {
-        var that = this;
-        if (this.ready) {
-          player.nextState = "standing";
-          player.img.removeEventListener("load", that.done);
-        } else {
-          player.nextState = "loading";
-        }
-      }
+      // update: function(attr, player) {},
       // render: function(attr, player) {},
-      // exit: function(from, to, player) {}
+      exit: function(from, to, player) {
+        player.subscriptions = [];
+        player.subscriptions.push(player.game.on('update', player.update));
+        player.subscriptions.push(player.game.on('render', player.render));
+      }
     },
     standing: {
       keys: {
@@ -100,7 +111,7 @@ var createPlayer = (function() {
       toggleKey: function(e) {
         if (this.keys["k" + e.keyCode]) {
           e.preventDefault();
-          this.keys["k" + e.keyCode] = e.type === "keydown";
+          this.keys["k" + e.keyCode] = (e.type === "keydown");
         }
       },
       parseKeys: function() {
@@ -134,8 +145,6 @@ var createPlayer = (function() {
         var that = this;
         window.addEventListener("keydown", that.toggleKey);
         window.addEventListener("keyup", that.toggleKey);
-        // listen to monster events ???
-        // listen to tilemap events ???
         // set image frame x and y
       },
       update: function(attr, player) {
@@ -184,29 +193,81 @@ var createPlayer = (function() {
       counter: 0,
       init: function(from, to, player) {
         // get next tile reference
+        this.nextTile = player.currentTile.next(player.position.dirX, player.position.dirY);
         // start the counter
+        this.counter = 0;
+        // store initial position
+        this.originX = player.x;
+        this.originY = player.y;
+        this.targetX = this.nextTile.landingPoint.x;
+        this.targetY = this.nextTile.landingPoint.y;
+        // set img frame x and y
       },
       update: function(attr, player) {
         // check if animation is over
-        // if it is change state
-        // if not update position
+        if (this.counter >= 100) {
+          player.nextState = 'standing';
+        } else {
+          this.counter += 0.01;
+          // update x position
+          this.prevX = player.position.x;
+          player.position.x = this.originX + (this.targetX - this.originX) * this.counter / 100;
+          player.position.x = Math.floor(player.position.x);
+          // update y position
+          this.prevY = player.position.y;
+          player.position.y = this.originY - 5 + (this.targetY - this.originY - 5) * this.counter / 100;
+          player.position.y = Math.floor(player.position.y);
+          player.nextState = 'jumping';
+        }
       },
-      render: function(attr, player) {},
-      exit: function(from, to, player) {}
+      render: function(attr, player) {
+        var x = this.prevX + (player.position.x - this.prevX) * attr.lerp;
+        x = Math.round(x) - player.w / 2;
+        var y = this.prevY + (player.position.y - this.prevY) * attr.lerp;
+        y = Math.round(y) - player.h;
+        player.context.drawImage(
+          player.img,
+          player.frame.x,
+          player.frame.y,
+          player.frame.w,
+          player.frame.h,
+          x,
+          y,
+          player.w,
+          player.h
+        );
+      },
+      exit: function(from, to, player) {
+        player.currentTile = this.nextTile;
+      }
     },
     falling: {
       // animation counter
       counter: 0,
       init: function(from, to, player) {},
-      update: function(attr, player) {},
+      update: function(attr, player) {
+        console.log('AAAAAH');
+        player.nextState = 'standing';
+      },
       render: function(attr, player) {},
       exit: function(from, to, player) {}
     },
     dying: {
-      init: function(from, to, player) {},
-      // update: function(attr, player) {},
+      init: function(from, to, player) {
+        if (player.lives > 0) {
+          player.lives -= 1;
+        }
+      },
+      update: function(attr, player) {
+        console.log('Aye', player.lives + ' lives left');
+        player.nextState = 'standing';
+      },
       // render: function(attr, player) {},
       exit: function(from, to, player) {}
     }
+  };
+
+  return function(game, context, firstTile) {
+    return new Player(game, context, firstTile).transition();
   };
 })();
