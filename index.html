@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Qbert</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+  <main id="game" class="container">
+    <div id="loader"></div> <!-- loader module to show while assets and configs are loading -->
+    <div id="menu"><!-- game menu module -->
+      <a href="#" role="button" class="btn btn-default">Jouer</a>
+      <a href="#resume" role="button" class="btn btn-default">Voir mon CV</a>
+    </div>
+    <div id="dialog"><!-- intro/pause/lose/win dialog box module -->
+      <div id="intro"></div>
+      <div id="pause"></div>
+      <div id="lose"></div>
+      <div id="win"></div>
+    </div>
+    <div id="score"><!-- score display module -->
+      <div id="lives"></div>
+      <div id="points"></div>
+    </div>
+    <canvas id="canvas" width="600" height="600"></canvas><!-- canvas -->
+    <div id="resume"></div><!-- just show the resume module -->
+  </main>
+  <!-- Scripts -->
+  <script src="scripts/tilemap.js"></script>
+  <script src="scripts/player.js"></script>
+  <script src="scripts/main.js"></script>
+</body>
+</html>
