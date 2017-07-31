@@ -1,5 +1,5 @@
 // TILEMAP MODULE
-var tilemap = (function() {
+var createTilemap = (function() {
   // function to draw a cube
   var drawCube = function(c, x, y, wx, wy, h, color, leftColor, rightColor) {
     // left side
@@ -31,7 +31,7 @@ var tilemap = (function() {
     c.fill();
   }
   // single tile constructor
-  var Tile = function(id, x, y, s, color, leftColor, rightColor) {
+  var Tile = function(id, x, y, s, color, leftColor, rightColor, map) {
     this.id = id;
     this.x = x;
     this.y = y;
@@ -40,6 +40,9 @@ var tilemap = (function() {
     this.color = color;
     this.leftColor = leftColor;
     this.rightColor = rightColor;
+    this.map = map;
+    this.hasPlayer = false;
+    this.hasMonster = false;
     this.landingPoint = {
       x: x,
       y: y - 1.5 * s
@@ -56,22 +59,29 @@ var tilemap = (function() {
     }
     return this.value;
   };
+  Tile.prototype.next = function(dirX, dirY) {
+    var nextY = this.id.split(',')[0] + dirY;
+    var nextX = this.id.split(',')[1] + dirX;
+    return this.map.getTile(nextY + ',' + nextX);
+  };
   // tilemap constructor
-  var Tilemap = function(context, oX, oY, tileSize, map, colors, target) {
+  var Tilemap = function(game, context, config) {
+    var that = this;
     this.context = context;
-    this.map = map;
-    this.target = target;
-    this.colors = colors;
+    this.game = game;
+    this.map = config.map;
+    this.target = config.target;
+    this.colors = config.colors;
     this.tiles = [];
-    for (var y = 0; map[y]; y += 1) {
-      var lX = oX - tileSize * y;
-      var lY = oY + 1.5 * tileSize * y;
+    for (var y = 0; config.map[y]; y += 1) {
+      var lX = config.oX - config.tileSize * y;
+      var lY = config.oY + 1.5 * config.tileSize * y;
       this.tiles[y] = [];
-      for (var x = 0; x < map[y].length; x += 1) {
-        var cX = lX + tileSize * x;
-        var cY = lY + 1.5 * tileSize * x;
-        if (map[y][x] === 0) {
-          this.tiles[y][x] = new Tile(y + ',' + x, cX, cY, tileSize, colors.base, colors.left, colors.right);
+      for (var x = 0; x < config.map[y].length; x += 1) {
+        var cX = lX + config.tileSize * x;
+        var cY = lY + 1.5 * config.tileSize * x;
+        if (config.map[y][x] === 0) {
+          this.tiles[y][x] = new Tile(y + ',' + x, cX, cY, config.tileSize, config.colors.base, config.colors.left, config.colors.right, that);
         } else {
           this.tiles[y][x] = null;
         }
@@ -83,6 +93,16 @@ var tilemap = (function() {
     return this;
   };
   Tilemap.prototype.bindEvents = function() {
+    var that = this;
+    this.game.on('player.standing', function(e, player) {
+      var y, x;
+      for (y = 0; that.tiles[y]; y += 1) {
+        for (x = 0; that.tiles[y][x]; x += 1) {
+          that.tiles[y][x].hasPlayer = false;
+        }
+      }
+      player.currentTile.hasPlayer = true;
+    });
     return this;
   };
   // method to update a tile

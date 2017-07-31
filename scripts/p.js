@@ -53,7 +53,7 @@ var createPlayer = (function() {
   Player.prototype.transition = function() {
     var that = this;
     if (this.nextState !== this.currentState) {
-      if (this.states[this.currentState].exit) {
+      if (this.states[this.currentState] && this.states[this.currentState].exit) {
         this.states[this.currentState].exit(that.currentState, that.nextState, that);
       }
       var from = this.currentState;
@@ -65,18 +65,18 @@ var createPlayer = (function() {
     this.publish(that.currentState, that);
     return this;
   };
-  Player.prototype.update = function() {
+  Player.prototype.update = function(event, info) {
     if (this.states[this.currentState].update) {
       var that = this;
-      this.states[this.currentState].update(attr, that);
+      this.states[this.currentState].update(info, that);
     }
     this.transition();
   };
-  Player.prototype.render = function() {
+  Player.prototype.render = function(event, info) {
     if (this.states[this.currentState].render) {
       var that = this;
       this.context.save();
-      this.states[this.currentState].render(attr, that);
+      this.states[this.currentState].render(info, that);
       this.context.restore();
     }
   };
@@ -90,15 +90,21 @@ var createPlayer = (function() {
         player.img = new Image();
         player.img.addEventListener("load", function() {
           player.nextState = 'standing';
+          player.transition();
         });
         player.img.src = player.frame.src;
       },
       // update: function(attr, player) {},
       // render: function(attr, player) {},
       exit: function(from, to, player) {
+        var that = this;
         player.subscriptions = [];
-        player.subscriptions.push(player.game.on('update', player.update));
-        player.subscriptions.push(player.game.on('render', player.render));
+        player.subscriptions.push(player.game.on('update', function(e, info) {
+          player.update(e, info);
+        }));
+        player.subscriptions.push(player.game.on('render', function(e, info) {
+          player.render(e, info);
+        }));
       }
     },
     standing: {
@@ -149,7 +155,7 @@ var createPlayer = (function() {
       },
       update: function(attr, player) {
         // check collisions with monsters
-        if (player.currentTile.hasMonster()) {
+        if (player.currentTile.hasMonster) {
           player.nextState = "dying";
           return;
         }

@@ -5,7 +5,7 @@ var createGame = (function() {
     this.canvas = canvas;
     this.context = context;
     this.map = createTilemap(that, context, levelConfig.map);
-    firstTile = this.map.tiles[levelConfig.firstTile.y][levelConfig.firstTile.x];
+    firstTile = this.map.getTile(levelConfig.firstTile.y + ',' + levelConfig.firstTile.x);
     this.player = createPlayer(that, context, firstTile);
     // this.monster ...
   };
@@ -32,11 +32,15 @@ var createGame = (function() {
     };
   };
   Game.prototype.publish = function(event, info) {
+    var i;
     if (!this.events[event]) {
       return;
     }
     info = info != undefined ? info : {};
-    this.events[event][i](event, info);
+    console.log(event);
+    for(i = 0; this.events[event][i]; i += 1) {
+      this.events[event][i](event, info);
+    }
   };
   // STATE MACHINE MECHANISM
   Game.prototype.currentState = '';
@@ -44,12 +48,12 @@ var createGame = (function() {
   Game.prototype.transition = function() {
     var that = this;
     if (this.nextState !== this.currentState) {
-      if (this.states[this.currentState].exit) {
+      if (this.states[this.currentState] && this.states[this.currentState].stop) {
         this.states[this.currentState].stop(that.currentState, that.nextState, that);
       }
       var from = this.currentState;
       this.currentState = this.nextState;
-      if (this.states[this.currentState].init) {
+      if (this.states[this.currentState].start) {
         this.states[this.currentState].start(from, that.currentState, that);
       }
     }
@@ -60,6 +64,7 @@ var createGame = (function() {
     loading: {
       start: function(from, to, game) {
         // show loading image ??
+        console.log('loading');
         game.nextState = 'playing';
       },
       stop: function(from, to, game) {
@@ -67,30 +72,39 @@ var createGame = (function() {
       }
     },
     playing: {
-      loop: function(game) {
+      looping: false,
+      loop: function(looping, game) {
         var that = this;
+        this.looping = looping;
         var start;
+        var fps = 60/1000;
         var delta;
         var lerp = 0;
         var step = function(timestamp) {
-          if (!start) { start = timestamp; }
-          delta = Math.min(1000, timestamp - start);
-          while (delta >= fps) {
-            game.update(game);
-            delta -= fps;
+          if (that.looping) {
+            if (!start) { start = timestamp; }
+            delta = Math.min(1000, timestamp - start);
+            while (delta >= fps) {
+              that.update(game);
+              delta -= fps;
+            }
+            lerp = delta / fps;
+            that.render(game, lerp);
+            that.animationFrame = window.requestAnimationFrame(step);
+            start = timestamp;
           }
-          lerp = delta / fps;
-          game.render(game, lerp);
-          that.animationFrame = window.requestAnimationFrame(step);
-          start = timestamp;
         }
-        this.animationFrame = window.requestAnimationFrame(step);
+        if (this.looping) {
+          this.animationFrame = window.requestAnimationFrame(step);
+        } else {
+          window.cancelAnimationFrame(this.animationFrame);
+        }
       },
       update: function(game) {
         game.publish('update');
       },
       render: function(game, lerp) {
-        that.context.clearRect(0, 0, game.canvas.width, game.canvas.height);
+        game.context.clearRect(0, 0, game.canvas.width, game.canvas.height);
         game.publish('render', { lerp: lerp });
       },
       start: function(from, to, game) {
@@ -102,12 +116,12 @@ var createGame = (function() {
           // next state is over or paused
         });
         // start the game loop
-        this.loop(game);
+        this.loop(true, game);
       },
       stop: function(from, to, game) {
         // stop the game loop
         var that = this;
-        window.cancelAnimationFrame(that.animationFrame);
+        this.loop('false', game);
       }
     },
     menu: {
