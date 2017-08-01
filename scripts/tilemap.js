@@ -72,6 +72,7 @@ var createTilemap = (function() {
           that.tiles[y][x].hasPlayer = false;
         }
       }
+      player.score += 100;
       player.currentTile.hasPlayer = true;
       that.update(player.currentTile);
     });

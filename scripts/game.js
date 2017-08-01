@@ -105,20 +105,24 @@ var createGame = (function() {
         game.publish('update');
       },
       displayScore: function(game) {
+        var fz = 24;
+        var lh = fz * 1.6;
         var lives = '';
         for (var i = game.player.lives; i > 0; i -= 1) {
           lives += '❤';
         }
         game.context.save();
-        game.context.fillStyle = 'white';
-        game.context.font = '24px Consolas';
+        game.context.fillStyle = 'violet';
+        game.context.font = fz + 'px consolas';
         game.context.textBaseline = 'middle';
-        game.context.fillText('score: 1000', 24, 48);
-        game.context.fillText('target \u21E8 ', 24, 48 * 2);
-        helpers.drawCube(game.context, 170, 48*2 + 20, 20, 20, 20, game.map.colors.target, game.map.colors.left, game.map.colors.right);
-        game.context.fillText('lives:', 24, 48*3);
+        game.context.fillText('SCORE: ' + game.player.score, fz, lh);
+        game.context.fillStyle = 'white';
+        game.context.fillText('TARGET \u21D2 ', fz, lh * 2);
+        helpers.drawCube(game.context, fz * 7.3, lh * 2 + fz, fz, fz, fz, game.map.colors.target, game.map.colors.left, game.map.colors.right);
+        game.context.fillStyle = 'pink';
+        game.context.fillText('LIVES:', fz, lh * 3);
         game.context.fillStyle = 'crimson';
-        game.context.fillText(lives, 24, 48*3.7);
+        game.context.fillText(lives, fz, lh * 4);
         game.context.restore();
       },
       render: function(game, lerp) {

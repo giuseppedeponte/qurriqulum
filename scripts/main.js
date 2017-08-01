@@ -8,7 +8,7 @@ window.addEventListener('DOMContentLoaded', function() {
     },
     map: {
       oX: canvas.width / 2,
-      oY: 160,
+      oY: 200,
       tileSize: 40,
       map: [
         [0, 0, 0, 0, 0, 0],

@@ -5,6 +5,7 @@ var createPlayer = (function() {
     this.context = context;
     this.img = null;
     this.lives = 5;
+    this.score = 0;
     this.currentTile = firstTile;
   };
   // common props and methods
