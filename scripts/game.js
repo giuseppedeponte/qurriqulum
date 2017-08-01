@@ -100,6 +100,8 @@ var createGame = (function() {
         }
       },
       update: function(game) {
+        if (game.map.isCompleted()) {
+        }
         game.publish('update');
       },
       render: function(game, lerp) {

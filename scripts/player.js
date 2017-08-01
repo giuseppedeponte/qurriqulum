@@ -16,11 +16,12 @@ var player = (function() {
     this.y = this.tile.landingPoint.y;
   };
   Player.prototype.init = function() {
+    console.log('init');
     this.img = new Image();
     this.img.addEventListener('load', function() {
       this.bindEvents().render();
     }.bind(this));
-    this.img.src = 'file:///C:/Users/drventisette/qbert/img/player.png';
+    this.img.src = './img/player.png';
     return this;
   };
   Player.prototype.bindEvents = function() {

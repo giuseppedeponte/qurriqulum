@@ -17,7 +17,7 @@ var createPlayer = (function() {
   Player.prototype.w = 50;
   Player.prototype.h = 75;
   Player.prototype.frame = {
-    src: 'file:///C:/Users/drventisette/qbert/img/player.png',
+    src: './img/player.png',
     sourceWidth: 417,
     sourceHeight: 156,
     x: 0,
@@ -61,8 +61,8 @@ var createPlayer = (function() {
       if (this.states[this.currentState].init) {
         this.states[this.currentState].init(from, that.currentState, that);
       }
+      this.publish(that.currentState, that);
     }
-    this.publish(that.currentState, that);
     return this;
   };
   Player.prototype.update = function(event, info) {
@@ -149,6 +149,7 @@ var createPlayer = (function() {
       },
       init: function(from, to, player) {
         var that = this;
+        this.counter = 0;
         window.addEventListener('keydown', that.toggleKey.bind(that));
         window.addEventListener('keyup', that.toggleKey.bind(that));
         // set image frame x and y
@@ -156,6 +157,10 @@ var createPlayer = (function() {
         player.frame.y = 0;
       },
       update: function(attr, player) {
+        if (this.counter <= 100) {
+          this.counter += 0.02;
+          return;
+        }
         // check collisions with monsters
         if (player.currentTile.hasMonster) {
           player.nextState = 'dying';
@@ -218,7 +223,7 @@ var createPlayer = (function() {
         if (this.counter >= 100) {
           player.nextState = 'standing';
         } else {
-          this.counter += 0.01;
+          this.counter += 0.005;
           // update x position
           this.prevX = player.position.x;
           player.position.x = this.originX + (this.targetX - this.originX) * this.counter / 100;
@@ -236,8 +241,12 @@ var createPlayer = (function() {
         var y = this.prevY + (player.position.y - this.prevY) * attr.lerp;
         y = Math.round(y) - player.h;
         player.frame.x = player.position.dirX < 0 || player.position.dirY < 0
-                         ? player.frame.w
-                         : 2 * player.frame.w;
+                         ? this.counter < 80
+                            ? player.frame.w
+                            : 0
+                         : this.counter < 80 ?
+                            2 * player.frame.w
+                            : 3 * player.frame.w;
         player.context.drawImage(
           player.img,
           player.frame.x,
@@ -259,13 +268,71 @@ var createPlayer = (function() {
     falling: {
       // animation counter
       counter: 0,
-      init: function(from, to, player) {},
-      update: function(attr, player) {
-        console.log('AAAAAH');
-        player.nextState = 'standing';
+      init: function(from, to, player) {
+        console.log('AAAAH');
+        // start the counter
+        this.counter = 0;
+        // store initial position
+        this.originX = player.position.x;
+        this.originY = player.position.y;
+        if (player.position.dirX === -1 || player.position.dirY === -1) {
+          this.targetY = player.position.y - 300;
+        } else {
+          this.targetY = player.position.y + 300;
+        }
+        if (player.position.dirX === -1 || player.position.dirY === 1) {
+          this.targetX = player.position.x - 300;
+        } else {
+          this.targetX = player.position.x + 300;
+        }
+        // set img frame x and y
+        player.frame.x = 2 * player.frame.w;
       },
-      render: function(attr, player) {},
-      exit: function(from, to, player) {}
+      update: function(attr, player) {
+        // check if animation is over
+        if (this.counter >= 1000) {
+          player.nextState = 'dying';
+        } else {
+          this.counter += 0.01;
+          // update x position
+          this.prevX = player.position.x;
+          player.position.x = this.originX + (this.targetX - this.originX) * this.counter / 1000;
+          player.position.x = Math.floor(player.position.x);
+          // update y position
+          this.prevY = player.position.y;
+          player.position.y = this.originY - 7 + (this.targetY + this.counter - this.originY - 7) * this.counter / 1000;
+          player.position.y = Math.floor(player.position.y);
+          player.nextState = 'falling';
+        }
+      },
+      render: function(attr, player) {
+        var x = this.prevX + (player.position.x - this.prevX) * attr.lerp;
+        x = Math.round(x) - player.w / 2;
+        var y = this.prevY + (player.position.y - this.prevY) * attr.lerp;
+        y = Math.round(y) - player.h;
+        player.frame.x = player.position.dirX < 0 || player.position.dirY < 0
+                         ? this.counter < 80
+                            ? player.frame.w
+                            : 0
+                         : this.counter < 80 ?
+                            2 * player.frame.w
+                            : 3 * player.frame.w;
+        player.context.drawImage(
+          player.img,
+          player.frame.x,
+          player.frame.y,
+          player.frame.w,
+          player.frame.h,
+          x,
+          y,
+          player.w,
+          player.h
+        );
+      },
+      exit: function(from, to, player) {
+        player.position.x = player.currentTile.landingPoint.x;
+        player.position.y = player.currentTile.landingPoint.y;
+      }
     },
     dying: {
       init: function(from, to, player) {
@@ -274,7 +341,7 @@ var createPlayer = (function() {
         }
       },
       update: function(attr, player) {
-        console.log('Aye', player.lives + ' lives left');
+        console.log('Aye!', player.lives + ' lives left');
         player.nextState = 'standing';
       },
       // render: function(attr, player) {},

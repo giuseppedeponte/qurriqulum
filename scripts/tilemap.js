@@ -70,7 +70,7 @@ var createTilemap = (function() {
     this.context = context;
     this.game = game;
     this.map = config.map;
-    this.target = config.target;
+    this.target = config.target || 1;
     this.colors = config.colors;
     this.tiles = [];
     for (var y = 0; config.map[y]; y += 1) {
@@ -103,11 +103,15 @@ var createTilemap = (function() {
         }
       }
       player.currentTile.hasPlayer = true;
+      that.update(player.currentTile);
     });
     return this;
   };
   // method to update a tile
-  Tilemap.prototype.update = function(y, x) {
+  Tilemap.prototype.update = function(tile) {
+    var id = tile.id.split(',');
+    var x = parseInt(id[1]);
+    var y = parseInt(id[0]);
     if (this.map[y] && this.map[y][x] === 0 && this.map[y][x] < this.target){
       this.map[y][x] += 1;
       this.tiles[y][x].color = this.colors.target;
