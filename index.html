@@ -3,10 +3,50 @@
 <head>
   <meta charset="UTF-8" />
   <title>Qbert</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <style>
+  body {
+    background-color: #222;
+  }
+  #canvas {
+    background-color: #222;
+    filter: grayscale(.9);
+    box-shadow: 0 0 100px white;
+    animation: light 2s ease-in-out infinite;
+    margin: 0 auto;
+    border-radius: 10px;
+  }
+  #overlay {
+    width: 800px;
+    height: 600px;
+    position: relative;
+    top: -605px;
+    left: auto;
+    margin: 0 auto;
+    padding: 0;
+    background-image: url(./img/filmgrain3.gif);
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: .25;
+    border-radius: 10px;
+  }
+
+  @keyframes light {
+    0%, 100% {
+      box-shadow: 10px 0 100px white;
+    }
+    25%, 75% {
+      box-shadow: 0 0 250px white;
+    }
+    50% {
+      box-shadow: -10px 0 200px white;
+    }
+  }
+  </style>
 </head>
 <body>
-  <main id="game" class="container">
+  <main id="game" class="container text-center">
     <div id="loader"></div> <!-- loader module to show while assets and configs are loading -->
     <div id="menu"><!-- game menu module -->
       <a href="#" role="button" class="btn btn-default">Jouer</a>
@@ -22,13 +62,15 @@
       <div id="lives"></div>
       <div id="points"></div>
     </div>
-    <canvas id="canvas" width="800" height="600" style="background-color:#222;"></canvas><!-- canvas -->
+    <canvas id="canvas" width="800" height="600"></canvas><!-- canvas -->
+    <div id="overlay" width="800" height="600"></div>
     <div id="resume"></div><!-- just show the resume module -->
   </main>
   <!-- Scripts -->
   <script src="scripts/helpers.js"></script>
   <script src="scripts/tilemap.js"></script>
   <script src="scripts/p.js"></script>
+  <script src="scripts/m.js"></script>
   <script src="scripts/game.js"></script>
   <script src="scripts/main.js"></script>
 </body>

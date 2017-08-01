@@ -65,6 +65,15 @@ var createTilemap = (function() {
   Tilemap.prototype.bindEvents = function() {
     var that = this;
     this.game.on('render', that.render.bind(this));
+    this.game.on('monster.standing', function(e, monster) {
+      var y, x;
+      for (y = 0; that.tiles[y]; y += 1) {
+        for (x = 0; that.tiles[y][x]; x += 1) {
+          that.tiles[y][x].hasMonster = false;
+        }
+      }
+      monster.currentTile.hasMonster = true;
+    });
     this.game.on('player.standing', function(e, player) {
       var y, x;
       for (y = 0; that.tiles[y]; y += 1) {

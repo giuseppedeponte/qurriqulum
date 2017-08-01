@@ -5,8 +5,10 @@ var createGame = (function() {
     this.canvas = canvas;
     this.context = context;
     this.map = createTilemap(that, context, levelConfig.map);
-    firstTile = this.map.getTile(levelConfig.firstTile.y + ',' + levelConfig.firstTile.x);
+    firstTile = this.map.getTile(levelConfig.player.firstTile.y + ',' + levelConfig.player.firstTile.x);
     this.player = createPlayer(that, context, firstTile);
+    firstTile = this.map.getTile(levelConfig.monster.firstTile.y + ',' + levelConfig.monster.firstTile.x);
+    this.monster = createMonster(that, context, firstTile);
     // this.monster ...
   };
   // PUB/SUB MECHANISM
@@ -113,16 +115,16 @@ var createGame = (function() {
         }
         game.context.save();
         game.context.fillStyle = 'violet';
-        game.context.font = fz + 'px consolas';
+        game.context.font = fz + 'px Consolas';
         game.context.textBaseline = 'middle';
-        game.context.fillText('SCORE: ' + game.player.score, fz, lh);
+        game.context.fillText('sC0R\u018e = ' + game.player.score, fz, lh);
         game.context.fillStyle = 'white';
-        game.context.fillText('TARGET \u21D2 ', fz, lh * 2);
+        game.context.fillText('tARG\u018et \u21D2 ', fz, lh * 2);
         helpers.drawCube(game.context, fz * 7.3, lh * 2 + fz, fz, fz, fz, game.map.colors.target, game.map.colors.left, game.map.colors.right);
         game.context.fillStyle = 'pink';
-        game.context.fillText('LIVES:', fz, lh * 3);
-        game.context.fillStyle = 'crimson';
-        game.context.fillText(lives, fz, lh * 4);
+        game.context.fillText('liV\u018es', fz, lh * 3);
+        game.context.fillStyle = 'orangered';
+        game.context.fillText(lives, fz, lh * 3.75);
         game.context.restore();
       },
       render: function(game, lerp) {
@@ -132,6 +134,9 @@ var createGame = (function() {
       },
       start: function(from, to, game) {
         game.player.on('standing', function(event, info) {
+          game.publish(event, info);
+        });
+        game.monster.on('standing', function(event, info) {
           game.publish(event, info);
         });
         game.player.on('dying', function(event, info) {
