@@ -14,8 +14,8 @@ var createPlayer = (function() {
     dirX: 0,
     dirY: 0
   };
-  Player.prototype.width = 50;
-  Player.prototype.height = 75;
+  Player.prototype.w = 50;
+  Player.prototype.h = 75;
   Player.prototype.frame = {
     src: 'file:///C:/Users/drventisette/qbert/img/player.png',
     sourceWidth: 417,
@@ -88,7 +88,7 @@ var createPlayer = (function() {
         player.position.y = player.currentTile.landingPoint.y;
         // load player img
         player.img = new Image();
-        player.img.addEventListener("load", function() {
+        player.img.addEventListener('load', function() {
           player.nextState = 'standing';
           player.transition();
         });
@@ -115,9 +115,9 @@ var createPlayer = (function() {
         k40: false // down
       },
       toggleKey: function(e) {
-        if (this.keys["k" + e.keyCode]) {
-          e.preventDefault();
-          this.keys["k" + e.keyCode] = (e.type === "keydown");
+        e.preventDefault();
+        if (this.keys.hasOwnProperty('k' + e.keyCode)) {
+          this.keys['k' + e.keyCode] = (e.type === 'keydown') ? true : false;
         }
       },
       parseKeys: function() {
@@ -136,7 +136,7 @@ var createPlayer = (function() {
             break;
           }
           case this.keys.k40: {
-            direction.y = -1;
+            direction.y = 1;
             break;
           }
           default: {
@@ -149,14 +149,16 @@ var createPlayer = (function() {
       },
       init: function(from, to, player) {
         var that = this;
-        window.addEventListener("keydown", that.toggleKey);
-        window.addEventListener("keyup", that.toggleKey);
+        window.addEventListener('keydown', that.toggleKey.bind(that));
+        window.addEventListener('keyup', that.toggleKey.bind(that));
         // set image frame x and y
+        player.frame.x = 3 * player.frame.w;
+        player.frame.y = 0;
       },
       update: function(attr, player) {
         // check collisions with monsters
         if (player.currentTile.hasMonster) {
-          player.nextState = "dying";
+          player.nextState = 'dying';
           return;
         }
         // check input
@@ -167,15 +169,16 @@ var createPlayer = (function() {
           player.position.dirY = dir.y;
           // check if next position is a tile or not
           if (player.currentTile.next(dir.x, dir.y)) {
-            player.nextState = "jumping";
+            player.nextState = 'jumping';
           } else {
-            player.nextState = "falling";
+            player.nextState = 'falling';
           }
         } else {
-          player.nextState = "standing";
+          player.nextState = 'standing';
         }
       },
       render: function(attr, player) {
+
         player.context.drawImage(
           player.img,
           player.frame.x,
@@ -190,8 +193,8 @@ var createPlayer = (function() {
       },
       exit: function(from, to, player) {
         var that = this;
-        window.removeEventListener("keydown", that.toggleKey);
-        window.removeEventListener("keydown", that.toggleKey);
+        window.removeEventListener('keyup', that.toggleKey.bind(that));
+        window.removeEventListener('keydown', that.toggleKey.bind(that));
       }
     },
     jumping: {
@@ -203,11 +206,12 @@ var createPlayer = (function() {
         // start the counter
         this.counter = 0;
         // store initial position
-        this.originX = player.x;
-        this.originY = player.y;
+        this.originX = player.position.x;
+        this.originY = player.position.y;
         this.targetX = this.nextTile.landingPoint.x;
         this.targetY = this.nextTile.landingPoint.y;
         // set img frame x and y
+        player.frame.x = 2 * player.frame.w;
       },
       update: function(attr, player) {
         // check if animation is over
@@ -221,7 +225,7 @@ var createPlayer = (function() {
           player.position.x = Math.floor(player.position.x);
           // update y position
           this.prevY = player.position.y;
-          player.position.y = this.originY - 5 + (this.targetY - this.originY - 5) * this.counter / 100;
+          player.position.y = this.originY - 7 + (this.targetY - this.originY - 7) * this.counter / 100;
           player.position.y = Math.floor(player.position.y);
           player.nextState = 'jumping';
         }
@@ -231,6 +235,9 @@ var createPlayer = (function() {
         x = Math.round(x) - player.w / 2;
         var y = this.prevY + (player.position.y - this.prevY) * attr.lerp;
         y = Math.round(y) - player.h;
+        player.frame.x = player.position.dirX < 0 || player.position.dirY < 0
+                         ? player.frame.w
+                         : 2 * player.frame.w;
         player.context.drawImage(
           player.img,
           player.frame.x,
@@ -245,6 +252,8 @@ var createPlayer = (function() {
       },
       exit: function(from, to, player) {
         player.currentTile = this.nextTile;
+        player.position.x = player.currentTile.landingPoint.x;
+        player.position.y = player.currentTile.landingPoint.y;
       }
     },
     falling: {

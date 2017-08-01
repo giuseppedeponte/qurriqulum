@@ -37,7 +37,7 @@ var createGame = (function() {
       return;
     }
     info = info != undefined ? info : {};
-    console.log(event);
+    // console.log(event);
     for(i = 0; this.events[event][i]; i += 1) {
       this.events[event][i](event, info);
     }
@@ -64,7 +64,6 @@ var createGame = (function() {
     loading: {
       start: function(from, to, game) {
         // show loading image ??
-        console.log('loading');
         game.nextState = 'playing';
       },
       stop: function(from, to, game) {
@@ -77,7 +76,7 @@ var createGame = (function() {
         var that = this;
         this.looping = looping;
         var start;
-        var fps = 60/1000;
+        var fps = 25/1000;
         var delta;
         var lerp = 0;
         var step = function(timestamp) {
@@ -90,12 +89,12 @@ var createGame = (function() {
             }
             lerp = delta / fps;
             that.render(game, lerp);
-            that.animationFrame = window.requestAnimationFrame(step);
+            that.animationFrame = window.requestAnimationFrame(step, game.canvas);
             start = timestamp;
           }
         }
         if (this.looping) {
-          this.animationFrame = window.requestAnimationFrame(step);
+          this.animationFrame = window.requestAnimationFrame(step, game.canvas);
         } else {
           window.cancelAnimationFrame(this.animationFrame);
         }
@@ -115,6 +114,7 @@ var createGame = (function() {
           game.publish(event, info);
           // next state is over or paused
         });
+        console.log(game, game.player);
         // start the game loop
         this.loop(true, game);
       },

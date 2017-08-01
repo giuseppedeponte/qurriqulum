@@ -60,8 +60,8 @@ var createTilemap = (function() {
     return this.value;
   };
   Tile.prototype.next = function(dirX, dirY) {
-    var nextY = this.id.split(',')[0] + dirY;
-    var nextX = this.id.split(',')[1] + dirX;
+    var nextY = parseInt(this.id.split(',')[0]) + dirY;
+    var nextX = parseInt(this.id.split(',')[1]) + dirX;
     return this.map.getTile(nextY + ',' + nextX);
   };
   // tilemap constructor
@@ -94,6 +94,7 @@ var createTilemap = (function() {
   };
   Tilemap.prototype.bindEvents = function() {
     var that = this;
+    this.game.on('render', that.render.bind(this));
     this.game.on('player.standing', function(e, player) {
       var y, x;
       for (y = 0; that.tiles[y]; y += 1) {
