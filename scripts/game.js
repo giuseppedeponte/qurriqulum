@@ -104,8 +104,26 @@ var createGame = (function() {
         }
         game.publish('update');
       },
+      displayScore: function(game) {
+        var lives = '';
+        for (var i = game.player.lives; i > 0; i -= 1) {
+          lives += '❤';
+        }
+        game.context.save();
+        game.context.fillStyle = 'white';
+        game.context.font = '24px Consolas';
+        game.context.textBaseline = 'middle';
+        game.context.fillText('score: 1000', 24, 48);
+        game.context.fillText('target \u21E8 ', 24, 48 * 2);
+        helpers.drawCube(game.context, 170, 48*2 + 20, 20, 20, 20, game.map.colors.target, game.map.colors.left, game.map.colors.right);
+        game.context.fillText('lives:', 24, 48*3);
+        game.context.fillStyle = 'crimson';
+        game.context.fillText(lives, 24, 48*3.7);
+        game.context.restore();
+      },
       render: function(game, lerp) {
         game.context.clearRect(0, 0, game.canvas.width, game.canvas.height);
+        this.displayScore(game);
         game.publish('render', { lerp: lerp });
       },
       start: function(from, to, game) {

@@ -305,18 +305,39 @@ var createPlayer = (function() {
           player.nextState = 'falling';
         }
       },
+      bubble: function(x, y, player) {
+        var oX = x + player.w;
+        var oY = y;
+        var r = 20;
+        player.context.save();
+        player.context.beginPath();
+        player.context.moveTo(oX - r/2, oY + r/2);
+        player.context.lineTo(oX - r/2, oY + 1.5 * r);
+        player.context.lineTo(oX, oY + r);
+        player.context.fillStyle = 'white';
+        player.context.fill();
+        player.context.closePath();
+        player.context.beginPath();
+        player.context.arc(oX, oY, r, Math.PI/2, Math.PI * 1.5);
+        player.context.arc(oX + 3*r, oY, r, Math.PI * 1.5, Math.PI/2);
+        player.context.fillStyle = 'white';
+        player.context.fill();
+        player.context.closePath();
+        player.context.fillStyle = 'black';
+        player.context.font = r + 'px Arial';
+        player.context.textAlign = 'center';
+        player.context.textBaseline = 'middle';
+        player.context.fillText('@!#?@!', oX + 3*r/2, oY);
+        player.context.restore();
+      },
       render: function(attr, player) {
         var x = this.prevX + (player.position.x - this.prevX) * attr.lerp;
         x = Math.round(x) - player.w / 2;
         var y = this.prevY + (player.position.y - this.prevY) * attr.lerp;
         y = Math.round(y) - player.h;
         player.frame.x = player.position.dirX < 0 || player.position.dirY < 0
-                         ? this.counter < 80
-                            ? player.frame.w
-                            : 0
-                         : this.counter < 80 ?
-                            2 * player.frame.w
-                            : 3 * player.frame.w;
+                         ? player.frame.w
+                         : 2 * player.frame.w;
         player.context.drawImage(
           player.img,
           player.frame.x,
@@ -328,6 +349,7 @@ var createPlayer = (function() {
           player.w,
           player.h
         );
+        this.bubble(x, y, player);
       },
       exit: function(from, to, player) {
         player.position.x = player.currentTile.landingPoint.x;

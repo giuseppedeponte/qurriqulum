@@ -1,35 +1,5 @@
 // TILEMAP MODULE
 var createTilemap = (function() {
-  // function to draw a cube
-  var drawCube = function(c, x, y, wx, wy, h, color, leftColor, rightColor) {
-    // left side
-    c.beginPath();
-    c.moveTo(x, y);
-    c.lineTo(x - wx, y - wx * 0.5);
-    c.lineTo(x - wx, y - h - wx * 0.5);
-    c.lineTo(x, y - h * 1);
-    c.closePath();
-    c.fillStyle = leftColor;
-    c.fill();
-    // right side
-    c.beginPath();
-    c.moveTo(x, y);
-    c.lineTo(x + wy, y - wy * 0.5);
-    c.lineTo(x + wy, y - h - wy * 0.5);
-    c.lineTo(x, y - h * 1);
-    c.closePath();
-    c.fillStyle = rightColor;
-    c.fill();
-    // top side
-    c.beginPath();
-    c.moveTo(x, y - h);
-    c.lineTo(x - wx, y - h - wx * 0.5);
-    c.lineTo(x - wx + wy, y - h - (wx * 0.5 + wy * 0.5));
-    c.lineTo(x + wy, y - h - wy * 0.5);
-    c.closePath();
-    c.fillStyle = color;
-    c.fill();
-  }
   // single tile constructor
   var Tile = function(id, x, y, s, color, leftColor, rightColor, map) {
     this.id = id;
@@ -50,7 +20,7 @@ var createTilemap = (function() {
   };
   Tile.prototype.render = function(context) {
     var that = this;
-    drawCube(context, that.x, that.y, that.s, that.s, that.s, that.color, that.leftColor, that.rightColor);
+    helpers.drawCube(context, that.x, that.y, that.s, that.s, that.s, that.color, that.leftColor, that.rightColor);
     return this;
   };
   Tile.prototype.value = function(value) {
@@ -120,6 +90,9 @@ var createTilemap = (function() {
   };
   // method to render the map
   Tilemap.prototype.render = function() {
+    if (this.isCompleted()) {
+      this.blink();
+    }
     var that = this;
     for (y = 0; this.tiles[y]; y += 1) {
       for (x = 0; this.tiles[y][x]; x += 1) {
@@ -140,6 +113,21 @@ var createTilemap = (function() {
            : getXY
              ? { y: tileY, x: tileX }
              : this.tiles[tileY][tileX];
+  };
+  Tilemap.prototype.blink = function() {
+    if (!this.counter) { this.counter = 0; }
+    this.counter += 1;
+    if (this.counter % 10 === 0) {
+      for (y = 0; this.tiles[y]; y += 1) {
+        for (x = 0; x < this.tiles[y].length; x += 1) {
+          if (this.tiles[y][x].color === this.colors.target) {
+            this.tiles[y][x].color = this.colors.base;
+          } else {
+            this.tiles[y][x].color = this.colors.target;
+          }
+        }
+      }
+    }
   };
   Tilemap.prototype.isCompleted = function() {
     var y, x;
