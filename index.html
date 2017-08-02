@@ -23,7 +23,7 @@
     height: 600px;
     border-radius: 10px;
     font-family: 'Press Start 2P', Consolas, monospace;
-    background-color: #444;
+    background-color: #222;
     color: white;
     box-shadow: 10px 0 100px #222 inset;
     border: 10px solid #ddd;
@@ -49,12 +49,14 @@
 
   #dialog h2 {
     color: tomato;
+    font-size: 4rem;
   }
 
-  #dialog figure img {
-    margin: 40px auto;
-    width: 400px;
-    height: 300px;
+  #dialog img {
+    display: block;
+    margin: 0 auto;
+    width: 126px;
+    height: 196px;
   }
 
   #resume {
@@ -102,11 +104,14 @@
       </div>
       <canvas id="canvas" width="800" height="600"></canvas><!-- canvas -->
       <div id="dialog" class="jumbotron"><!-- intro/pause/lose/win dialog box module -->
-        <h2 id="intro">LEVEL 1</h2>
-        <figure>
-          <img class="img-rounded" src="https://lorempixel.com/400/300/people" alt="" width="400" height="300" />
-          <figcaption> &raquo;&raquo; press spacebar to continue &laquo;&laquo;</figcaption>
-        </figure>
+        <img class="img-responsive img-rounded" src="./img/qbert-sm.gif" alt="" width="200" height="300" />
+        <h2>
+          LEVEL
+          <br>
+          <strong>&#10112;<strong>
+          <hr>
+          <small> &raquo;&raquo; press spacebar to continue &laquo;&laquo;</small>
+        </h2>
       </div>
       <div id="resume"></div><!-- just show the resume module -->
     </div>
