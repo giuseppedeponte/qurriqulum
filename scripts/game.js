@@ -17,7 +17,7 @@ var createGame = (function() {
     loading: [],
     playing: [],
     menu: [],
-    paused: [],
+    dialog: [],
     over: []
     // player.standing
     // player.dying
@@ -78,7 +78,7 @@ var createGame = (function() {
       loop: function(game) {
         var that = this;
         var start;
-        var fps = 25/1000;
+        var fps = 24/1000;
         var delta;
         var lerp = 0;
         var step = function(timestamp) {
@@ -107,22 +107,22 @@ var createGame = (function() {
         game.publish('update');
       },
       displayScore: function(game) {
-        var fz = 24;
-        var lh = fz * 1.6;
+        var fz = 16;
+        var lh = fz * 2;
         var lives = '';
         for (var i = game.player.lives; i > 0; i -= 1) {
           lives += '❤';
         }
         game.context.save();
         game.context.fillStyle = 'violet';
-        game.context.font = fz + 'px Consolas';
+        game.context.font = fz + 'px "Press Start 2P"';
         game.context.textBaseline = 'middle';
-        game.context.fillText('sC0R\u018e = ' + game.player.score, fz, lh);
+        game.context.fillText('Score ' + game.player.score, fz, lh);
         game.context.fillStyle = 'white';
-        game.context.fillText('tARG\u018et \u21D2 ', fz, lh * 2);
-        helpers.drawCube(game.context, fz * 7.3, lh * 2 + fz, fz, fz, fz, game.map.colors.target, game.map.colors.left, game.map.colors.right);
+        game.context.fillText('Target \u21D2 ', fz, lh * 2);
+        helpers.drawCube(game.context, fz * 10.7, lh * 2 + fz, fz, fz, fz, game.map.colors.target, game.map.colors.left, game.map.colors.right);
         game.context.fillStyle = 'pink';
-        game.context.fillText('liV\u018es', fz, lh * 3);
+        game.context.fillText('Lives', fz, lh * 3);
         game.context.fillStyle = 'orangered';
         game.context.fillText(lives, fz, lh * 3.75);
         game.context.restore();
@@ -161,7 +161,7 @@ var createGame = (function() {
         // hide the menu
       }
     },
-    paused: {
+    dialog: {
       start: function(from, to, game) {
         // pause the game
       },

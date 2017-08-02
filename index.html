@@ -4,11 +4,9 @@
   <meta charset="UTF-8" />
   <title>Qbert</title>
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <style>
-  body {
-    background-color: #222;
-  }
   #game {
     position: relative;
     margin: 20px auto;
@@ -16,31 +14,56 @@
   }
   #game div,
   #canvas {
+    box-sizing: border-box;
     margin: 0;
-    padding: 0;
     position: absolute;
     top: 0;
     left: 0;
     width: 800px;
     height: 600px;
     border-radius: 10px;
+    font-family: 'Press Start 2P', Consolas, monospace;
+    background-color: #444;
+    color: white;
+    box-shadow: 10px 0 100px #222 inset;
+    border: 10px solid #ddd;
   }
   #menu {
-    background: #444;
-    border: 10px solid dodgerblue;
-    box-shadow: 10px 0 100px #222 inset;
-    z-index: 100;
+    display: none;
   }
   #menu h1 {
-    color: white;
-
+    color: tomato;
   }
-  #dialog {}
-  #resume {}
+  #menu p {
+    font-size: 1.5rem;
+  }
+  #dialog {
+    display: block;
+    opacity: 1;
+    color: white;
+    width: 800px;
+    height: 600px;
+    transition: opacity 1s ease-in-out;
+    text-align: center;
+  }
+
+  #dialog h2 {
+    color: tomato;
+  }
+
+  #dialog figure img {
+    margin: 40px auto;
+    width: 400px;
+    height: 300px;
+  }
+
+  #resume {
+    display: none;
+  }
   #canvas {
     background-color: #222;
   }
-  #canvas:hover {
+  ##canvas {
     box-shadow: 0 0 100px white;
     filter: grayscale(.9);
     animation: light 2s ease-in-out infinite;
@@ -70,16 +93,20 @@
   <main class="container-fluid text-center">
     <div id="game">
       <div id="menu" class="jumbotron"><!-- game menu module -->
-        <h1>JEUX | CV</h1>
-        <a href="#" role="button" class="btn btn-default btn-lg">Jouer</a>
+        <h1>qbert</h1>
+        <hr>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <hr>
+        <a href="#" role="button" class="btn btn-primary btn-lg">Jouer</a>
         <a href="#" role="button" class="btn btn-default btn-lg">Voir mon CV</a>
       </div>
       <canvas id="canvas" width="800" height="600"></canvas><!-- canvas -->
-      <div id="dialog"><!-- intro/pause/lose/win dialog box module -->
-        <div id="intro"></div>
-        <div id="pause"></div>
-        <div id="lose"></div>
-        <div id="win"></div>
+      <div id="dialog" class="jumbotron"><!-- intro/pause/lose/win dialog box module -->
+        <h2 id="intro">LEVEL 1</h2>
+        <figure>
+          <img class="img-rounded" src="https://lorempixel.com/400/300/people" alt="" width="400" height="300" />
+          <figcaption> &raquo;&raquo; press spacebar to continue &laquo;&laquo;</figcaption>
+        </figure>
       </div>
       <div id="resume"></div><!-- just show the resume module -->
     </div>
