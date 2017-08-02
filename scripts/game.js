@@ -4,10 +4,11 @@ var createGame = (function() {
     var firstTile;
     this.canvas = canvas;
     this.context = context;
+    this.config = levelConfig;
     this.map = createTilemap(that, context, levelConfig.map);
     firstTile = this.map.getTile(levelConfig.player.firstTile.y + ',' + levelConfig.player.firstTile.x);
     this.player = createPlayer(that, context, firstTile);
-    firstTile = this.map.getTile(levelConfig.monster.firstTile.y + ',' + levelConfig.monster.firstTile.x);
+    firstTile = this.map.getRandomTile();
     this.monster = createMonster(that, context, firstTile);
     // this.monster ...
   };
@@ -73,10 +74,9 @@ var createGame = (function() {
       }
     },
     playing: {
-      looping: false,
-      loop: function(looping, game) {
+      looping: true,
+      loop: function(game) {
         var that = this;
-        this.looping = looping;
         var start;
         var fps = 25/1000;
         var delta;
@@ -96,9 +96,9 @@ var createGame = (function() {
           }
         }
         if (this.looping) {
-          this.animationFrame = window.requestAnimationFrame(step, game.canvas);
+          that.animationFrame = window.requestAnimationFrame(step, game.canvas);
         } else {
-          window.cancelAnimationFrame(this.animationFrame);
+          window.cancelAnimationFrame(that.animationFrame);
         }
       },
       update: function(game) {
@@ -136,21 +136,24 @@ var createGame = (function() {
         game.player.on('standing', function(event, info) {
           game.publish(event, info);
         });
-        game.monster.on('standing', function(event, info) {
+        game.player.on('hit', function(event, info) {
           game.publish(event, info);
         });
         game.player.on('dying', function(event, info) {
           game.publish(event, info);
-          // next state is over or paused
         });
-        console.log(game, game.player);
+        game.monster.on('hit', function(event, info) {
+          game.monster.currenTile = game.map.getRandomTile();
+        });
+        game.monster.on('standing', function(event, info) {
+          game.publish(event, info);
+        });
         // start the game loop
-        this.loop(true, game);
+        this.loop(game);
       },
       stop: function(from, to, game) {
         // stop the game loop
-        var that = this;
-        this.loop('false', game);
+        this.looping = false;
       }
     },
     menu: {

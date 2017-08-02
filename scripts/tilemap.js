@@ -43,6 +43,7 @@ var createTilemap = (function() {
     this.target = config.target || 1;
     this.colors = config.colors;
     this.tiles = [];
+    this.remainingTiles = 0;
     for (var y = 0; config.map[y]; y += 1) {
       var lX = config.oX - config.tileSize * y;
       var lY = config.oY + 1.5 * config.tileSize * y;
@@ -51,12 +52,14 @@ var createTilemap = (function() {
         var cX = lX + config.tileSize * x;
         var cY = lY + 1.5 * config.tileSize * x;
         if (config.map[y][x] === 0) {
+          this.remainingTiles += 1 * this.target;
           this.tiles[y][x] = new Tile(y + ',' + x, cX, cY, config.tileSize, config.colors.base, config.colors.left, config.colors.right, that);
         } else {
           this.tiles[y][x] = null;
         }
       }
     }
+    this.totalTiles = this.remainingTiles;
   };
   Tilemap.prototype.init = function() {
     this.bindEvents().render();
@@ -81,9 +84,9 @@ var createTilemap = (function() {
           that.tiles[y][x].hasPlayer = false;
         }
       }
-      player.score += 100;
       player.currentTile.hasPlayer = true;
       that.update(player.currentTile);
+      player.score = (that.totalTiles - that.remainingTiles) * 100;
     });
     return this;
   };
@@ -94,6 +97,7 @@ var createTilemap = (function() {
     var y = parseInt(id[0]);
     if (this.map[y] && this.map[y][x] === 0 && this.map[y][x] < this.target){
       this.map[y][x] += 1;
+      this.remainingTiles -= 1;
       this.tiles[y][x].color = this.colors.target;
     }
     return this;
@@ -124,6 +128,16 @@ var createTilemap = (function() {
              ? { y: tileY, x: tileX }
              : this.tiles[tileY][tileX];
   };
+  Tilemap.prototype.getRandomTile = function() {
+    var that = this;
+    var y;
+    var x;
+    do {
+      y = 0;
+      x = Math.round(Math.random() * (that.tiles[y].length - 2)) + 1;
+    } while (!this.isTile(y,x));
+    return this.tiles[y][x];
+  };
   Tilemap.prototype.blink = function() {
     if (!this.counter) { this.counter = 0; }
     this.counter += 1;
@@ -140,15 +154,7 @@ var createTilemap = (function() {
     }
   };
   Tilemap.prototype.isCompleted = function() {
-    var y, x;
-    for (y = 0; this.map[y]; y += 1) {
-      for (x = 0; x < this.map[y].length; x += 1) {
-        if (this.map[y][x] !== this.target) {
-          return false;
-        }
-      }
-    }
-    return true;
+    return this.remainingTiles === 0 ? true : false;
   };
   return function(context, oX, oY, tileSize, map, colors, target) {
     return new Tilemap(context, oX, oY, tileSize, map, colors, target).init();

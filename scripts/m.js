@@ -28,7 +28,8 @@ var createMonster = (function() {
   Monster.prototype.events = {
     load: [],
     standing: [],
-    jumping: []
+    jumping: [],
+    hit: []
   };
   Monster.prototype.on = function(event, listener) {
     var i = this.events[event].push(listener) - 1;
@@ -108,9 +109,15 @@ var createMonster = (function() {
       init: function(from, to, monster) {
         var that = this;
         this.counter = 0;
+        monster.game.on('player.hit', function(e, info) {
+          monster.nextState = 'hit';
+        })
         // set image frame x and y
         monster.frame.x = 3 * monster.frame.w;
         monster.frame.y = 0;
+        // set position
+        monster.position.x = monster.currentTile.landingPoint.x;
+        monster.position.y = monster.currentTile.landingPoint.y;
       },
       randomDirection: function() {
         var dir = {x: 0, y: 0};
@@ -135,7 +142,6 @@ var createMonster = (function() {
         }
       },
       render: function(attr, monster) {
-
         monster.context.drawImage(
           monster.img,
           monster.frame.x,
@@ -212,6 +218,37 @@ var createMonster = (function() {
         monster.currentTile = this.nextTile;
         monster.position.x = monster.currentTile.landingPoint.x;
         monster.position.y = monster.currentTile.landingPoint.y;
+      }
+    },
+    hit: {
+      init: function(from, to, monster) {
+        this.counter = 0;
+        // set image frame x and y
+        monster.frame.x = 3 * monster.frame.w;
+        monster.frame.y = 0;
+      },
+      update: function(attr, monster) {
+        if (this.counter >= 100) {
+          monster.nextState = 'standing';
+        } else {
+          this.counter += 0.02;
+          monster.nextState = 'hit';
+        }
+      },
+      render: function(attr, monster) {
+        monster.context.drawImage(
+          monster.img,
+          monster.frame.x,
+          monster.frame.y,
+          monster.frame.w,
+          monster.frame.h,
+          monster.position.x - monster.w / 2,
+          monster.position.y - monster.h,
+          monster.w,
+          monster.h
+        );
+      },
+      exit: function(from, to, monster) {
       }
     }
   };
