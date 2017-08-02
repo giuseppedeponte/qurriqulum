@@ -9,22 +9,43 @@
   body {
     background-color: #222;
   }
-  #canvas {
-    background-color: #222;
-    filter: grayscale(.9);
-    box-shadow: 0 0 100px white;
-    animation: light 2s ease-in-out infinite;
-    margin: 0 auto;
-    border-radius: 10px;
+  #game {
+    position: relative;
+    margin: 20px auto;
+    width: 800px;
   }
-  #overlay {
+  #game div,
+  #canvas {
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 800px;
     height: 600px;
-    position: relative;
-    top: -605px;
-    left: auto;
-    margin: 0 auto;
-    padding: 0;
+    border-radius: 10px;
+  }
+  #menu {
+    background: #444;
+    border: 10px solid dodgerblue;
+    box-shadow: 10px 0 100px #222 inset;
+    z-index: 100;
+  }
+  #menu h1 {
+    color: white;
+
+  }
+  #dialog {}
+  #resume {}
+  #canvas {
+    background-color: #222;
+  }
+  #canvas:hover {
+    box-shadow: 0 0 100px white;
+    filter: grayscale(.9);
+    animation: light 2s ease-in-out infinite;
+  }
+  #overlay {
     background-image: url(./img/filmgrain3.gif);
     background-repeat: no-repeat;
     background-size: cover;
@@ -34,37 +55,34 @@
 
   @keyframes light {
     0%, 100% {
-      box-shadow: 10px 0 100px white;
+      box-shadow: 10px 0 100px #ccc;
     }
     25%, 75% {
-      box-shadow: 0 0 250px white;
+      box-shadow: 0 0 250px #ccc;
     }
     50% {
-      box-shadow: -10px 0 200px white;
+      box-shadow: -10px 0 200px #ccc;
     }
   }
   </style>
 </head>
 <body>
-  <main id="game" class="container text-center">
-    <div id="loader"></div> <!-- loader module to show while assets and configs are loading -->
-    <div id="menu"><!-- game menu module -->
-      <a href="#" role="button" class="btn btn-default">Jouer</a>
-      <a href="#resume" role="button" class="btn btn-default">Voir mon CV</a>
+  <main class="container-fluid text-center">
+    <div id="game">
+      <div id="menu" class="jumbotron"><!-- game menu module -->
+        <h1>JEUX | CV</h1>
+        <a href="#" role="button" class="btn btn-default btn-lg">Jouer</a>
+        <a href="#" role="button" class="btn btn-default btn-lg">Voir mon CV</a>
+      </div>
+      <canvas id="canvas" width="800" height="600"></canvas><!-- canvas -->
+      <div id="dialog"><!-- intro/pause/lose/win dialog box module -->
+        <div id="intro"></div>
+        <div id="pause"></div>
+        <div id="lose"></div>
+        <div id="win"></div>
+      </div>
+      <div id="resume"></div><!-- just show the resume module -->
     </div>
-    <div id="dialog"><!-- intro/pause/lose/win dialog box module -->
-      <div id="intro"></div>
-      <div id="pause"></div>
-      <div id="lose"></div>
-      <div id="win"></div>
-    </div>
-    <div id="score"><!-- score display module -->
-      <div id="lives"></div>
-      <div id="points"></div>
-    </div>
-    <canvas id="canvas" width="800" height="600"></canvas><!-- canvas -->
-    <div id="overlay" width="800" height="600"></div>
-    <div id="resume"></div><!-- just show the resume module -->
   </main>
   <!-- Scripts -->
   <script src="scripts/helpers.js"></script>

@@ -142,9 +142,6 @@ var createGame = (function() {
         game.player.on('dying', function(event, info) {
           game.publish(event, info);
         });
-        game.monster.on('hit', function(event, info) {
-          game.monster.currenTile = game.map.getRandomTile();
-        });
         game.monster.on('standing', function(event, info) {
           game.publish(event, info);
         });
