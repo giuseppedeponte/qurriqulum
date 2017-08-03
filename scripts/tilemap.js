@@ -1,13 +1,14 @@
 // TILEMAP MODULE
 var createTilemap = (function() {
   // single tile constructor
-  var Tile = function(id, x, y, s, color, leftColor, rightColor, map) {
+  var Tile = function(id, x, y, s, baseColors, leftColor, rightColor, map) {
     this.id = id;
     this.x = x;
     this.y = y;
     this.s = s;
-    this.value = 0;
-    this.color = color;
+    this.val = 0;
+    this.baseColors = baseColors;
+    this.currentColor = 0;
     this.leftColor = leftColor;
     this.rightColor = rightColor;
     this.map = map;
@@ -18,16 +19,23 @@ var createTilemap = (function() {
       y: y - 1.5 * s
     };
   };
+  Tile.prototype.blink = function(counter) {
+    if (this.currentColor < this.baseColors.length) {
+      this.currentColor += 1;
+    } else {
+      this.currentColor = 0;
+    }
+  };
   Tile.prototype.render = function(context) {
     var that = this;
-    helpers.drawCube(context, that.x, that.y, that.s, that.s, that.s, that.color, that.leftColor, that.rightColor);
+    helpers.drawCube(context, that.x, that.y, that.s, that.s, that.s, that.currentColor, that.leftColor, that.rightColor);
     return this;
   };
   Tile.prototype.value = function(value) {
     if (value) {
-      this.value = value;
+      this.val = value;
     }
-    return this.value;
+    return this.val;
   };
   Tile.prototype.next = function(dirX, dirY) {
     var nextY = parseInt(this.id.split(',')[0]) + dirY;
@@ -59,10 +67,11 @@ var createTilemap = (function() {
         }
       }
     }
+    console.log(this.tiles);
     this.totalTiles = this.remainingTiles;
   };
   Tilemap.prototype.init = function() {
-    this.bindEvents().render();
+    this.bindEvents();
     return this;
   };
   Tilemap.prototype.bindEvents = function() {
@@ -97,8 +106,10 @@ var createTilemap = (function() {
     var y = parseInt(id[0]);
     if (this.map[y] && this.map[y][x] === 0 && this.map[y][x] < this.target){
       this.map[y][x] += 1;
+      this.tiles[y][x].value(this.map[y][x]);
+      this.tiles[y][x].currentColor = this.tiles[y][x].value();
       this.remainingTiles -= 1;
-      this.tiles[y][x].color = this.colors.target;
+      // this.tiles[y][x].color = this.colors.base[this.map[y][x]];
     }
     return this;
   };
@@ -144,11 +155,7 @@ var createTilemap = (function() {
     if (this.counter % 10 === 0) {
       for (y = 0; this.tiles[y]; y += 1) {
         for (x = 0; x < this.tiles[y].length; x += 1) {
-          if (this.tiles[y][x].color === this.colors.target) {
-            this.tiles[y][x].color = this.colors.base;
-          } else {
-            this.tiles[y][x].color = this.colors.target;
-          }
+          this.tiles[y][x].blink(counter);
         }
       }
     }

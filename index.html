@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8" />
   <title>Qbert</title>
-  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="./style/main.css">
@@ -16,17 +15,17 @@
         <hr>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
         <hr>
-        <a href="#" role="button" class="btn btn-primary btn-lg">Jouer</a>
-        <a href="#" role="button" class="btn btn-default btn-lg">Voir mon CV</a>
+        <a id="play" href="#" role="button" class="btn btn-primary btn-lg">Jouer</a>
+        <a id="cv" href="#" role="button" class="btn btn-default btn-lg">Voir mon CV</a>
       </div>
       <canvas id="canvas" width="800" height="600"></canvas><!-- canvas -->
       <div id="dialog" class="jumbotron"><!-- intro/pause/lose/win dialog box module -->
         <header>
           <img class="img-responsive img-rounded" src="./img/qbert-sm.gif" alt="" width="200" height="300" />
-          <h2>NIVEAU<br>1</h2>
+          <h2 id="levelTitle"></span></h2>
         </header>
         <section>
-          <h3>Développeur web JavaScript full-stack</h3>
+          <h3 id="levelSubtitle">Développeur web JavaScript full-stack</h3>
         </section>
         <footer>
           <p>&raquo;&raquo; appuyez sur espace pour continuer &laquo;&laquo;</p>
@@ -36,11 +35,12 @@
     </div>
   </main>
   <!-- Scripts -->
-  <script src="scripts/helpers.js"></script>
-  <script src="scripts/tilemap.js"></script>
-  <script src="scripts/p.js"></script>
-  <script src="scripts/m.js"></script>
-  <script src="scripts/game.js"></script>
-  <script src="scripts/main.js"></script>
+  <script src="./scripts/helpers.js"></script>
+  <script src="./data/LEVELS.js"></script>
+  <script src="./scripts/tilemap.js"></script>
+  <script src="./scripts/p.js"></script>
+  <script src="./scripts/m.js"></script>
+  <script src="./scripts/game.js"></script>
+  <script src="./scripts/main.js"></script>
 </body>
 </html>

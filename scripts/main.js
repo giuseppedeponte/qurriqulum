@@ -67,7 +67,7 @@ window.addEventListener('DOMContentLoaded', function() {
       }
       */
       // TYCHO-AWAKE
-      
+
       colors: {
         left: '#513C43',
         right: '#874455',
@@ -94,6 +94,6 @@ window.addEventListener('DOMContentLoaded', function() {
     }
   };
 
-  var levelOne = createGame(canvas, c, level);
+  var QBERT = createGame(canvas, c, LEVELS);
 
 });

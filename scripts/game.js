@@ -5,12 +5,7 @@ var createGame = (function() {
     this.canvas = canvas;
     this.context = context;
     this.config = levelConfig;
-    this.map = createTilemap(that, context, levelConfig.map);
-    firstTile = this.map.getTile(levelConfig.player.firstTile.y + ',' + levelConfig.player.firstTile.x);
-    this.player = createPlayer(that, context, firstTile);
-    firstTile = this.map.getRandomTile();
-    this.monster = createMonster(that, context, firstTile);
-    // this.monster ...
+    this.currentLevel = null;
   };
   // PUB/SUB MECHANISM
   Game.prototype.events = {
@@ -47,7 +42,7 @@ var createGame = (function() {
   };
   // STATE MACHINE MECHANISM
   Game.prototype.currentState = '';
-  Game.prototype.nextState = 'playing';
+  Game.prototype.nextState = 'menu';
   Game.prototype.transition = function() {
     var that = this;
     if (this.nextState !== this.currentState) {
@@ -64,13 +59,72 @@ var createGame = (function() {
     return this;
   };
   Game.prototype.states = {
-    loading: {
+    menu: {
       start: function(from, to, game) {
-        // show loading image ??
-        game.nextState = 'playing';
+        var that = this;
+        // show the menu
+        document.getElementById('menu').style.display = "block";
+        this.play = function(e) {
+          e.preventDefault();
+          game.nextState = 'loading';
+          game.transition();
+        };
+        document.getElementById('play').addEventListener('click', that.play);
       },
       stop: function(from, to, game) {
-        // hide loading image ??
+        var that = this;
+        // hide the menu
+        document.getElementById('play').removeEventListener('click', that.play);
+        document.getElementById('menu').style.display = "none";
+      }
+    },
+    loading: {
+      start: function(from, to, game) {
+        var that = this;
+        // update the level
+        if (game.currentLevel === null) {
+          this.level = 0;
+        } else if (this.level < game.config.length) {
+          this.level += 1;
+        } else {
+          // game end
+        }
+        game.currentLevel = game.config[this.level];
+        // show the level dialog
+        document.getElementById('levelTitle').textContent = game.currentLevel.title;
+        document.getElementById('levelSubtitle').textContent = game.currentLevel.subtitle;
+        document.getElementById('dialog').style.display = 'block';
+        // create level objects
+        game.map = createTilemap(game, game.context, game.currentLevel.tMap);
+        firstTile = game.map.getTile(game.currentLevel.player.firstTile.y + ',' + game.currentLevel.player.firstTile.x);
+        console.log(firstTile);
+        game.player = createPlayer(game, game.context, game.currentLevel.player, firstTile);
+
+        firstTile = game.map.getRandomTile();
+        game.monster = createMonster(game, game.context, game.currentLevel.monster, firstTile);
+
+        // listen to spacebar input to start the game
+        this.play = function(e) {
+          if (e.keyCode === 32) {
+            game.nextState = 'playing';
+            game.transition();
+          }
+        };
+        window.addEventListener('keydown', that.play);
+      },
+      stop: function(from, to, game) {
+        var that = this;
+        // hide the loading element
+        window.removeEventListener('keydown', that.play);
+        document.getElementById('dialog').style.display = "none";
+      }
+    },
+    dialog: {
+      start: function(from, to, game) {
+        // pause the game
+      },
+      stop: function(from, to, game) {
+        // restart the game or exit
       }
     },
     playing: {
@@ -147,26 +201,12 @@ var createGame = (function() {
         });
         // start the game loop
         this.loop(game);
+        // show the canvas
+        document.getElementById('canvas').style.display = "block";
       },
       stop: function(from, to, game) {
         // stop the game loop
         this.looping = false;
-      }
-    },
-    menu: {
-      start: function(from, to, game) {
-        // show the menu
-      },
-      stop: function(from, to, game) {
-        // hide the menu
-      }
-    },
-    dialog: {
-      start: function(from, to, game) {
-        // pause the game
-      },
-      stop: function(from, to, game) {
-        // restart the game or exit
       }
     },
     over: {

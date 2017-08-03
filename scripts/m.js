@@ -1,10 +1,19 @@
 // FACTORY FUNCTION FOR THE GAME monster
 var createMonster = (function() {
-  var Monster = function(game, context, firstTile) {
+  var Monster = function(game, context, config, firstTile) {
     this.game = game;
     this.context = context;
     this.img = null;
     this.currentTile = firstTile;
+    this.frame = {
+      src: './img/' + config.imgSrc,
+      sourceWidth: 417,
+      sourceHeight: 156,
+      x: 0,
+      y: 0,
+      w: 104.25,
+      h: 156
+    };
   };
   // common props and methods
   Monster.prototype.position = {
@@ -15,15 +24,6 @@ var createMonster = (function() {
   };
   Monster.prototype.w = 50;
   Monster.prototype.h = 75;
-  Monster.prototype.frame = {
-    src: './img/monster.png',
-    sourceWidth: 417,
-    sourceHeight: 156,
-    x: 0,
-    y: 0,
-    w: 104.25,
-    h: 156
-  };
   // PUB/SUB MECHANISM
   Monster.prototype.events = {
     load: [],
@@ -218,7 +218,7 @@ var createMonster = (function() {
     }
   };
 
-  return function(game, context, firstTile) {
-    return new Monster(game, context, firstTile).transition();
+  return function(game, context, config, firstTile) {
+    return new Monster(game, context, config, firstTile).transition();
   };
 })();

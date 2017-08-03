@@ -18,10 +18,9 @@
   color: white;
   box-shadow: 10px 0 100px #222 inset;
   border: 10px solid #ddd;
-}
-#menu {
   display: none;
 }
+
 #menu h1 {
   color: tomato;
 }
@@ -63,8 +62,8 @@
 }
 
 #resume {
-  display: none;
 }
+
 #canvas {
   background-color: #222;
 }
@@ -73,6 +72,7 @@
   filter: grayscale(.9);
   animation: light 2s ease-in-out infinite;
 }
+
 #overlay {
   background-image: url(./img/filmgrain3.gif);
   background-repeat: no-repeat;

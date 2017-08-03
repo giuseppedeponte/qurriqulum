@@ -1,6 +1,6 @@
 // FACTORY FUNCTION FOR THE GAME PLAYER
 var createPlayer = (function() {
-  var Player = function(game, context, firstTile) {
+  var Player = function(game, context, config, firstTile) {
     this.game = game;
     this.context = context;
     this.img = null;
@@ -111,6 +111,7 @@ var createPlayer = (function() {
         }));
       }
     },
+    // the player stands on a cube, waiting for user input to move
     standing: {
       keys: {
         k37: false, // left
@@ -209,6 +210,7 @@ var createPlayer = (function() {
         window.removeEventListener('keydown', that.toggleKey.bind(that));
       }
     },
+    // the player move from a cube to another
     jumping: {
       // animation counter
       counter: 0,
@@ -270,6 +272,7 @@ var createPlayer = (function() {
         player.currentTile = this.nextTile;
       }
     },
+    // the player is hit by an enemy
     hit: {
       init: function(from, to, player) {
         if (player.lives > 0) {
@@ -294,31 +297,6 @@ var createPlayer = (function() {
           player.nextState = 'hit';
         }
       },
-      bubble: function(x, y, player) {
-        var oX = x + player.w;
-        var oY = y;
-        var r = 20;
-        player.context.save();
-        player.context.beginPath();
-        player.context.moveTo(oX - r/2, oY + r/2);
-        player.context.lineTo(oX - r/2, oY + 1.5 * r);
-        player.context.lineTo(oX, oY + r);
-        player.context.fillStyle = 'white';
-        player.context.fill();
-        player.context.closePath();
-        player.context.beginPath();
-        player.context.arc(oX, oY, r, Math.PI/2, Math.PI * 1.5);
-        player.context.arc(oX + 3*r, oY, r, Math.PI * 1.5, Math.PI/2);
-        player.context.fillStyle = 'white';
-        player.context.fill();
-        player.context.closePath();
-        player.context.fillStyle = 'black';
-        player.context.font = r + 'px Arial';
-        player.context.textAlign = 'center';
-        player.context.textBaseline = 'middle';
-        player.context.fillText('@!#?@!', oX + 3*r/2, oY);
-        player.context.restore();
-      },
       render: function(attr, player) {
         player.context.drawImage(
           player.img,
@@ -337,6 +315,7 @@ var createPlayer = (function() {
         player.currentTile = player.firstTile;
       }
     },
+    // the player falls off the map
     falling: {
       // animation counter
       counter: 0,
@@ -466,7 +445,7 @@ var createPlayer = (function() {
     }
   };
 
-  return function(game, context, firstTile) {
-    return new Player(game, context, firstTile).transition();
+  return function(game, context, config, firstTile) {
+    return new Player(game, context, config, firstTile).transition();
   };
 })();
