@@ -6,26 +6,19 @@ var createGame = (function() {
     this.context = context;
     this.config = levelConfig;
     this.currentLevel = null;
+    this.events = [];
   };
   // PUB/SUB MECHANISM
-  Game.prototype.events = {
-    loading: [],
-    playing: [],
-    menu: [],
-    dialog: [],
-    over: []
-    // player.standing
-    // player.dying
-  };
   Game.prototype.on = function(event, listener) {
     var i;
+    var that = this;
     if (!this.events[event]) {
       this.events[event] = [];
     }
     i = this.events[event].push(listener) - 1;
     return {
       remove: function() {
-        delete this.events[event][i];
+        delete that.events[event][i];
       }
     };
   };
@@ -35,9 +28,16 @@ var createGame = (function() {
       return;
     }
     info = info != undefined ? info : {};
-    // console.log(event);
+
     for(i = 0; this.events[event][i]; i += 1) {
       this.events[event][i](event, info);
+    }
+  };
+  Game.prototype.subscriptions = [];
+  Game.prototype.unsubscribe = function(){
+    var i;
+    for (i=0; this.subscriptions[i]; i += 1) {
+      this.subscriptions[i].remove();
     }
   };
   // STATE MACHINE MECHANISM
@@ -79,30 +79,41 @@ var createGame = (function() {
       }
     },
     loading: {
+      reset: function(game) {
+        game.context.clearRect(0, 0, game.canvas.width, game.canvas.height);
+        game.map.unsubscribe();
+        game.player.unsubscribe();
+        game.monster.unsubscribe();
+        game.unsubscribe();
+        console.log(game.events);
+        // delete game.player;
+        // delete game.monster;
+        // delete game.map;
+      },
       start: function(from, to, game) {
         var that = this;
         // update the level
         if (game.currentLevel === null) {
           this.level = 0;
-        } else if (this.level < game.config.length) {
-          this.level += 1;
         } else {
-          // game end
+          this.reset(game);
+          this.level = (this.level < game.config.length) ? this.level + 1 : 0;
         }
         game.currentLevel = game.config[this.level];
+
         // show the level dialog
         document.getElementById('levelTitle').textContent = game.currentLevel.title;
         document.getElementById('levelSubtitle').textContent = game.currentLevel.subtitle;
-        document.getElementById('dialog').style.display = 'block';
+        document.getElementById('intro').style.display = 'block';
+
         // create level objects
         game.map = createTilemap(game, game.context, game.currentLevel.tMap);
-        firstTile = game.map.getTile(game.currentLevel.player.firstTile.y + ',' + game.currentLevel.player.firstTile.x);
-        console.log(firstTile);
+
+        var firstTile = game.map.getTile(game.currentLevel.player.firstTile.y + ',' + game.currentLevel.player.firstTile.x);
         game.player = createPlayer(game, game.context, game.currentLevel.player, firstTile);
 
         firstTile = game.map.getRandomTile();
         game.monster = createMonster(game, game.context, game.currentLevel.monster, firstTile);
-
         // listen to spacebar input to start the game
         this.play = function(e) {
           if (e.keyCode === 32) {
@@ -115,8 +126,9 @@ var createGame = (function() {
       stop: function(from, to, game) {
         var that = this;
         // hide the loading element
+        document.getElementById('intro').style.display = "none";
+        // remove keydown listener
         window.removeEventListener('keydown', that.play);
-        document.getElementById('dialog').style.display = "none";
       }
     },
     dialog: {
@@ -128,6 +140,31 @@ var createGame = (function() {
       }
     },
     playing: {
+      start: function(from, to, game) {
+        game.subscriptions = [];
+        game.subscriptions.push(
+          game.player.on('standing', function(event, info) {
+            game.publish(event, info);
+          }));
+        game.subscriptions.push(
+          game.player.on('hit', function(event, info) {
+            game.publish(event, info);
+          }));
+        game.subscriptions.push(
+          game.player.on('dying', function(event, info) {
+            game.publish(event, info);
+            game.nextState = 'over';
+            game.transition();
+          }));
+        game.subscriptions.push(
+          game.monster.on('standing', function(event, info) {
+            game.publish(event, info);
+          }));
+        // start the game loop
+        this.loop(game);
+        // show the canvas
+        document.getElementById('canvas').style.display = "block";
+      },
       looping: true,
       loop: function(game) {
         var that = this;
@@ -147,13 +184,13 @@ var createGame = (function() {
             that.render(game, lerp);
             that.animationFrame = window.requestAnimationFrame(step, game.canvas);
             start = timestamp;
+          } else {
+            window.cancelAnimationFrame(that.animationFrame);
           }
-        }
-        if (this.looping) {
-          that.animationFrame = window.requestAnimationFrame(step, game.canvas);
-        } else {
-          window.cancelAnimationFrame(that.animationFrame);
-        }
+        };
+        this.animationFrame = window.requestAnimationFrame(step, game.canvas);
+        this.looping = true;
+        console.log(game);
       },
       update: function(game) {
         if (game.map.isCompleted()) {
@@ -174,7 +211,7 @@ var createGame = (function() {
         game.context.fillText('Score ' + game.player.score, fz, lh);
         game.context.fillStyle = 'white';
         game.context.fillText('Target \u21D2 ', fz, lh * 2);
-        helpers.drawCube(game.context, fz * 10.7, lh * 2 + fz, fz, fz, fz, game.map.colors.target, game.map.colors.left, game.map.colors.right);
+        helpers.drawCube(game.context, fz * 10.7, lh * 2 + fz, fz, fz, fz, game.currentLevel.tMap.colors.target, game.currentLevel.tMap.colors.left, game.currentLevel.tMap.colors.right);
         game.context.fillStyle = 'pink';
         game.context.fillText('Lives', fz, lh * 3);
         game.context.fillStyle = 'orangered';
@@ -186,35 +223,38 @@ var createGame = (function() {
         this.displayScore(game);
         game.publish('render', { lerp: lerp });
       },
-      start: function(from, to, game) {
-        game.player.on('standing', function(event, info) {
-          game.publish(event, info);
-        });
-        game.player.on('hit', function(event, info) {
-          game.publish(event, info);
-        });
-        game.player.on('dying', function(event, info) {
-          game.publish(event, info);
-        });
-        game.monster.on('standing', function(event, info) {
-          game.publish(event, info);
-        });
-        // start the game loop
-        this.loop(game);
-        // show the canvas
-        document.getElementById('canvas').style.display = "block";
-      },
       stop: function(from, to, game) {
         // stop the game loop
         this.looping = false;
+        // hide the canvas
+        document.getElementById('canvas').style.display = "none";
       }
     },
     over: {
       start: function(from, to, game) {
+        var that = this;
         // end the game
+        document.getElementById('dialogMessage').className = "over";
+        document.getElementById('dialogMessage').textContent = "GAME OVER";
+        document.getElementById('dialog').style.display = "block";
+
+        // listen to spacebar input to start the game
+        this.play = function(e) {
+          if (e.keyCode === 32) {
+            game.nextState = 'loading';
+            game.transition();
+          }
+        };
+        window.addEventListener('keydown', that.play);
       },
       stop: function(from, to, game) {
+        var that = this;
         // go to next level or restart
+        document.getElementById('dialogMessage').className = "";
+        document.getElementById('dialogMessage').textContent = "";
+        document.getElementById('dialog').style.display = "none";
+        // remove keydown listener
+        window.removeEventListener('keydown', that.play);
       }
     }
   }

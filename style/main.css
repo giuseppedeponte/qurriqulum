@@ -27,28 +27,30 @@
 #menu p {
   font-size: 1.5rem;
 }
+
+#intro,
 #dialog {
   display: none;
   opacity: 1;
   color: white;
   width: 800px;
   height: 600px;
-  transition: opacity 1s ease-in-out;
   text-align: center;
 }
 
-#dialog h2 {
+#intro h2 {
   color: tomato;
   font-size: 4rem;
 }
 
-#dialog img {
+#intro img {
   display: block;
   margin: 0 auto;
   width: 126px;
   height: 196px;
 }
 
+#intro footer,
 #dialog footer {
   width: 100%;
   position: absolute;
@@ -56,6 +58,7 @@
   left: 0;
 }
 
+#intro footer p,
 #dialog footer p {
   margin: 0 auto;
   font-size: 14px;

@@ -10,7 +10,7 @@
 <body>
   <main class="container-fluid text-center">
     <div id="game">
-      <div id="menu" class="jumbotron"><!-- game menu module -->
+      <div id="menu" class="jumbotron"><!-- game menu -->
         <h1>qbert</h1>
         <hr>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
@@ -19,7 +19,7 @@
         <a id="cv" href="#" role="button" class="btn btn-default btn-lg">Voir mon CV</a>
       </div>
       <canvas id="canvas" width="800" height="600"></canvas><!-- canvas -->
-      <div id="dialog" class="jumbotron"><!-- intro/pause/lose/win dialog box module -->
+      <div id="intro" class="jumbotron"><!-- intro dialog box -->
         <header>
           <img class="img-responsive img-rounded" src="./img/qbert-sm.gif" alt="" width="200" height="300" />
           <h2 id="levelTitle"></span></h2>
@@ -31,11 +31,19 @@
           <p>&raquo;&raquo; appuyez sur espace pour continuer &laquo;&laquo;</p>
         </footer>
       </div>
-      <div id="resume"></div><!-- just show the resume module -->
+      <div id="dialog" class="jumbotron"><!-- pause/lose/win dialog box -->
+        <section>
+          <h2 id="dialogMessage"></h2>
+        </section>
+        <footer>
+          <p>&raquo;&raquo; appuyez sur espace pour continuer &laquo;&laquo;</p>
+        </footer>
+      </div>
+      <div id="resume"></div><!-- just show the resume -->
     </div>
   </main>
   <!-- Scripts -->
-  <script src="./scripts/helpers.js"></script>
+  <script src="./scripts/HELPERS.js"></script>
   <script src="./data/LEVELS.js"></script>
   <script src="./scripts/tilemap.js"></script>
   <script src="./scripts/p.js"></script>

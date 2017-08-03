@@ -4,10 +4,19 @@ var createPlayer = (function() {
     this.game = game;
     this.context = context;
     this.img = null;
-    this.lives = 5;
+    this.lives = 0;
     this.score = 0;
     this.firstTile = firstTile;
     this.currentTile = firstTile;
+    Player.prototype.events = {
+      load: [],
+      standing: [],
+      jumping: [],
+      hit: [],
+      falling: [],
+      resuming: [],
+      dying: []
+    };
   };
   // common props and methods
   Player.prototype.position = {
@@ -28,20 +37,12 @@ var createPlayer = (function() {
     h: 156
   };
   // PUB/SUB MECHANISM
-  Player.prototype.events = {
-    load: [],
-    standing: [],
-    jumping: [],
-    hit: [],
-    falling: [],
-    resuming: [],
-    dying: []
-  };
   Player.prototype.on = function(event, listener) {
     var i = this.events[event].push(listener) - 1;
+    var that = this;
     return {
       remove: function() {
-        delete this.events[event][i];
+        delete that.events[event][i];
       }
     };
   };
@@ -49,6 +50,12 @@ var createPlayer = (function() {
     info = info != undefined ? info : {};
     for (var i = 0; this.events[event][i]; i += 1) {
       this.events[event][i]('player.' + event, info);
+    }
+  };
+  Player.prototype.unsubscribe = function(){
+    var i;
+    for (i=0; this.subscriptions[i]; i += 1) {
+      this.subscriptions[i].remove();
     }
   };
   // STATE MACHINE MECHANISM
@@ -289,8 +296,7 @@ var createPlayer = (function() {
             player.lives -= 1;
             player.nextState = 'resuming';
           } else {
-            player.lives = 5;
-            // player.nextState = 'dying';
+            player.nextState = 'dying';
           }
         } else {
           this.counter += 1;
@@ -346,8 +352,7 @@ var createPlayer = (function() {
             player.nextState = 'resuming';
           }
           else {
-            player.lives = 5;
-            // player.nextState = 'dying';
+            player.nextState = 'dying';
           }
         } else {
           this.counter += 0.01;
@@ -439,7 +444,10 @@ var createPlayer = (function() {
     // the player has no more lives
     dying: {
       init: function(from, to, player) {},
-      update: function(attr, player) {},
+      update: function(attr, player) {
+        player.lives = 5;
+        player.nextState = 'standing';
+      },
       // render: function(attr, player) {},
       exit: function(from, to, player) {}
     }

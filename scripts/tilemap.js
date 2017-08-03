@@ -20,15 +20,11 @@ var createTilemap = (function() {
     };
   };
   Tile.prototype.blink = function(counter) {
-    if (this.currentColor < this.baseColors.length) {
-      this.currentColor += 1;
-    } else {
-      this.currentColor = 0;
-    }
+    this.currentColor = this.currentColor === 0 ? this.currentColor = this.baseColors.length - 1 : this.currentColor = 0;
   };
   Tile.prototype.render = function(context) {
     var that = this;
-    helpers.drawCube(context, that.x, that.y, that.s, that.s, that.s, that.currentColor, that.leftColor, that.rightColor);
+    helpers.drawCube(context, that.x, that.y, that.s, that.s, that.s, that.baseColors[that.currentColor], that.leftColor, that.rightColor);
     return this;
   };
   Tile.prototype.value = function(value) {
@@ -67,7 +63,6 @@ var createTilemap = (function() {
         }
       }
     }
-    console.log(this.tiles);
     this.totalTiles = this.remainingTiles;
   };
   Tilemap.prototype.init = function() {
@@ -76,35 +71,49 @@ var createTilemap = (function() {
   };
   Tilemap.prototype.bindEvents = function() {
     var that = this;
-    this.game.on('render', that.render.bind(this));
-    this.game.on('monster.standing', function(e, monster) {
-      var y, x;
-      for (y = 0; that.tiles[y]; y += 1) {
-        for (x = 0; that.tiles[y][x]; x += 1) {
-          that.tiles[y][x].hasMonster = false;
+    this.subscriptions = [];
+    this.subscriptions.push(
+      this.game.on('render', that.render.bind(this))
+    );
+
+    this.subscriptions.push(
+      this.game.on('monster.standing', function(e, monster) {
+        var y, x;
+        for (y = 0; that.tiles[y]; y += 1) {
+          for (x = 0; that.tiles[y][x]; x += 1) {
+            that.tiles[y][x].hasMonster = false;
+          }
         }
-      }
-      monster.currentTile.hasMonster = true;
-    });
-    this.game.on('player.standing', function(e, player) {
-      var y, x;
-      for (y = 0; that.tiles[y]; y += 1) {
-        for (x = 0; that.tiles[y][x]; x += 1) {
-          that.tiles[y][x].hasPlayer = false;
+        monster.currentTile.hasMonster = true;
+      })
+    );
+    this.subscriptions.push(
+      this.game.on('player.standing', function(e, player) {
+        var y, x;
+        for (y = 0; that.tiles[y]; y += 1) {
+          for (x = 0; that.tiles[y][x]; x += 1) {
+            that.tiles[y][x].hasPlayer = false;
+          }
         }
-      }
-      player.currentTile.hasPlayer = true;
-      that.update(player.currentTile);
-      player.score = (that.totalTiles - that.remainingTiles) * 100;
-    });
+        player.currentTile.hasPlayer = true;
+        that.update(player.currentTile);
+        player.score = (that.totalTiles - that.remainingTiles) * 100;
+      })
+    );
     return this;
+  };
+  Tilemap.prototype.unsubscribe = function() {
+    var i;
+    for (i=0; this.subscriptions[i]; i += 1) {
+      this.subscriptions[i].remove();
+    }
   };
   // method to update a tile
   Tilemap.prototype.update = function(tile) {
     var id = tile.id.split(',');
     var x = parseInt(id[1]);
     var y = parseInt(id[0]);
-    if (this.map[y] && this.map[y][x] === 0 && this.map[y][x] < this.target){
+    if (this.map[y] && this.map[y][x] < this.target){
       this.map[y][x] += 1;
       this.tiles[y][x].value(this.map[y][x]);
       this.tiles[y][x].currentColor = this.tiles[y][x].value();
@@ -144,18 +153,19 @@ var createTilemap = (function() {
     var y;
     var x;
     do {
-      y = 0;
+      y = Math.round(Math.random() * (that.tiles.length - 2)) + 1;
       x = Math.round(Math.random() * (that.tiles[y].length - 2)) + 1;
     } while (!this.isTile(y,x));
     return this.tiles[y][x];
   };
   Tilemap.prototype.blink = function() {
+    var that = this;
     if (!this.counter) { this.counter = 0; }
     this.counter += 1;
     if (this.counter % 10 === 0) {
       for (y = 0; this.tiles[y]; y += 1) {
         for (x = 0; x < this.tiles[y].length; x += 1) {
-          this.tiles[y][x].blink(counter);
+          this.tiles[y][x].blink(that.counter);
         }
       }
     }

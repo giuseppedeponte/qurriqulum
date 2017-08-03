@@ -16,8 +16,9 @@ tMap: var LEVELS = [{
     tileSize: 40,
     target: 1,
     map: [
-      [0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0],
+      [0],
+      [0, 0],
+      [0, 0, 0],
       [0, 0, 0, 0],
       [0, 0, 0],
       [0, 0],
@@ -29,7 +30,8 @@ tMap: var LEVELS = [{
       base: [
         '#FBC38D',
         '#F8555E'
-      ]
+      ],
+      target: '#F8555E'
     }
   }
 },{
@@ -46,24 +48,23 @@ tMap: var LEVELS = [{
   },
   tMap: {
     oX: canvas.width / 2,
-    oY: 200,
+    oY: 160,
     tileSize: 40,
     target: 1,
     map: [
-      [0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0],
       [0, 0, 0, 0],
-      [0, 0, 0],
-      [0, 0],
-      [0]
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
     ],
     colors: {
-      left: 'lightsteelblue',
-      right: 'midnightblue',
+      left: '#31405A',
+      right: '#49728C',
       base: [
-        'royalblue',
-        'darkslategrey'
-      ]
+        '#7EABC2',
+        '#ADD1D9'
+      ],
+      target: '#ADD1D9'
     }
   }
 },{
@@ -82,7 +83,7 @@ tMap: var LEVELS = [{
     oX: canvas.width / 2,
     oY: 200,
     tileSize: 40,
-    target: 1,
+    target: 2,
     map: [
       [0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0],
@@ -97,7 +98,8 @@ tMap: var LEVELS = [{
       base: [
         '#666',
         '#444'
-      ]
+      ],
+      target: '#444'
     }
   }
 },{
@@ -116,7 +118,7 @@ tMap: var LEVELS = [{
     oX: canvas.width / 2,
     oY: 200,
     tileSize: 40,
-    target: 1,
+    target: 2,
     map: [
       [0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0],
@@ -130,8 +132,10 @@ tMap: var LEVELS = [{
       right: '#874455',
       base: [
         '#C34E54',
-        '#E67359'
-      ]
+        '#E67359',
+        'gold'
+      ],
+      target: 'gold'
     }
   }
 }];

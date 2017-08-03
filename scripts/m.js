@@ -5,6 +5,11 @@ var createMonster = (function() {
     this.context = context;
     this.img = null;
     this.currentTile = firstTile;
+    Monster.prototype.events = {
+      load: [],
+      standing: [],
+      jumping: []
+    };
     this.frame = {
       src: './img/' + config.imgSrc,
       sourceWidth: 417,
@@ -25,16 +30,12 @@ var createMonster = (function() {
   Monster.prototype.w = 50;
   Monster.prototype.h = 75;
   // PUB/SUB MECHANISM
-  Monster.prototype.events = {
-    load: [],
-    standing: [],
-    jumping: []
-  };
   Monster.prototype.on = function(event, listener) {
     var i = this.events[event].push(listener) - 1;
+    var that = this;
     return {
       remove: function() {
-        delete this.events[event][i];
+        delete that.events[event][i];
       }
     };
   };
@@ -42,6 +43,12 @@ var createMonster = (function() {
     info = info != undefined ? info : {};
     for (var i = 0; this.events[event][i]; i += 1) {
       this.events[event][i]('monster.' + event, info);
+    }
+  };
+  Monster.prototype.unsubscribe = function(){
+    var i;
+    for (i=0; this.subscriptions[i]; i += 1) {
+      this.subscriptions[i].remove();
     }
   };
   // STATE MACHINE MECHANISM
