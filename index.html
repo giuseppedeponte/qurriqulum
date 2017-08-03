@@ -6,90 +6,7 @@
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <style>
-  #game {
-    position: relative;
-    margin: 20px auto;
-    width: 800px;
-  }
-  #game div,
-  #canvas {
-    box-sizing: border-box;
-    margin: 0;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 800px;
-    height: 600px;
-    border-radius: 10px;
-    font-family: 'Press Start 2P', Consolas, monospace;
-    background-color: #222;
-    color: white;
-    box-shadow: 10px 0 100px #222 inset;
-    border: 10px solid #ddd;
-  }
-  #menu {
-    display: none;
-  }
-  #menu h1 {
-    color: tomato;
-  }
-  #menu p {
-    font-size: 1.5rem;
-  }
-  #dialog {
-    display: block;
-    opacity: 1;
-    color: white;
-    width: 800px;
-    height: 600px;
-    transition: opacity 1s ease-in-out;
-    text-align: center;
-  }
-
-  #dialog h2 {
-    color: tomato;
-    font-size: 4rem;
-  }
-
-  #dialog img {
-    display: block;
-    margin: 0 auto;
-    width: 126px;
-    height: 196px;
-  }
-
-  #resume {
-    display: none;
-  }
-  #canvas {
-    background-color: #222;
-  }
-  ##canvas {
-    box-shadow: 0 0 100px white;
-    filter: grayscale(.9);
-    animation: light 2s ease-in-out infinite;
-  }
-  #overlay {
-    background-image: url(./img/filmgrain3.gif);
-    background-repeat: no-repeat;
-    background-size: cover;
-    opacity: .25;
-    border-radius: 10px;
-  }
-
-  @keyframes light {
-    0%, 100% {
-      box-shadow: 10px 0 100px #ccc;
-    }
-    25%, 75% {
-      box-shadow: 0 0 250px #ccc;
-    }
-    50% {
-      box-shadow: -10px 0 200px #ccc;
-    }
-  }
-  </style>
+  <link rel="stylesheet" href="./style/main.css">
 </head>
 <body>
   <main class="container-fluid text-center">
@@ -104,14 +21,16 @@
       </div>
       <canvas id="canvas" width="800" height="600"></canvas><!-- canvas -->
       <div id="dialog" class="jumbotron"><!-- intro/pause/lose/win dialog box module -->
-        <img class="img-responsive img-rounded" src="./img/qbert-sm.gif" alt="" width="200" height="300" />
-        <h2>
-          LEVEL
-          <br>
-          <strong>&#10112;<strong>
-          <hr>
-          <small> &raquo;&raquo; press spacebar to continue &laquo;&laquo;</small>
-        </h2>
+        <header>
+          <img class="img-responsive img-rounded" src="./img/qbert-sm.gif" alt="" width="200" height="300" />
+          <h2>NIVEAU<br>1</h2>
+        </header>
+        <section>
+          <h3>Développeur web JavaScript full-stack</h3>
+        </section>
+        <footer>
+          <p>&raquo;&raquo; appuyez sur espace pour continuer &laquo;&laquo;</p>
+        </footer>
       </div>
       <div id="resume"></div><!-- just show the resume module -->
     </div>

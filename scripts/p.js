@@ -34,6 +34,7 @@ var createPlayer = (function() {
     jumping: [],
     hit: [],
     falling: [],
+    resuming: [],
     dying: []
   };
   Player.prototype.on = function(event, listener) {
@@ -277,26 +278,17 @@ var createPlayer = (function() {
         this.counter = 0;
         player.frame.x = 3 * player.frame.w;
         player.frame.y = 0;
-        this.show = true;
       },
       update: function(attr, player) {
         if (this.counter > 50000) {
           console.log('Aye !')
           if (player.lives > 0) {
             player.lives -= 1;
-            player.nextState = 'standing';
+            player.nextState = 'resuming';
           } else {
             player.lives = 5;
             // player.nextState = 'dying';
           }
-        } else if (this.counter > 30000){
-          this.counter += 1;
-          player.position.x = player.firstTile.landingPoint.x;
-          player.position.y = player.firstTile.landingPoint.y;
-          if (this.counter % 300 === 0) {
-            this.show = !this.show;
-          }
-          player.nextState = 'hit';
         } else {
           this.counter += 1;
           player.nextState = 'hit';
@@ -328,7 +320,6 @@ var createPlayer = (function() {
         player.context.restore();
       },
       render: function(attr, player) {
-        if (!this.show) { return; }
         player.context.drawImage(
           player.img,
           player.frame.x,
@@ -340,7 +331,7 @@ var createPlayer = (function() {
           player.w,
           player.h
         );
-        this.bubble(player.position.x - player.w / 2, player.position.y - player.h, player);
+        helpers.drawBubble(player.position.x - player.w / 2, player.position.y - player.h, player);
       },
       exit: function(from, to, player) {
         player.currentTile = player.firstTile;
@@ -350,7 +341,6 @@ var createPlayer = (function() {
       // animation counter
       counter: 0,
       init: function(from, to, player) {
-        console.log('AAAAH');
         // start the counter
         this.counter = 0;
         // store initial position
@@ -368,30 +358,18 @@ var createPlayer = (function() {
         }
         // set img frame x and y
         player.frame.x = 2 * player.frame.w;
-        this.show = true;
       },
       update: function(attr, player) {
         // check if animation is over
-        if (this.counter > 30000) {
+        if (this.counter > 1500) {
           if (player.lives > 0) {
             player.lives -= 1;
-            player.nextState = 'standing';
+            player.nextState = 'resuming';
           }
           else {
             player.lives = 5;
             // player.nextState = 'dying';
           }
-        } else if (this.counter > 1000){
-          this.counter = parseInt(this.counter);
-          this.counter += 1;
-          player.position.x = player.currentTile.landingPoint.x;
-          this.prevX = player.currentTile.landingPoint.x;
-          player.position.y = player.currentTile.landingPoint.y;
-          this.prevY = player.currentTile.landingPoint.y;
-          if (this.counter % 300 === 0) {
-            this.show = !this.show;
-          }
-          player.nextState = 'falling';
         } else {
           this.counter += 0.01;
           // update x position
@@ -405,46 +383,14 @@ var createPlayer = (function() {
           player.nextState = 'falling';
         }
       },
-      bubble: function(x, y, player) {
-        var oX = x + player.w;
-        var oY = y;
-        var r = 20;
-        player.context.save();
-        player.context.beginPath();
-        player.context.moveTo(oX - r/2, oY + r/2);
-        player.context.lineTo(oX - r/2, oY + 1.5 * r);
-        player.context.lineTo(oX, oY + r);
-        player.context.fillStyle = 'white';
-        player.context.fill();
-        player.context.closePath();
-        player.context.beginPath();
-        player.context.arc(oX, oY, r, Math.PI/2, Math.PI * 1.5);
-        player.context.arc(oX + 3*r, oY, r, Math.PI * 1.5, Math.PI/2);
-        player.context.fillStyle = 'white';
-        player.context.fill();
-        player.context.closePath();
-        player.context.fillStyle = 'black';
-        player.context.font = r + 'px Arial';
-        player.context.textAlign = 'center';
-        player.context.textBaseline = 'middle';
-        player.context.fillText('@!#?@!', oX + 3*r/2, oY);
-        player.context.restore();
-      },
       render: function(attr, player) {
-        if (this.counter < 1000) {
-          var x = this.prevX + (player.position.x - this.prevX) * attr.lerp;
-          x = Math.round(x) - player.w / 2;
-          var y = this.prevY + (player.position.y - this.prevY) * attr.lerp;
-          y = Math.round(y) - player.h;
-          player.frame.x = player.position.dirX < 0 || player.position.dirY < 0
-                           ? player.frame.w
-                           : 2 * player.frame.w;
-        } else {
-          if (!this.show) {return;}
-          var x = player.position.x - player.w / 2;
-          var y = player.position.y - player.h;
-          player.frame.x = 3 * player.frame.w;
-        }
+        var x = this.prevX + (player.position.x - this.prevX) * attr.lerp;
+        x = Math.round(x) - player.w / 2;
+        var y = this.prevY + (player.position.y - this.prevY) * attr.lerp;
+        y = Math.round(y) - player.h;
+        player.frame.x = player.position.dirX < 0 || player.position.dirY < 0
+                         ? player.frame.w
+                         : 2 * player.frame.w;
         player.context.drawImage(
           player.img,
           player.frame.x,
@@ -456,13 +402,62 @@ var createPlayer = (function() {
           player.w,
           player.h
         );
-        this.bubble(x, y, player);
+        helpers.drawBubble(x, y, player);
       },
       exit: function(from, to, player) {
         player.position.x = player.currentTile.landingPoint.x;
         player.position.y = player.currentTile.landingPoint.y;
       }
     },
+    // the player resuscitate after a hit or a fall
+    resuming: {
+      init: function(from, to, player) {
+        // start the counter
+        this.counter = 0;
+        // set player position
+        player.position.x = player.currentTile.landingPoint.x;
+        player.position.y = player.currentTile.landingPoint.y;
+                // set img frame x and y
+        player.frame.x = 3 * player.frame.w;
+        this.show = true;
+      },
+      update: function(attr, player) {
+        if (this.counter < 50000) {
+          this.counter = parseInt(this.counter);
+          this.counter += 1;
+          player.position.x = player.currentTile.landingPoint.x;
+          this.prevX = player.currentTile.landingPoint.x;
+          player.position.y = player.currentTile.landingPoint.y;
+          this.prevY = player.currentTile.landingPoint.y;
+          if (this.counter % 5000 === 0) {
+            this.show = !this.show;
+          }
+          player.nextState = 'resuming';
+        } else {
+          player.nextState = 'standing';
+        }
+      },
+      render: function(attr, player) {
+        if (!this.show) {return;}
+        var x = player.position.x - player.w / 2;
+        var y = player.position.y - player.h;
+        player.context.drawImage(
+          player.img,
+          player.frame.x,
+          player.frame.y,
+          player.frame.w,
+          player.frame.h,
+          x,
+          y,
+          player.w,
+          player.h
+        );
+      },
+      exit: function(from, to, player) {
+
+      }
+    },
+    // the player has no more lives
     dying: {
       init: function(from, to, player) {},
       update: function(attr, player) {},
