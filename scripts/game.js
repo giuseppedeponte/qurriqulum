@@ -1,3 +1,4 @@
+'use strict';
 var createGame = (function() {
   var Game = function(canvas, context, levelConfig) {
     var that = this;
@@ -81,24 +82,24 @@ var createGame = (function() {
     loading: {
       reset: function(game) {
         game.context.clearRect(0, 0, game.canvas.width, game.canvas.height);
+        game.unsubscribe();
         game.map.unsubscribe();
         game.player.unsubscribe();
         game.monster.unsubscribe();
-        game.unsubscribe();
-        console.log(game.events);
         // delete game.player;
         // delete game.monster;
         // delete game.map;
+        game.events = [];
       },
       start: function(from, to, game) {
         var that = this;
-        // update the level
-        if (game.currentLevel === null) {
-          this.level = 0;
-        } else {
+        // reset game objects after first level
+        if (game.currentLevel !== null) {
           this.reset(game);
-          this.level = (this.level < game.config.length) ? this.level + 1 : 0;
         }
+        // update the level
+        this.level = (game.currentLevel === null || this.level >= game.config.length - 1) ? 1 : this.level + 1;
+
         game.currentLevel = game.config[this.level];
 
         // show the level dialog
@@ -108,7 +109,7 @@ var createGame = (function() {
 
         // create level objects
         game.map = createTilemap(game, game.context, game.currentLevel.tMap);
-
+        console.log(game.map);
         var firstTile = game.map.getTile(game.currentLevel.player.firstTile.y + ',' + game.currentLevel.player.firstTile.x);
         game.player = createPlayer(game, game.context, game.currentLevel.player, firstTile);
 
@@ -190,7 +191,6 @@ var createGame = (function() {
         };
         this.animationFrame = window.requestAnimationFrame(step, game.canvas);
         this.looping = true;
-        console.log(game);
       },
       update: function(game) {
         if (game.map.isCompleted()) {

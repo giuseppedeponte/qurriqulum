@@ -1,3 +1,4 @@
+'use strict';
 // TILEMAP MODULE
 var createTilemap = (function() {
   // single tile constructor
@@ -55,7 +56,7 @@ var createTilemap = (function() {
       for (var x = 0; x < config.map[y].length; x += 1) {
         var cX = lX + config.tileSize * x;
         var cY = lY + 1.5 * config.tileSize * x;
-        if (config.map[y][x] === 0) {
+        if (config.map[y][x] !== '') {
           this.remainingTiles += 1 * this.target;
           this.tiles[y][x] = new Tile(y + ',' + x, cX, cY, config.tileSize, config.colors.base, config.colors.left, config.colors.right, that);
         } else {
@@ -73,15 +74,18 @@ var createTilemap = (function() {
     var that = this;
     this.subscriptions = [];
     this.subscriptions.push(
-      this.game.on('render', that.render.bind(this))
+      this.game.on('render', function(e, info) {
+        that.render(e, info);
+      })
     );
-
     this.subscriptions.push(
       this.game.on('monster.standing', function(e, monster) {
         var y, x;
-        for (y = 0; that.tiles[y]; y += 1) {
-          for (x = 0; that.tiles[y][x]; x += 1) {
-            that.tiles[y][x].hasMonster = false;
+        for (y = 0; y < that.tiles.length; y += 1) {
+          for (x = 0; x < that.tiles[y].length; x += 1) {
+            if (that.tiles[y][x]) {
+              that.tiles[y][x].hasMonster = false;
+            }
           }
         }
         monster.currentTile.hasMonster = true;
@@ -90,9 +94,11 @@ var createTilemap = (function() {
     this.subscriptions.push(
       this.game.on('player.standing', function(e, player) {
         var y, x;
-        for (y = 0; that.tiles[y]; y += 1) {
-          for (x = 0; that.tiles[y][x]; x += 1) {
-            that.tiles[y][x].hasPlayer = false;
+        for (y = 0; y < that.tiles.length; y += 1) {
+          for (x = 0; x < that.tiles[y].length; x += 1) {
+            if (that.tiles[y][x]) {
+              that.tiles[y][x].hasPlayer = false;
+            }
           }
         }
         player.currentTile.hasPlayer = true;
@@ -124,19 +130,22 @@ var createTilemap = (function() {
   };
   // method to render the map
   Tilemap.prototype.render = function() {
+    var x, y;
     if (this.isCompleted()) {
       this.blink();
     }
     var that = this;
-    for (y = 0; this.tiles[y]; y += 1) {
-      for (x = 0; this.tiles[y][x]; x += 1) {
+    for (y = 0; y < this.tiles.length; y += 1) {
+      for (x = 0; x < this.tiles[y].length; x += 1) {
+        if (this.tiles[y][x]) {
          this.tiles[y][x].render(that.context);
+        }
       }
     }
     return this;
   };
   Tilemap.prototype.isTile = function(y, x) {
-    return (this.tiles[y] !== undefined && this.tiles[y][x] !== null);
+    return (this.tiles[y] && this.tiles[y][x] !== null);
   };
   Tilemap.prototype.getTile = function(id, getXY) {
     var parsedId = id.split(',');
@@ -160,12 +169,15 @@ var createTilemap = (function() {
   };
   Tilemap.prototype.blink = function() {
     var that = this;
+    var x, y;
     if (!this.counter) { this.counter = 0; }
     this.counter += 1;
     if (this.counter % 10 === 0) {
-      for (y = 0; this.tiles[y]; y += 1) {
+      for (y = 0; y < this.tiles.length; y += 1) {
         for (x = 0; x < this.tiles[y].length; x += 1) {
-          this.tiles[y][x].blink(that.counter);
+          if (this.tiles[y][x]) {
+            this.tiles[y][x].blink(that.counter);
+          }
         }
       }
     }

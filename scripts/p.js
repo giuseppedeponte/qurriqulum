@@ -1,3 +1,4 @@
+'use strict';
 // FACTORY FUNCTION FOR THE GAME PLAYER
 var createPlayer = (function() {
   var Player = function(game, context, config, firstTile) {
@@ -17,24 +18,25 @@ var createPlayer = (function() {
       resuming: [],
       dying: []
     };
-  };
-  // common props and methods
-  Player.prototype.position = {
-    x: 0,
-    y: 0,
-    dirX: 0,
-    dirY: 0
-  };
-  Player.prototype.w = 50;
-  Player.prototype.h = 75;
-  Player.prototype.frame = {
-    src: './img/player.png',
-    sourceWidth: 417,
-    sourceHeight: 156,
-    x: 0,
-    y: 0,
-    w: 104.25,
-    h: 156
+    this.position = {
+      x: 0,
+      y: 0,
+      dirX: 0,
+      dirY: 0
+    };
+    this.w = 50;
+    this.h = 75;
+    this.frame = {
+      src: './img/player.png',
+      sourceWidth: 417,
+      sourceHeight: 156,
+      x: 0,
+      y: 0,
+      w: 104.25,
+      h: 156
+    };
+    this.currentState = '';
+    this.nextState = 'load';
   };
   // PUB/SUB MECHANISM
   Player.prototype.on = function(event, listener) {
@@ -59,8 +61,6 @@ var createPlayer = (function() {
     }
   };
   // STATE MACHINE MECHANISM
-  Player.prototype.currentState = '';
-  Player.prototype.nextState = 'load';
   Player.prototype.transition = function() {
     var that = this;
     if (this.nextState !== this.currentState) {
