@@ -3,9 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <title>Qbert</title>
+  <!--
   <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+  -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <link rel="stylesheet" href="./style/main.css">
+  <!-- Scripts -->
+  <script src="./scripts/HELPERS.js"></script>
+  <script src="./data/LEVELS.js"></script>
+  <script src="./scripts/tilemap.js"></script>
+  <script src="./scripts/p.js"></script>
+  <script src="./scripts/m.js"></script>
+  <script src="./scripts/game.js"></script>
+  <script src="./scripts/main.js"></script>
 </head>
 <body>
   <main class="container-fluid text-center">
@@ -14,7 +24,7 @@
         <h1>qbert</h1>
         <hr>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        <h4>Instructions</h4>
+        <h3>Instructions</h3>
         <ul class="well list-unstyled">
           <li>
             <kbd>&larr;</kbd> <kbd>&uarr;</kbd> <kbd>&rarr;</kbd> <kbd>&darr;</kbd> : saut <kbd>Echap</kbd> : pause
@@ -30,7 +40,7 @@
       <div id="intro" class="jumbotron"><!-- intro dialog box -->
         <header>
           <img class="img-responsive img-rounded" src="./img/qbert-sm.gif" alt="" width="200" height="300" />
-          <h2 id="levelTitle"></span></h2>
+          <h2 id="levelTitle">Level 0</h2>
         </header>
         <section>
           <h3 id="levelSubtitle">Développeur web JavaScript full-stack</h3>
@@ -41,8 +51,8 @@
       </div>
       <div id="dialog" class="jumbotron"><!-- pause/lose/win dialog box -->
         <section>
-          <h2 id="dialogMessage"></h2>
-          <p id="dialogP"></p>
+          <h2 id="dialogMessage">Game over</h2>
+          <p id="dialogP">Blah blah blah</p>
         </section>
         <footer>
           <p>&raquo;&raquo; appuyez sur espace pour continuer &laquo;&laquo;</p>
@@ -51,13 +61,5 @@
       <div id="resume"></div><!-- just show the resume -->
     </div>
   </main>
-  <!-- Scripts -->
-  <script src="./scripts/HELPERS.js"></script>
-  <script src="./data/LEVELS.js"></script>
-  <script src="./scripts/tilemap.js"></script>
-  <script src="./scripts/p.js"></script>
-  <script src="./scripts/m.js"></script>
-  <script src="./scripts/game.js"></script>
-  <script src="./scripts/main.js"></script>
 </body>
 </html>

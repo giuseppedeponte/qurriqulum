@@ -98,7 +98,7 @@ var createGame = (function() {
         // update the level
         switch (from) {
           case 'menu': {
-            this.level = 3;
+            this.level = 0;
             break;
           }
           case 'over': {
@@ -214,6 +214,7 @@ var createGame = (function() {
           if (!this.counter) {
             this.counter = 0;
           } else if (this.counter > 1000) {
+            this.counter = 0;
             game.nextState = 'win';
             game.transition();
           }
@@ -260,6 +261,7 @@ var createGame = (function() {
         // end the game
         document.getElementById('dialogMessage').className = "over";
         document.getElementById('dialogMessage').textContent = "GAME OVER";
+        document.getElementById('dialogP').textContent = '';
         document.getElementById('dialog').style.display = "block";
 
         // listen to spacebar input to start the game

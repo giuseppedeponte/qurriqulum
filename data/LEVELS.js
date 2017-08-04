@@ -12,7 +12,7 @@ tMap: var LEVELS = [{
     imgSrc: 'monster.png'
   },
   tMap: {
-    oX: canvas.width / 2,
+    oX: 400,
     oY: 200,
     tileSize: 40,
     target: 1,
@@ -47,7 +47,7 @@ tMap: var LEVELS = [{
     imgSrc: 'monster.png'
   },
   tMap: {
-    oX: canvas.width / 2,
+    oX: 400,
     oY: 160,
     tileSize: 40,
     target: 1,
@@ -81,7 +81,7 @@ tMap: var LEVELS = [{
     imgSrc: 'monster.png'
   },
   tMap: {
-    oX: canvas.width / 2,
+    oX: 400,
     oY: 200,
     tileSize: 40,
     target: 2,
@@ -117,7 +117,7 @@ tMap: var LEVELS = [{
     imgSrc: 'monster.png'
   },
   tMap: {
-    oX: canvas.width / 2,
+    oX: 400,
     oY: 200,
     tileSize: 40,
     target: 2,
