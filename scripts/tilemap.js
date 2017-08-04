@@ -7,12 +7,11 @@ var createTilemap = (function() {
     this.x = x;
     this.y = y;
     this.s = s;
-    this.val = 0;
     this.baseColors = baseColors;
-    this.currentColor = 0;
     this.leftColor = leftColor;
     this.rightColor = rightColor;
     this.map = map;
+    this.val = 0;
     this.hasPlayer = false;
     this.hasMonster = false;
     this.landingPoint = {
@@ -31,6 +30,7 @@ var createTilemap = (function() {
   Tile.prototype.value = function(value) {
     if (value) {
       this.val = value;
+      this.currentColor = value;
     }
     return this.val;
   };
@@ -57,8 +57,9 @@ var createTilemap = (function() {
         var cX = lX + config.tileSize * x;
         var cY = lY + 1.5 * config.tileSize * x;
         if (config.map[y][x] !== '') {
-          this.remainingTiles += 1 * this.target;
+          this.remainingTiles += this.target - config.map[y][x];
           this.tiles[y][x] = new Tile(y + ',' + x, cX, cY, config.tileSize, config.colors.base, config.colors.left, config.colors.right, that);
+          this.tiles[y][x].value(config.map[y][x]);
         } else {
           this.tiles[y][x] = null;
         }
@@ -119,12 +120,9 @@ var createTilemap = (function() {
     var id = tile.id.split(',');
     var x = parseInt(id[1]);
     var y = parseInt(id[0]);
-    if (this.map[y] && this.map[y][x] < this.target){
-      this.map[y][x] += 1;
-      this.tiles[y][x].value(this.map[y][x]);
-      this.tiles[y][x].currentColor = this.tiles[y][x].value();
+    if (this.tiles[y] && this.tiles[y][x].value() < this.target){
+      this.tiles[y][x].value(this.tiles[y][x].value() + 1);
       this.remainingTiles -= 1;
-      // this.tiles[y][x].color = this.colors.base[this.map[y][x]];
     }
     return this;
   };
@@ -145,7 +143,7 @@ var createTilemap = (function() {
     return this;
   };
   Tilemap.prototype.isTile = function(y, x) {
-    return (this.tiles[y] && this.tiles[y][x] !== null);
+    return (this.tiles[y] && this.tiles[y][x] !== null && this.tiles[y][x] !== undefined);
   };
   Tilemap.prototype.getTile = function(id, getXY) {
     var parsedId = id.split(',');
@@ -164,7 +162,7 @@ var createTilemap = (function() {
     do {
       y = Math.round(Math.random() * (that.tiles.length - 2)) + 1;
       x = Math.round(Math.random() * (that.tiles[y].length - 2)) + 1;
-    } while (!this.isTile(y,x));
+    } while (!this.isTile(y, x));
     return this.tiles[y][x];
   };
   Tilemap.prototype.blink = function() {

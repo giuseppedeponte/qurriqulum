@@ -86,20 +86,36 @@ var createGame = (function() {
         game.map.unsubscribe();
         game.player.unsubscribe();
         game.monster.unsubscribe();
-        // delete game.player;
-        // delete game.monster;
-        // delete game.map;
+        delete game.player;
+        delete game.monster;
+        delete game.map;
         game.events = [];
       },
       start: function(from, to, game) {
         var that = this;
-        // reset game objects after first level
-        if (game.currentLevel !== null) {
-          this.reset(game);
-        }
-        // update the level
-        this.level = (game.currentLevel === null || this.level >= game.config.length - 1) ? 1 : this.level + 1;
+        console.log(from);
 
+        // update the level
+        switch (from) {
+          case 'menu': {
+            this.level = 1;
+            break;
+          }
+          case 'over': {
+            this.reset(game);
+            this.level = this.level;
+            break;
+          }
+          case 'win': {
+            this.reset(game);
+            if (this.level < game.config.length - 1) {
+              this.level += 1;
+            } else {
+              game.nextState = 'menu';
+              game.transition();
+            }
+          }
+        }
         game.currentLevel = game.config[this.level];
 
         // show the level dialog
@@ -194,6 +210,13 @@ var createGame = (function() {
       },
       update: function(game) {
         if (game.map.isCompleted()) {
+          if (!this.counter) {
+            this.counter = 0;
+          } else if (this.counter > 1000) {
+            game.nextState = 'win';
+            game.transition();
+          }
+          this.counter += 0.01;
         }
         game.publish('update');
       },
@@ -236,6 +259,33 @@ var createGame = (function() {
         // end the game
         document.getElementById('dialogMessage').className = "over";
         document.getElementById('dialogMessage').textContent = "GAME OVER";
+        document.getElementById('dialog').style.display = "block";
+
+        // listen to spacebar input to start the game
+        this.play = function(e) {
+          if (e.keyCode === 32) {
+            game.nextState = 'loading';
+            game.transition();
+          }
+        };
+        window.addEventListener('keydown', that.play);
+      },
+      stop: function(from, to, game) {
+        var that = this;
+        // go to next level or restart
+        document.getElementById('dialogMessage').className = "";
+        document.getElementById('dialogMessage').textContent = "";
+        document.getElementById('dialog').style.display = "none";
+        // remove keydown listener
+        window.removeEventListener('keydown', that.play);
+      }
+    },
+    win: {
+      start: function(from, to, game) {
+        var that = this;
+        // end the game
+        document.getElementById('dialogMessage').className = "win";
+        document.getElementById('dialogMessage').textContent = "YOU WIN";
         document.getElementById('dialog').style.display = "block";
 
         // listen to spacebar input to start the game
