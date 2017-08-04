@@ -13,7 +13,15 @@
       <div id="menu" class="jumbotron"><!-- game menu -->
         <h1>qbert</h1>
         <hr>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+        <h4>Instructions</h4>
+        <ul class="well list-unstyled">
+          <li>
+            <kbd>&larr;</kbd> <kbd>&uarr;</kbd> <kbd>&rarr;</kbd> <kbd>&darr;</kbd> : saut <kbd>Echap</kbd> : pause
+          </li>
+          <li>Sautez sur les cubes pour changer leur couleur jusqu'à obtenir la couleur cible (indiquée en haut à gauche de l'écran).</li>
+          <li>Restez sur le terrain de jeu et évitez les monstres !</li>
+        </ul>
         <hr>
         <a id="play" href="#" role="button" class="btn btn-primary btn-lg">Jouer</a>
         <a id="cv" href="#" role="button" class="btn btn-default btn-lg">Voir mon CV</a>
@@ -34,6 +42,7 @@
       <div id="dialog" class="jumbotron"><!-- pause/lose/win dialog box -->
         <section>
           <h2 id="dialogMessage"></h2>
+          <p id="dialogP"></p>
         </section>
         <footer>
           <p>&raquo;&raquo; appuyez sur espace pour continuer &laquo;&laquo;</p>

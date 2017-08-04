@@ -24,8 +24,16 @@
 #menu h1 {
   color: tomato;
 }
-#menu p {
-  font-size: 1.5rem;
+#menu h4 {
+  color: orange;
+}
+#menu p,
+#menu ul {
+  font-family: Consolas;
+}
+
+#menu ul {
+  color: #222;
 }
 
 #intro,

@@ -60,6 +60,7 @@ var createTilemap = (function() {
           this.remainingTiles += this.target - config.map[y][x];
           this.tiles[y][x] = new Tile(y + ',' + x, cX, cY, config.tileSize, config.colors.base, config.colors.left, config.colors.right, that);
           this.tiles[y][x].value(config.map[y][x]);
+          this.tiles[y][x].currentColor = this.tiles[y][x].value();
         } else {
           this.tiles[y][x] = null;
         }

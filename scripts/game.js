@@ -98,7 +98,7 @@ var createGame = (function() {
         // update the level
         switch (from) {
           case 'menu': {
-            this.level = 1;
+            this.level = 3;
             break;
           }
           case 'over': {
@@ -113,6 +113,7 @@ var createGame = (function() {
             } else {
               game.nextState = 'menu';
               game.transition();
+              return;
             }
           }
         }
@@ -284,8 +285,9 @@ var createGame = (function() {
       start: function(from, to, game) {
         var that = this;
         // end the game
-        document.getElementById('dialogMessage').className = "win";
-        document.getElementById('dialogMessage').textContent = "YOU WIN";
+        document.getElementById('dialogMessage').className = 'win';
+        document.getElementById('dialogMessage').textContent = 'YOU WIN';
+        document.getElementById('dialogP').textContent = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
         document.getElementById('dialog').style.display = "block";
 
         // listen to spacebar input to start the game
@@ -300,9 +302,10 @@ var createGame = (function() {
       stop: function(from, to, game) {
         var that = this;
         // go to next level or restart
-        document.getElementById('dialogMessage').className = "";
-        document.getElementById('dialogMessage').textContent = "";
-        document.getElementById('dialog').style.display = "none";
+        document.getElementById('dialogMessage').className = '';
+        document.getElementById('dialogMessage').textContent = '';
+        document.getElementById('dialogP').textContent = '';
+        document.getElementById('dialog').style.display = 'none';
         // remove keydown listener
         window.removeEventListener('keydown', that.play);
       }
