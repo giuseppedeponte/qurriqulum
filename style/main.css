@@ -38,18 +38,16 @@
        url('../font/bungee-shade-v2-latin-regular.svg#BungeeShade') format('svg'); /* Legacy iOS */
 }
 
-
-
-
 #game {
   position: relative;
   margin: 20px auto;
   width: 800px;
+  height: 600px;
 }
 #game div,
 #canvas {
   box-sizing: border-box;
-  margin: 0;
+  margin: auto;
   position: absolute;
   top: 0;
   left: 0;
@@ -58,9 +56,9 @@
   border-radius: 10px;
   font-family: 'Press Start 2P', Consolas, monospace;
   background-color: #222;
-  color: white;
+  color: springgreen;
   box-shadow: 10px 0 100px #222 inset;
-  border: 10px solid #ddd;
+  border: 10px solid springgreen;
   display: none;
 }
 
@@ -69,16 +67,21 @@
   font-family: 'Bungee Outline';
   font-weight: bold;
 }
-#menu h3 {
+#menu h4 {
+  text-align: left;
   color: orange;
 }
 #menu p,
 #menu ul {
-  font-family: Consolas;
+  font-size: 14px;
 }
 
 #menu ul {
   color: #222;
+}
+
+#menu .btn {
+  font-size: 1rem;
 }
 
 #intro,

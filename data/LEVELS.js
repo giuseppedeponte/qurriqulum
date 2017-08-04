@@ -18,8 +18,8 @@ tMap: var LEVELS = [{
     target: 1,
     map: [
       [0, 0, 0, 0, 0, 0],
-      [0, 0, 0, 0, 0],
-      [0, 0, 0, 0],
+      [0, '', 0, 0, 0],
+      [0, 0, '', 0],
       [0, 0, 0],
       [0, 0],
       [0]
@@ -36,7 +36,7 @@ tMap: var LEVELS = [{
   }
 },{
   title: 'NIVEAU 2',
-  subtitle: 'Vente de détail | Conseil clients',
+  subtitle: 'Conseil clients | Vente au détail',
   player: {
     firstTile: {
       x: 0,
@@ -48,7 +48,7 @@ tMap: var LEVELS = [{
   },
   tMap: {
     oX: 400,
-    oY: 160,
+    oY: 140,
     tileSize: 40,
     target: 1,
     map: [
@@ -57,6 +57,13 @@ tMap: var LEVELS = [{
       [0, '', '', 0],
       [0, '', '', 0],
       [0, 0, 0, 0]
+      /*
+      ['', 0, 0, 0, 0],
+      [0, '', 0, '', 0],
+      [0, 0, 0, 0, 0],
+      [0, '', 0, '', 0],
+      [0, 0, 0, 0]
+      */
     ],
     colors: {
       left: '#31405A',
@@ -94,12 +101,12 @@ tMap: var LEVELS = [{
       [1]
     ],
     colors: {
-      left: '#888',
-      right: '#777',
+      left: '#878',
+      right: '#767',
       base: [
-        '#666',
-        '#444',
-        '#222'
+        '#656',
+        '#434',
+        '#212'
       ],
       target: '#222'
     }
@@ -120,7 +127,7 @@ tMap: var LEVELS = [{
     oX: 400,
     oY: 200,
     tileSize: 40,
-    target: 2,
+    target: 3,
     map: [
       [0, 0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0],
@@ -135,9 +142,10 @@ tMap: var LEVELS = [{
       base: [
         '#C34E54',
         '#E67359',
-        'gold'
+        'gold',
+        'white'
       ],
-      target: 'gold'
+      target: 'white'
     }
   }
 }];
