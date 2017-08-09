@@ -122,7 +122,9 @@ var createGame = (function() {
         // show the level dialog
         document.getElementById('levelTitle').textContent = game.currentLevel.title;
         document.getElementById('levelSubtitle').textContent = game.currentLevel.subtitle;
+        document.getElementById('demoImg').src = '#';
         document.getElementById('intro').style.display = 'block';
+        document.getElementById('demoImg').src = './img/qbert-sm.gif';
 
         // create level objects
         game.map = createTilemap(game, game.context, game.currentLevel.tMap);
@@ -144,6 +146,7 @@ var createGame = (function() {
       stop: function(from, to, game) {
         var that = this;
         // hide the loading element
+        document.getElementById('demoImg').src = '#';
         document.getElementById('intro').style.display = "none";
         // remove keydown listener
         window.removeEventListener('keydown', that.play);
@@ -286,10 +289,19 @@ var createGame = (function() {
     win: {
       start: function(from, to, game) {
         var that = this;
+        var dialogP = document.getElementById('dialogP');
+        document.getElementById('dialogP').textContent = '';
+        var dialogI;
+        var i;
+        for (i = 0; game.currentLevel.details[i]; i += 1) {
+          var dialogI = document.createElement('li');
+          dialogI.textContent = game.currentLevel.details[i];
+          dialogP.appendChild(dialogI);
+        }
         // end the game
         document.getElementById('dialogMessage').className = 'win';
-        document.getElementById('dialogMessage').textContent = 'YOU WIN';
-        document.getElementById('dialogP').textContent = 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.';
+        document.getElementById('dialogMessage').textContent = 'CONGRATULATIONS !';
+        document.getElementById('dialogSub').textContent = game.currentLevel.title + ' : ' + game.currentLevel.subtitle;
         document.getElementById('dialog').style.display = "block";
 
         // listen to spacebar input to start the game
@@ -306,6 +318,7 @@ var createGame = (function() {
         // go to next level or restart
         document.getElementById('dialogMessage').className = '';
         document.getElementById('dialogMessage').textContent = '';
+        document.getElementById('dialogSub').textContent = '';
         document.getElementById('dialogP').textContent = '';
         document.getElementById('dialog').style.display = 'none';
         // remove keydown listener

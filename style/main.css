@@ -37,6 +37,16 @@
        url('../font/bungee-shade-v2-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
        url('../font/bungee-shade-v2-latin-regular.svg#BungeeShade') format('svg'); /* Legacy iOS */
 }
+kbd {
+  background-color: black;
+  color: white;
+  padding: 0.2em;
+  font-family: Consolas, monospace;
+}
+body {
+  background: url(./../img/cubes.png);
+  background-size: 200px;
+}
 
 #game {
   position: relative;
@@ -67,21 +77,26 @@
   font-family: 'Bungee Outline';
   font-weight: bold;
 }
-#menu h4 {
-  text-align: left;
-  color: orange;
+#menu h5 {
+  margin-bottom: 0;
+  padding-bottom: 0;
 }
-#menu p,
-#menu ul {
-  font-size: 14px;
+#menu hr {
+  border-color: springgreen;
 }
 
-#menu ul {
-  color: #222;
+#menu p.well {
+  background-color: #222;
+  color: springgreen;
+  border: 2px solid springgreen;
+  font-family: Consolas, monospace;
 }
 
 #menu .btn {
-  font-size: 1rem;
+  font-weight: bold;
+  font-family: 'Bungee Shade';
+  color: springgreen;
+  border: 2px solid springgreen;
 }
 
 #intro,
@@ -118,6 +133,12 @@
 #dialog footer p {
   margin: 0 auto;
   font-size: 14px;
+}
+#dialog h3 {
+  color: tomato;
+}
+#dialog li {
+  margin-bottom: 1em;
 }
 
 #resume {

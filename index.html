@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8" />
   <title>Qbert</title>
   <!--
   <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
   -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="./style/main.css">
   <!-- Scripts -->
   <script src="./scripts/HELPERS.js"></script>
@@ -20,23 +21,18 @@
 <body>
   <main class="container-fluid text-center">
     <div id="game">
-      <div id="menu" class="jumbotron"><!-- game menu -->
+      <div id="menu" class="hero-unit"><!-- game menu -->
         <h1>qurriqulum</h1>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-        <h4>Instructions</h4>
-        <ul class="well list-unstyled">
-          <li>Sautez sur les cubes pour changer leur couleur jusqu'à obtenir la couleur cible (indiquée en haut à gauche de l'écran).</li>
-          <li>Restez sur le terrain de jeu et évitez les monstres !</li>
-        </ul>
-        <pre>Direction : <kbd>&larr;</kbd> <kbd>&uarr;</kbd> <kbd>&rarr;</kbd> <kbd>&darr;</kbd> || Pause : <kbd>Echap</kbd></pre>
-        <hr>
-        <a id="play" href="#" role="button" class="btn btn-primary btn-lg">Jouer</a>
-        <a id="cv" href="#" role="button" class="btn btn-default btn-lg">Voir mon CV</a>
+        <p>UN JEU/CV DE GIUSEPPE DE PONTE, DÉVELOPPEUR JAVASCRIPT FULLSTACK.</p>
+        <h5>INSTRUCTIONS</h5>
+        <p class="well well-small">Sautez sur les cubes pour changer leur couleur jusqu'à obtenir la couleur cible (indiquée en haut à gauche de l'écran).<br>Restez sur le terrain de jeu et évitez les monstres !<br>Direction : <kbd>&larr;</kbd> <kbd>&uarr;</kbd> <kbd>&rarr;</kbd> <kbd>&darr;</kbd> || Pause : <kbd>Echap</kbd></p>
+        <a id="play" href="#" role="button" class="btn btn-large btn-inverse">Jouer</a>
+        <a id="cv" href="#" role="button" class="btn btn-large btn-inverse">Voir mon CV</a>
       </div>
       <canvas id="canvas" width="800" height="600"></canvas><!-- canvas -->
-      <div id="intro" class="jumbotron"><!-- intro dialog box -->
+      <div id="intro" class="hero-unit"><!-- intro dialog box -->
         <header>
-          <img class="img-responsive img-rounded" src="./img/qbert-sm.gif" alt="" width="200" height="300" />
+          <img id="demoImg" class="img-responsive img-rounded" src="./img/qbert-sm.gif" alt="" width="200" height="300" />
           <h2 id="levelTitle">Level 0</h2>
         </header>
         <section>
@@ -46,10 +42,11 @@
           <p>&raquo;&raquo; appuyez sur espace pour continuer &laquo;&laquo;</p>
         </footer>
       </div>
-      <div id="dialog" class="jumbotron"><!-- pause/lose/win dialog box -->
+      <div id="dialog" class="hero-unit"><!-- pause/lose/win dialog box -->
         <section>
           <h2 id="dialogMessage">Game over</h2>
-          <p id="dialogP">Blah blah blah</p>
+          <h3 id="dialogSub"></h3>
+          <ul class="unstyled" id="dialogP">...</ul>
         </section>
         <footer>
           <p>&raquo;&raquo; appuyez sur espace pour continuer &laquo;&laquo;</p>
