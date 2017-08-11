@@ -45,14 +45,17 @@ kbd {
 }
 body {
   background: url(./../img/cubes.png);
-  background-size: 200px;
+  background-size: 300px;
 }
 
 #game {
   position: relative;
   margin: 20px auto;
   width: 800px;
-  height: 600px;
+  height: 800px;
+  background: url(./../img/laptop.gif);
+  background-repeat: no-repeat;
+  background-position-y: 160%;
 }
 #game div,
 #canvas {
@@ -63,11 +66,9 @@ body {
   left: 0;
   width: 800px;
   height: 600px;
-  border-radius: 10px;
   font-family: 'Press Start 2P', Consolas, monospace;
   background-color: #222;
   color: springgreen;
-  box-shadow: 10px 0 100px #222 inset;
   border: 10px solid springgreen;
   display: none;
 }
@@ -141,11 +142,15 @@ body {
   margin-bottom: 1em;
 }
 
+#dialog.paused {
+  opacity: 0.5;
+}
+
 #resume {
 }
 
 #canvas {
-  background-color: #222;
+  background-color: #444;
 }
 
 #overlay {
@@ -153,7 +158,6 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
   opacity: .25;
-  border-radius: 10px;
 }
 
 @keyframes light {

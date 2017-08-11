@@ -14,7 +14,7 @@ tMap: var LEVELS = [{
     }
   },
   monster: {
-    imgSrc: 'monster.png'
+    imgSrc: 'bug.png'
   },
   tMap: {
     oX: 400,
@@ -52,7 +52,7 @@ tMap: var LEVELS = [{
     }
   },
   monster: {
-    imgSrc: 'monster.png'
+    imgSrc: 'dali.png'
   },
   tMap: {
     oX: 400,
@@ -65,13 +65,6 @@ tMap: var LEVELS = [{
       [0, '', '', 0],
       [0, '', '', 0],
       [0, 0, 0, 0]
-      /*
-      ['', 0, 0, 0, 0],
-      [0, '', 0, '', 0],
-      [0, 0, 0, 0, 0],
-      [0, '', 0, '', 0],
-      [0, 0, 0, 0]
-      */
     ],
     colors: {
       left: '#31405A',
@@ -134,25 +127,24 @@ tMap: var LEVELS = [{
   ],
   player: {
     firstTile: {
-      x: 0,
-      y: 0
+      x: 2,
+      y: 2
     }
   },
   monster: {
-    imgSrc: 'monster.png'
+    imgSrc: 'evilMe.png'
   },
   tMap: {
     oX: 400,
-    oY: 200,
+    oY: 100,
     tileSize: 40,
     target: 3,
     map: [
-      [0, 0, 0, 0, 0, 0],
+      ['', 0, 0, 0, 0],
+      [0, '', 0, '', 0],
       [0, 0, 0, 0, 0],
-      [0, 0, 0, 0],
-      [0, 0, 0],
-      [0, 0],
-      [0]
+      [0, '', 0, '', 0],
+      [0, 0, 0, 0]
     ],
     colors: {
       left: '#513C43',
@@ -161,9 +153,9 @@ tMap: var LEVELS = [{
         '#C34E54',
         '#E67359',
         'gold',
-        'white'
+        'wheat'
       ],
-      target: 'white'
+      target: 'wheat'
     }
   }
 }];

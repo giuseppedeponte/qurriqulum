@@ -86,10 +86,10 @@ var createGame = (function() {
         game.map.unsubscribe();
         game.player.unsubscribe();
         game.monster.unsubscribe();
+        game.events = [];
         delete game.player;
         delete game.monster;
         delete game.map;
-        game.events = [];
       },
       start: function(from, to, game) {
         var that = this;
@@ -98,7 +98,7 @@ var createGame = (function() {
         // update the level
         switch (from) {
           case 'menu': {
-            this.level = 0;
+            this.level = 1;
             break;
           }
           case 'over': {
@@ -152,16 +152,9 @@ var createGame = (function() {
         window.removeEventListener('keydown', that.play);
       }
     },
-    dialog: {
-      start: function(from, to, game) {
-        // pause the game
-      },
-      stop: function(from, to, game) {
-        // restart the game or exit
-      }
-    },
     playing: {
       start: function(from, to, game) {
+        var that = this;
         game.subscriptions = [];
         game.subscriptions.push(
           game.player.on('standing', function(event, info) {
@@ -181,6 +174,13 @@ var createGame = (function() {
           game.monster.on('standing', function(event, info) {
             game.publish(event, info);
           }));
+        this.pause = function(e) {
+          if (e.keyCode === 27) {
+            game.nextState = 'paused';
+            game.transition();
+          }
+        };
+        window.addEventListener('keydown', that.pause);
         // start the game loop
         this.loop(game);
         // show the canvas
@@ -252,10 +252,38 @@ var createGame = (function() {
         game.publish('render', { lerp: lerp });
       },
       stop: function(from, to, game) {
+        var that = this;
         // stop the game loop
         this.looping = false;
         // hide the canvas
         document.getElementById('canvas').style.display = "none";
+        window.removeEventListener('keydown', that.pause);
+      }
+    },
+    paused: {
+      start: function(from, to, game) {
+        var that = this;
+        document.getElementById('dialogMessage').className = "paused";
+        document.getElementById('dialogMessage').textContent = "PAUSE";
+        document.getElementById('dialog').style.display = "block";
+        // listen to spacebar input to resume the game
+        this.play = function(e) {
+          if (e.keyCode === 32) {
+            console.log('resume');
+            game.nextState = 'playing';
+            game.transition();
+          }
+        };
+        window.addEventListener('keydown', that.play);
+      },
+      stop: function(from, to, game) {
+        var that = this;
+        // go to next level or restart
+        document.getElementById('dialogMessage').className = "";
+        document.getElementById('dialogMessage').textContent = "";
+        document.getElementById('dialog').style.display = "none";
+        // remove keydown listener
+        window.removeEventListener('keydown', that.play);
       }
     },
     over: {
