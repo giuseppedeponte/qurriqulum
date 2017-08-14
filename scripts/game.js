@@ -98,7 +98,7 @@ var createGame = (function() {
         // update the level
         switch (from) {
           case 'menu': {
-            this.level = 1;
+            this.level = 0;
             break;
           }
           case 'over': {
@@ -125,6 +125,10 @@ var createGame = (function() {
         document.getElementById('demoImg').src = '#';
         document.getElementById('intro').style.display = 'block';
         document.getElementById('demoImg').src = './img/qbert-sm.gif';
+        // show the background
+        document.getElementById('game').style.backgroundImage = game.currentLevel.background !== ''
+            ? 'url(./img/'+ game.currentLevel.background +')'
+            : 'none';
 
         // create level objects
         game.map = createTilemap(game, game.context, game.currentLevel.tMap);
@@ -185,6 +189,7 @@ var createGame = (function() {
         this.loop(game);
         // show the canvas
         document.getElementById('canvas').style.display = "block";
+        document.getElementById('overlay').style.display = "block";
       },
       looping: true,
       loop: function(game) {
@@ -238,10 +243,10 @@ var createGame = (function() {
         game.context.textBaseline = 'middle';
         game.context.fillText('Score ' + game.player.score, fz, lh);
         game.context.fillStyle = 'white';
-        game.context.fillText('Target \u21D2 ', fz, lh * 2);
+        game.context.fillText('Cible  \u21D2 ', fz, lh * 2);
         helpers.drawCube(game.context, fz * 10.7, lh * 2 + fz, fz, fz, fz, game.currentLevel.tMap.colors.target, game.currentLevel.tMap.colors.left, game.currentLevel.tMap.colors.right);
         game.context.fillStyle = 'pink';
-        game.context.fillText('Lives', fz, lh * 3);
+        game.context.fillText('Vies', fz, lh * 3);
         game.context.fillStyle = 'orangered';
         game.context.fillText(lives, fz, lh * 3.75);
         game.context.restore();
@@ -257,6 +262,7 @@ var createGame = (function() {
         this.looping = false;
         // hide the canvas
         document.getElementById('canvas').style.display = "none";
+        document.getElementById('overlay').style.display = "none";
         window.removeEventListener('keydown', that.pause);
       }
     },
@@ -265,6 +271,7 @@ var createGame = (function() {
         var that = this;
         document.getElementById('dialogMessage').className = "paused";
         document.getElementById('dialogMessage').textContent = "PAUSE";
+        document.getElementById('dialogP').textContent = '';
         document.getElementById('dialog').style.display = "block";
         // listen to spacebar input to resume the game
         this.play = function(e) {

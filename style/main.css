@@ -47,15 +47,17 @@ body {
   background: url(./../img/cubes.png);
   background-size: 300px;
 }
-
+.hero-unit {
+  border-radius: 0;
+  -webkit-border-radius: 0;
+}
 #game {
   position: relative;
   margin: 20px auto;
   width: 800px;
   height: 800px;
-  background: url(./../img/laptop.gif);
   background-repeat: no-repeat;
-  background-position-y: 160%;
+  background-position-y: 100%;
 }
 #game div,
 #canvas {
@@ -150,24 +152,11 @@ body {
 }
 
 #canvas {
-  background-color: #444;
+  background-color: #333;
 }
 
-#overlay {
-  background-image: url(./img/filmgrain3.gif);
+#game #overlay {
+  background-image: url(./../img/filmgrain.gif);
   background-repeat: no-repeat;
-  background-size: cover;
-  opacity: .25;
-}
-
-@keyframes light {
-  0%, 100% {
-    box-shadow: 10px 0 100px #ccc;
-  }
-  25%, 75% {
-    box-shadow: 0 0 250px #ccc;
-  }
-  50% {
-    box-shadow: -10px 0 200px #ccc;
-  }
+  background-color: transparent;
 }

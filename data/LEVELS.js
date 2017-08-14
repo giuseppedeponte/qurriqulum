@@ -7,6 +7,7 @@ tMap: var LEVELS = [{
     '2014-2017 : Webmaster/Graphiste @ nicarali.com, Strasbourg',
     '2011-2017 : Développeur web autodidacte'
   ],
+  background: 'laptop.gif',
   player: {
     firstTile: {
       x: 0,
@@ -23,8 +24,8 @@ tMap: var LEVELS = [{
     target: 1,
     map: [
       [0, 0, 0, 0, 0, 0],
-      [0, '', 0, 0, 0],
-      [0, 0, '', 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0],
       [0, 0, 0],
       [0, 0],
       [0]
@@ -45,6 +46,7 @@ tMap: var LEVELS = [{
   details: [
     '2010-2017 : Conseiller de vente @ Le Géant des Beaux-Arts, Paris'
   ],
+  background: 'store.gif',
   player: {
     firstTile: {
       x: 0,
@@ -80,10 +82,11 @@ tMap: var LEVELS = [{
   title: 'NIVEAU 3',
   subtitle: 'Cinéma',
   details: [
-    '2007: Licence en Disciplines de l\'Art, de la Musique et du Spectacle @ Université de Turin',
+    '2007: Licence en Disciplines de l\'Art, de la Musique et du Spectacle, option cinéma @ Université de Turin',
     '2006: Assistant à la production théâtrale @ Laboratorio Sperimentale di Ricerca sull\'Arte dell\'attore, Turin',
     '2005: Réalisateur/Monteur vidéo @ Piemonte Groove, Turin'
   ],
+  background: 'cine.gif',
   player: {
     firstTile: {
       x: 0,
@@ -99,22 +102,22 @@ tMap: var LEVELS = [{
     tileSize: 40,
     target: 2,
     map: [
-      [0, 1, 0, 1, 0, 1],
-      [1, 0, 1, 0, 1],
-      [0, 1, 0, 1],
-      [1, 0, 1],
-      [0, 1],
-      [1]
+      [0, 0, 0, 0, 0, 0],
+      [0, 1, 1, 1, 0],
+      [0, 1, 1, 0],
+      [0, 1, 0],
+      [0, 0],
+      [0]
     ],
     colors: {
-      left: '#878',
-      right: '#767',
+      left: '#bbb',
+      right: '#aaa',
       base: [
-        '#656',
-        '#434',
-        '#212'
+        '#000',
+        '#333',
+        '#666'
       ],
-      target: '#222'
+      target: '#666'
     }
   }
 },{
@@ -125,10 +128,11 @@ tMap: var LEVELS = [{
     '2008-2010: Story Editor @ Affabula Readings, Turin',
     '2008: Master en écritures pour le cinéma : Scénario et Critique @ Université de Udine'
   ],
+  background: 'laptop.gif',
   player: {
     firstTile: {
-      x: 2,
-      y: 2
+      x: 0,
+      y: 0
     }
   },
   monster: {
@@ -136,15 +140,19 @@ tMap: var LEVELS = [{
   },
   tMap: {
     oX: 400,
-    oY: 100,
-    tileSize: 40,
+    oY: 150,
+    tileSize: 30,
     target: 3,
     map: [
-      ['', 0, 0, 0, 0],
-      [0, '', 0, '', 0],
-      [0, 0, 0, 0, 0],
-      [0, '', 0, '', 0],
-      [0, 0, 0, 0]
+      [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [0, '', '', 0, 0, '', '', 0, ''],
+      [0, '', 0, 0, '', '', '', '', ''],
+      [0, 0, 0, '', '', '', '', '', ''],
+      [0, 0, '', '', '', '', '', '', ''],
+      [0, '', '', '', '', '', '', '', ''],
+      [0, '', '', '', '', '', '', '', ''],
+      [0, 0, '', '', '', '', '', '', ''],
+      [0, '', '', '', '', '', '', '', '']
     ],
     colors: {
       left: '#513C43',
