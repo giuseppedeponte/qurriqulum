@@ -49,8 +49,9 @@ helpers.createPlayer = (function() {
     };
   };
   Player.prototype.publish = function(event, info) {
+    var i;
     info = info != undefined ? info : {};
-    for (var i = 0; this.events[event][i]; i += 1) {
+    for (i = 0; this.events[event][i]; i += 1) {
       this.events[event][i]('player.' + event, info);
     }
   };
@@ -63,11 +64,12 @@ helpers.createPlayer = (function() {
   // STATE MACHINE MECHANISM
   Player.prototype.transition = function() {
     var that = this;
+    var from;
     if (this.nextState !== this.currentState) {
       if (this.states[this.currentState] && this.states[this.currentState].exit) {
         this.states[this.currentState].exit(that.currentState, that.nextState, that);
       }
-      var from = this.currentState;
+      from = this.currentState;
       this.currentState = this.nextState;
       if (this.states[this.currentState].init) {
         this.states[this.currentState].init(from, that.currentState, that);
@@ -77,15 +79,17 @@ helpers.createPlayer = (function() {
     return this;
   };
   Player.prototype.update = function(event, info) {
+    var that;
     if (this.states[this.currentState].update) {
-      var that = this;
+      that = this;
       this.states[this.currentState].update(info, that);
     }
     this.transition();
   };
   Player.prototype.render = function(event, info) {
+    var that;
     if (this.states[this.currentState].render) {
-      var that = this;
+      that = this;
       this.context.save();
       this.states[this.currentState].render(info, that);
       this.context.restore();
@@ -172,6 +176,7 @@ helpers.createPlayer = (function() {
         player.position.y = player.currentTile.landingPoint.y;
       },
       update: function(attr, player) {
+        var dir;
         if (this.counter <= 100) {
           this.counter += 0.02;
           return;
@@ -182,7 +187,7 @@ helpers.createPlayer = (function() {
           return;
         }
         // check input
-        var dir = this.parseKeys();
+        dir = this.parseKeys();
         if (dir.x || dir.y) {
           // update direction
           player.position.dirX = dir.x;
@@ -422,9 +427,9 @@ helpers.createPlayer = (function() {
         }
       },
       render: function(attr, player) {
-        if (!this.show) {return;}
         var x = player.position.x - player.w / 2;
         var y = player.position.y - player.h;
+        if (!this.show) {return;}
         player.context.drawImage(
           player.img,
           player.frame.x,

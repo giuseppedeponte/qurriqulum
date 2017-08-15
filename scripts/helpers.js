@@ -2,28 +2,32 @@
 (function() {
     var lastTime = 0;
     var vendors = ['ms', 'moz', 'webkit', 'o'];
-    for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
-        window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
-        window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame']
-                                   || window[vendors[x]+'CancelRequestAnimationFrame'];
+    var i;
+    for (i = 0; i < vendors.length && !window.requestAnimationFrame; i += 1) {
+        window.requestAnimationFrame = window[vendors[i]+'RequestAnimationFrame'];
+        window.cancelAnimationFrame = window[vendors[i]+'CancelAnimationFrame']
+                                   || window[vendors[i]+'CancelRequestAnimationFrame'];
     }
 
-    if (!window.requestAnimationFrame)
-        window.requestAnimationFrame = function(callback, element) {
-            var currTime = new Date().getTime();
-            var timeToCall = Math.max(0, 16 - (currTime - lastTime));
-            var id = window.setTimeout(function() { callback(currTime + timeToCall); },
-              timeToCall);
-            lastTime = currTime + timeToCall;
-            return id;
-        };
+    if (!window.requestAnimationFrame) {
+      window.requestAnimationFrame = function(callback, element) {
+          var currTime = new Date().getTime();
+          var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+          var id = window.setTimeout(function() {
+            callback(currTime + timeToCall);
+          }, timeToCall);
+          lastTime = currTime + timeToCall;
+          return id;
+      };
+    }
 
-    if (!window.cancelAnimationFrame)
-        window.cancelAnimationFrame = function(id) {
-            clearTimeout(id);
-        };
+    if (!window.cancelAnimationFrame) {
+      window.cancelAnimationFrame = function(id) {
+          clearTimeout(id);
+      };
+    }
 }());
-
+/* Common methods */
 var helpers = {
   loadAssets : function(filenames, callback) {
     var i;
@@ -37,7 +41,7 @@ var helpers = {
     };
     for (i = 0; filenames[i]; i += 1) {
       name = filenames[i];
-      result[name] = document.createElement('img');
+      result[name] = new Image();
       result[name].addEventListener('load', onload);
       result[name].src = './img/' + name;
     }
@@ -95,7 +99,7 @@ var helpers = {
     object.context.font = r + 'px Arial';
     object.context.textAlign = 'center';
     object.context.textBaseline = 'middle';
-    object.context.fillText('@!#?@!', oX + 3*r/2, oY);
+    object.context.fillText('@!#?@!', oX + 3 * r/2, oY);
     object.context.restore();
   }
 };

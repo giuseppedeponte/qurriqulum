@@ -41,14 +41,15 @@ helpers.createMonster = (function() {
     };
   };
   Monster.prototype.publish = function(event, info) {
+    var i;
     info = info != undefined ? info : {};
-    for (var i = 0; this.events[event][i]; i += 1) {
+    for (i = 0; this.events[event][i]; i += 1) {
       this.events[event][i]('monster.' + event, info);
     }
   };
   Monster.prototype.unsubscribe = function(){
     var i;
-    for (i=0; this.subscriptions[i]; i += 1) {
+    for (i = 0; this.subscriptions[i]; i += 1) {
       this.subscriptions[i].remove();
     }
   };
@@ -57,11 +58,12 @@ helpers.createMonster = (function() {
   Monster.prototype.nextState = 'load';
   Monster.prototype.transition = function() {
     var that = this;
+    var from;
     if (this.nextState !== this.currentState) {
       if (this.states[this.currentState] && this.states[this.currentState].exit) {
         this.states[this.currentState].exit(that.currentState, that.nextState, that);
       }
-      var from = this.currentState;
+      from = this.currentState;
       this.currentState = this.nextState;
       if (this.states[this.currentState].init) {
         this.states[this.currentState].init(from, that.currentState, that);
@@ -71,15 +73,15 @@ helpers.createMonster = (function() {
     return this;
   };
   Monster.prototype.update = function(event, info) {
+    var that = this;
     if (this.states[this.currentState].update) {
-      var that = this;
       this.states[this.currentState].update(info, that);
     }
     this.transition();
   };
   Monster.prototype.render = function(event, info) {
+    var that = this;
     if (this.states[this.currentState].render) {
-      var that = this;
       this.context.save();
       this.states[this.currentState].render(info, that);
       this.context.restore();
@@ -99,8 +101,6 @@ helpers.createMonster = (function() {
         });
         monster.img.src = monster.frame.src;
       },
-      // update: function(attr, monster) {},
-      // render: function(attr, monster) {},
       exit: function(from, to, monster) {
         var that = this;
         monster.subscriptions = [];
@@ -130,12 +130,13 @@ helpers.createMonster = (function() {
         return dir;
       },
       update: function(attr, monster) {
+        var dir;
         if (this.counter <= 100) {
           this.counter += 0.02;
           return;
         }
         // get random direction
-        var dir = this.randomDirection();
+        dir = this.randomDirection();
         monster.position.dirX = dir.x;
         monster.position.dirY = dir.y;
         // check if next position is a tile or not
@@ -196,8 +197,8 @@ helpers.createMonster = (function() {
       },
       render: function(attr, monster) {
         var x = this.prevX + (monster.position.x - this.prevX) * attr.lerp;
-        x = Math.round(x) - monster.w / 2;
         var y = this.prevY + (monster.position.y - this.prevY) * attr.lerp;
+        x = Math.round(x) - monster.w / 2;
         y = Math.round(y) - monster.h;
         monster.frame.x = monster.position.dirX < 0 || monster.position.dirY < 0
                          ? this.counter < 80

@@ -42,6 +42,12 @@ helpers.createTilemap = (function() {
   // tilemap constructor
   var Tilemap = function(game, context, config) {
     var that = this;
+    var x;
+    var y;
+    var lX;
+    var lY;
+    var cX;
+    var cY;
     this.context = context;
     this.game = game;
     this.map = config.map;
@@ -49,13 +55,13 @@ helpers.createTilemap = (function() {
     this.colors = config.colors;
     this.tiles = [];
     this.remainingTiles = 0;
-    for (var y = 0; config.map[y]; y += 1) {
-      var lX = config.oX - config.tileSize * y;
-      var lY = config.oY + 1.5 * config.tileSize * y;
+    for (y = 0; config.map[y]; y += 1) {
+      lX = config.oX - config.tileSize * y;
+      lY = config.oY + 1.5 * config.tileSize * y;
       this.tiles[y] = [];
-      for (var x = 0; x < config.map[y].length; x += 1) {
-        var cX = lX + config.tileSize * x;
-        var cY = lY + 1.5 * config.tileSize * x;
+      for (x = 0; x < config.map[y].length; x += 1) {
+        cX = lX + config.tileSize * x;
+        cY = lY + 1.5 * config.tileSize * x;
         if (config.map[y][x] !== '') {
           this.remainingTiles += this.target - config.map[y][x];
           this.tiles[y][x] = new Tile(y + ',' + x, cX, cY, config.tileSize, config.colors.base, config.colors.left, config.colors.right, that);
@@ -82,7 +88,8 @@ helpers.createTilemap = (function() {
     );
     this.subscriptions.push(
       this.game.on('monster.standing', function(e, monster) {
-        var y, x;
+        var y;
+        var x;
         for (y = 0; y < that.tiles.length; y += 1) {
           for (x = 0; x < that.tiles[y].length; x += 1) {
             if (that.tiles[y][x]) {
@@ -95,7 +102,8 @@ helpers.createTilemap = (function() {
     );
     this.subscriptions.push(
       this.game.on('player.standing', function(e, player) {
-        var y, x;
+        var y;
+        var x;
         for (y = 0; y < that.tiles.length; y += 1) {
           for (x = 0; x < that.tiles[y].length; x += 1) {
             if (that.tiles[y][x]) {
@@ -129,7 +137,8 @@ helpers.createTilemap = (function() {
   };
   // method to render the map
   Tilemap.prototype.render = function() {
-    var x, y;
+    var y;
+    var x;
     if (this.isCompleted()) {
       this.blink();
     }
@@ -168,7 +177,8 @@ helpers.createTilemap = (function() {
   };
   Tilemap.prototype.blink = function() {
     var that = this;
-    var x, y;
+    var y;
+    var x;
     if (!this.counter) { this.counter = 0; }
     this.counter += 1;
     if (this.counter % 10 === 0) {

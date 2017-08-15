@@ -37,7 +37,7 @@ helpers.createGame = (function() {
   Game.prototype.subscriptions = [];
   Game.prototype.unsubscribe = function(){
     var i;
-    for (i=0; this.subscriptions[i]; i += 1) {
+    for (i = 0; this.subscriptions[i]; i += 1) {
       this.subscriptions[i].remove();
     }
   };
@@ -46,11 +46,12 @@ helpers.createGame = (function() {
   Game.prototype.nextState = 'menu';
   Game.prototype.transition = function() {
     var that = this;
+    var from;
     if (this.nextState !== this.currentState) {
       if (this.states[this.currentState] && this.states[this.currentState].stop) {
         this.states[this.currentState].stop(that.currentState, that.nextState, that);
       }
-      var from = this.currentState;
+      from = this.currentState;
       this.currentState = this.nextState;
       if (this.states[this.currentState].start) {
         this.states[this.currentState].start(from, that.currentState, that);
@@ -93,8 +94,7 @@ helpers.createGame = (function() {
       },
       start: function(from, to, game) {
         var that = this;
-        console.log(from);
-
+        var firstTile;
         // update the level
         switch (from) {
           case 'menu': {
@@ -132,8 +132,7 @@ helpers.createGame = (function() {
 
         // create level objects
         game.map = helpers.createTilemap(game, game.context, game.currentLevel.tMap);
-        console.log(game.map);
-        var firstTile = game.map.getTile(game.currentLevel.player.firstTile.y + ',' + game.currentLevel.player.firstTile.x);
+        firstTile = game.map.getTile(game.currentLevel.player.firstTile.y + ',' + game.currentLevel.player.firstTile.x);
         game.player = helpers.createPlayer(game, game.context, game.currentLevel.player, firstTile);
 
         firstTile = game.map.getRandomTile();
@@ -234,7 +233,8 @@ helpers.createGame = (function() {
         var fz = 16;
         var lh = fz * 2;
         var lives = '';
-        for (var i = game.player.lives; i > 0; i -= 1) {
+        var i;
+        for (i = game.player.lives; i > 0; i -= 1) {
           lives += '❤';
         }
         game.context.save();
@@ -329,7 +329,7 @@ helpers.createGame = (function() {
         var dialogI;
         var i;
         for (i = 0; game.currentLevel.details[i]; i += 1) {
-          var dialogI = document.createElement('li');
+          dialogI = document.createElement('li');
           dialogI.textContent = game.currentLevel.details[i];
           dialogP.appendChild(dialogI);
         }

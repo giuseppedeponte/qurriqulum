@@ -83,9 +83,9 @@ var LEVELS = [{
   title: 'NIVEAU 3',
   subtitle: 'Cinéma',
   details: [
-    '2007: Licence en Disciplines de l\'Art, de la Musique et du Spectacle, option cinéma @ Université de Turin',
-    '2006: Assistant à la production théâtrale @ Laboratorio Sperimentale di Ricerca sull\'Arte dell\'attore, Turin',
-    '2005: Réalisateur/Monteur vidéo @ Piemonte Groove, Turin'
+    '2007 : Licence en Disciplines de l\'Art, de la Musique et du Spectacle, option cinéma @ Université de Turin',
+    '2006 : Assistant à la production théâtrale @ Laboratorio Sperimentale di Ricerca sull\'Arte dell\'attore, Turin',
+    '2005 : Réalisateur/Monteur vidéo @ Piemonte Groove, Turin'
   ],
   background: 'cine.gif',
   player: {
@@ -125,9 +125,9 @@ var LEVELS = [{
   title: 'NIVEAU 4',
   subtitle: 'Écriture',
   details: [
-    '2009: Formation de langue française écrite @ Aleph Écriture, Paris',
-    '2008-2010: Story Editor @ Affabula Readings, Turin',
-    '2008: Master en écritures pour le cinéma : Scénario et Critique @ Université de Udine'
+    '2009 : Formation de langue française écrite @ Aleph Écriture, Paris',
+    '2008-2010 : Story Editor @ Affabula Readings, Turin',
+    '2008 : Master en écritures pour le cinéma : Scénario et Critique @ Université de Udine'
   ],
   background: 'laptop.gif',
   player: {
