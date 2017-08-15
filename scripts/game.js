@@ -1,5 +1,5 @@
 'use strict';
-var createGame = (function() {
+helpers.createGame = (function() {
   var Game = function(canvas, context, levelConfig) {
     var that = this;
     var firstTile;
@@ -131,13 +131,13 @@ var createGame = (function() {
             : 'none';
 
         // create level objects
-        game.map = createTilemap(game, game.context, game.currentLevel.tMap);
+        game.map = helpers.createTilemap(game, game.context, game.currentLevel.tMap);
         console.log(game.map);
         var firstTile = game.map.getTile(game.currentLevel.player.firstTile.y + ',' + game.currentLevel.player.firstTile.x);
-        game.player = createPlayer(game, game.context, game.currentLevel.player, firstTile);
+        game.player = helpers.createPlayer(game, game.context, game.currentLevel.player, firstTile);
 
         firstTile = game.map.getRandomTile();
-        game.monster = createMonster(game, game.context, game.currentLevel.monster, firstTile);
+        game.monster = helpers.createMonster(game, game.context, game.currentLevel.monster, firstTile);
         // listen to spacebar input to start the game
         this.play = function(e) {
           if (e.keyCode === 32) {

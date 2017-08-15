@@ -1,6 +1,6 @@
 'use strict';
 // FACTORY FUNCTION FOR THE GAME monster
-var createMonster = (function() {
+helpers.createMonster = (function() {
   var Monster = function(game, context, config, firstTile) {
     this.game = game;
     this.context = context;

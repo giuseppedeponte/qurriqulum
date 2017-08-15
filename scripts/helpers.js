@@ -23,8 +23,25 @@
             clearTimeout(id);
         };
 }());
-// function to draw a cube
+
 var helpers = {
+  loadAssets : function(filenames, callback) {
+    var i;
+    var name;
+    var result = {};
+    var count = filenames.length;
+    var onload = function() {
+      if ((count -= 1) === 0) {
+        callback(result);
+      }
+    };
+    for (i = 0; filenames[i]; i += 1) {
+      name = filenames[i];
+      result[name] = document.createElement('img');
+      result[name].addEventListener('load', onload);
+      result[name].src = './img/' + name;
+    }
+  },
   drawCube: function(c, x, y, wx, wy, h, color, leftColor, rightColor) {
     // left side
     c.save();

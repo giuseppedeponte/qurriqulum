@@ -1,11 +1,12 @@
 'use strict';
-tMap: var LEVELS = [{
+var LEVELS = [{
   title: 'NIVEAU 1',
   subtitle: 'Développement web',
   details: [
+    'HTML5 | CSS3 | JavaScript | jQuery | AngularJS | Bootstrap',
+    'NodeJS | ExpressJS | MongoDB | MeteorJS | AJAX',
     '2017 : Formation Développeur full-stack JavaScript @ IFOCOP, Paris',
     '2014-2017 : Webmaster/Graphiste @ nicarali.com, Strasbourg',
-    '2011-2017 : Développeur web autodidacte'
   ],
   background: 'laptop.gif',
   player: {
@@ -94,7 +95,7 @@ tMap: var LEVELS = [{
     }
   },
   monster: {
-    imgSrc: 'monster.png'
+    imgSrc: 'm.png'
   },
   tMap: {
     oX: 400,
@@ -167,3 +168,16 @@ tMap: var LEVELS = [{
     }
   }
 }];
+var ASSETS = [
+  'cubes.png',
+  'qbert-sm.gif',
+  'laptop.gif',
+  'cine.gif',
+  'store.gif',
+  'player.png',
+  'bug.png',
+  'dali.png',
+  'm.png',
+  'evilMe.png',
+  'filmgrain.gif'
+];

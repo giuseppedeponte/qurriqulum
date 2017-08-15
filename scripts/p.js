@@ -1,6 +1,6 @@
 'use strict';
 // FACTORY FUNCTION FOR THE GAME PLAYER
-var createPlayer = (function() {
+helpers.createPlayer = (function() {
   var Player = function(game, context, config, firstTile) {
     this.game = game;
     this.context = context;

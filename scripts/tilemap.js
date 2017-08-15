@@ -1,6 +1,6 @@
 'use strict';
 // TILEMAP MODULE
-var createTilemap = (function() {
+helpers.createTilemap = (function() {
   // single tile constructor
   var Tile = function(id, x, y, s, baseColors, leftColor, rightColor, map) {
     this.id = id;
