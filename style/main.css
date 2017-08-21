@@ -45,7 +45,8 @@ kbd {
 }
 body {
   background: url(./../img/cubes.png);
-  background-size: 300px;
+  -o-background-size: 300px;
+     background-size: 300px;
 }
 .hero-unit {
   border-radius: 0;
@@ -57,17 +58,16 @@ body {
   width: 800px;
   height: 800px;
   background-repeat: no-repeat;
-  background-position-y: 100%;
+  background-position: 0% 100%;
 }
 #game div,
 #canvas {
-  box-sizing: border-box;
   margin: auto;
   position: absolute;
   top: 0;
   left: 0;
-  width: 800px;
-  height: 600px;
+  width: 660px;
+  height: 460px;
   font-family: 'Press Start 2P', Consolas, monospace;
   background-color: #222;
   color: springgreen;
@@ -107,14 +107,12 @@ body {
   display: none;
   opacity: 1;
   color: white;
-  width: 800px;
-  height: 600px;
   text-align: center;
 }
 
 #intro h2 {
   color: tomato;
-  font-size: 4rem;
+  font-size: 64px;
 }
 
 #intro img {
@@ -152,10 +150,14 @@ body {
 }
 
 #canvas {
+  width: 780px;
+  height: 580px;
   background-color: #333;
 }
 
 #game #overlay {
+  width: 780px;
+  height: 580px;
   background-image: url(./../img/filmgrain.gif);
   background-repeat: no-repeat;
   background-color: transparent;
