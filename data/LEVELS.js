@@ -172,16 +172,19 @@ var LEVELS = [{
     }
   }
 }];
+
 var ASSETS = [
-  'cubes.png',
-  'qbert-sm.gif',
-  'laptop.gif',
-  'cine.gif',
-  'store.gif',
-  'player.png',
   'bug.png',
+  'cine.gif',
+  'code.gif',
+  'cubes.png',
   'dali.png',
-  'm.png',
   'evilMe.png',
-  'filmgrain.gif'
+  'filmgrain.gif',
+  'laptop.gif',
+  'm.png',
+  'player.png',
+  'qbert-sm.gif',
+  'store.gif',
+  'store2.gif'
 ];
