@@ -48,6 +48,7 @@ body {
   -o-background-size: 500px;
      background-size: 500px;
   background-position: top center;
+  text-rendering: optimizeLegibility;
 }
 .hero-unit {
   border-radius: 0;
@@ -112,7 +113,6 @@ body {
 }
 
 #menu .btn {
-  font-weight: bold;
   font-family: 'Bungee Shade';
   color: springgreen;
   border: 2px solid springgreen;

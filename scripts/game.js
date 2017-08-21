@@ -179,6 +179,7 @@ helpers.createGame = (function() {
           }));
         this.pause = function(e) {
           if (e.keyCode === 27) {
+            e.preventDefault();
             game.nextState = 'paused';
             game.transition();
           }
