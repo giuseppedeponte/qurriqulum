@@ -98,7 +98,7 @@ helpers.createGame = (function() {
         // update the level
         switch (from) {
           case 'menu': {
-            this.level = 0;
+            this.level = 2;
             break;
           }
           case 'over': {
@@ -188,7 +188,7 @@ helpers.createGame = (function() {
         this.loop(game);
         // show the canvas
         document.getElementById('canvas').style.display = "block";
-        document.getElementById('overlay').style.display = game.currentLevel.overlay;
+        document.getElementById('overlay').style.display = "block";
       },
       looping: true,
       loop: function(game) {

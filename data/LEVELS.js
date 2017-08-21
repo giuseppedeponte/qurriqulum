@@ -48,7 +48,7 @@ var LEVELS = [{
   details: [
     '2010-2017 : Conseiller de vente @ Le Géant des Beaux-Arts, Paris'
   ],
-  background: 'store.gif',
+  background: 'store2.gif',
   overlay: 'none',
   player: {
     firstTile: {
@@ -117,11 +117,11 @@ var LEVELS = [{
       left: '#bbb',
       right: '#aaa',
       base: [
-        '#000',
-        '#333',
-        '#666'
+        '#444',
+        '#666',
+        '#888'
       ],
-      target: '#666'
+      target: '#888'
     }
   }
 },{
