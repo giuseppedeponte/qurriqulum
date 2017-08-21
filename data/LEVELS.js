@@ -8,7 +8,8 @@ var LEVELS = [{
     '2017 : Formation Développeur full-stack JavaScript @ IFOCOP, Paris',
     '2014-2017 : Webmaster/Graphiste @ nicarali.com, Strasbourg',
   ],
-  background: 'laptop.gif',
+  background: 'code.gif',
+  overlay: 'none',
   player: {
     firstTile: {
       x: 0,
@@ -48,6 +49,7 @@ var LEVELS = [{
     '2010-2017 : Conseiller de vente @ Le Géant des Beaux-Arts, Paris'
   ],
   background: 'store.gif',
+  overlay: 'none',
   player: {
     firstTile: {
       x: 0,
@@ -88,6 +90,7 @@ var LEVELS = [{
     '2005 : Réalisateur/Monteur vidéo @ Piemonte Groove, Turin'
   ],
   background: 'cine.gif',
+  overlay: 'block',
   player: {
     firstTile: {
       x: 0,
@@ -130,6 +133,7 @@ var LEVELS = [{
     '2008 : Master en écritures pour le cinéma : Scénario et Critique @ Université de Udine'
   ],
   background: 'laptop.gif',
+  overlay: 'none',
   player: {
     firstTile: {
       x: 0,
