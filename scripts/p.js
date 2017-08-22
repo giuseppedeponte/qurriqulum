@@ -5,6 +5,13 @@ helpers.createPlayer = (function() {
     this.game = game;
     this.context = context;
     this.img = null;
+    this.sfx = [
+      'scream',
+      'bouncee',
+      'resume',
+      'win',
+      'die'
+    ];
     this.lives = 5;
     this.score = 0;
     this.firstTile = firstTile;
@@ -101,6 +108,10 @@ helpers.createPlayer = (function() {
         // load player initial position
         player.position.x = player.currentTile.landingPoint.x;
         player.position.y = player.currentTile.landingPoint.y;
+        // load sounds
+        helpers.loadSounds(player.sfx, function(result) {
+          player.sfx = result;
+        });
         // load player img
         player.img = new Image();
         player.img.addEventListener('load', function() {
@@ -109,8 +120,6 @@ helpers.createPlayer = (function() {
         });
         player.img.src = player.frame.src;
       },
-      // update: function(attr, player) {},
-      // render: function(attr, player) {},
       exit: function(from, to, player) {
         var that = this;
         player.subscriptions = [];
@@ -203,7 +212,6 @@ helpers.createPlayer = (function() {
         }
       },
       render: function(attr, player) {
-
         player.context.drawImage(
           player.img,
           player.frame.x,
@@ -242,6 +250,8 @@ helpers.createPlayer = (function() {
       update: function(attr, player) {
         // check if animation is over
         if (this.counter >= 100) {
+          // jumping sound
+          player.sfx.bouncee.play();
           player.nextState = 'standing';
         } else {
           this.counter += 0.005;
@@ -293,6 +303,8 @@ helpers.createPlayer = (function() {
         this.counter = 0;
         player.frame.x = 3 * player.frame.w;
         player.frame.y = 0;
+        // scream
+        player.sfx.scream.play();
       },
       update: function(attr, player) {
         if (this.counter > 50000) {
@@ -348,6 +360,8 @@ helpers.createPlayer = (function() {
         }
         // set img frame x and y
         player.frame.x = 2 * player.frame.w;
+        // scream !
+        player.sfx.scream.play();
       },
       update: function(attr, player) {
         // check if animation is over
@@ -409,6 +423,8 @@ helpers.createPlayer = (function() {
                 // set img frame x and y
         player.frame.x = 3 * player.frame.w;
         this.show = true;
+        // resuming sound
+        player.sfx.resume.play();
       },
       update: function(attr, player) {
         if (this.counter < 50000) {

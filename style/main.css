@@ -128,7 +128,8 @@ body {
 
 #intro h2 {
   color: tomato;
-  font-size: 64px;
+  font-size: 48px;
+  line-height: 1.2;
 }
 
 #intro img {
