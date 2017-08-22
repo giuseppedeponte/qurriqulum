@@ -64,6 +64,7 @@ helpers.createGame = (function() {
     menu: {
       start: function(from, to, game) {
         var that = this;
+        document.getElementById('game').style.backgroundImage = 'none';
         // show the menu
         document.getElementById('menu').style.display = "block";
         this.play = function(e) {
@@ -71,12 +72,12 @@ helpers.createGame = (function() {
           game.nextState = 'loading';
           game.transition();
         };
-        document.getElementById('play').addEventListener('click', that.play);
+        document.getElementById('play').addEventListener('click', that.play, false);
       },
       stop: function(from, to, game) {
         var that = this;
         // hide the menu
-        document.getElementById('play').removeEventListener('click', that.play);
+        document.getElementById('play').removeEventListener('click', that.play, false);
         document.getElementById('menu').style.display = "none";
       }
     },
@@ -144,7 +145,7 @@ helpers.createGame = (function() {
             game.transition();
           }
         };
-        window.addEventListener('keydown', that.play);
+        window.addEventListener('keydown', that.play, false);
       },
       stop: function(from, to, game) {
         var that = this;
@@ -184,7 +185,7 @@ helpers.createGame = (function() {
             game.transition();
           }
         };
-        window.addEventListener('keydown', that.pause);
+        window.addEventListener('keydown', that.pause, false);
         // start the game loop
         this.loop(game);
         // show the canvas
@@ -220,13 +221,13 @@ helpers.createGame = (function() {
       update: function(game) {
         if (game.map.isCompleted()) {
           if (!this.counter) {
-            game.player.sfx.win.play();
             this.counter = 0;
           } else if (this.counter > 1000) {
             delete this.counter;
             game.nextState = 'win';
             game.transition();
           }
+          game.player.sfx.win.play();
           this.counter += 0.01;
         }
         game.publish('update');
@@ -278,12 +279,11 @@ helpers.createGame = (function() {
         // listen to spacebar input to resume the game
         this.play = function(e) {
           if (e.keyCode === 32) {
-            console.log('resume');
             game.nextState = 'playing';
             game.transition();
           }
         };
-        window.addEventListener('keydown', that.play);
+        window.addEventListener('keydown', that.play, false);
       },
       stop: function(from, to, game) {
         var that = this;
@@ -311,7 +311,7 @@ helpers.createGame = (function() {
             game.transition();
           }
         };
-        window.addEventListener('keydown', that.play);
+        window.addEventListener('keydown', that.play, false);
         // play losing sound
         game.player.sfx.die.play();
       },
@@ -350,7 +350,7 @@ helpers.createGame = (function() {
             game.transition();
           }
         };
-        window.addEventListener('keydown', that.play);
+        window.addEventListener('keydown', that.play, false);
       },
       stop: function(from, to, game) {
         var that = this;

@@ -117,7 +117,7 @@ helpers.createPlayer = (function() {
         player.img.addEventListener('load', function() {
           player.nextState = 'standing';
           player.transition();
-        });
+        }, false);
         player.img.src = player.frame.src;
       },
       exit: function(from, to, player) {
@@ -175,8 +175,8 @@ helpers.createPlayer = (function() {
       init: function(from, to, player) {
         var that = this;
         this.counter = 0;
-        window.addEventListener('keydown', that.toggleKey.bind(that));
-        window.addEventListener('keyup', that.toggleKey.bind(that));
+        window.addEventListener('keydown', that.toggleKey.bind(that), false);
+        window.addEventListener('keyup', that.toggleKey.bind(that), false);
         // set image frame x and y
         player.frame.x = 3 * player.frame.w;
         player.frame.y = 0;
@@ -308,7 +308,6 @@ helpers.createPlayer = (function() {
       },
       update: function(attr, player) {
         if (this.counter > 50000) {
-          console.log('Aye !')
           if (player.lives > 0) {
             player.lives -= 1;
             player.nextState = 'resuming';

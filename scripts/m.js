@@ -98,7 +98,7 @@ helpers.createMonster = (function() {
         monster.img.addEventListener('load', function() {
           monster.nextState = 'standing';
           monster.transition();
-        });
+        }, false);
         monster.img.src = monster.frame.src;
       },
       exit: function(from, to, monster) {

@@ -10,4 +10,4 @@ window.addEventListener('DOMContentLoaded', function() {
       qbert = helpers.createGame(canvas, c, LEVELS);
     });
   }, 2000);
-});
+}, false);

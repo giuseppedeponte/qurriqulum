@@ -34,20 +34,20 @@ var helpers = {
     var name;
     var result = {};
     var count = filenames.length;
-    var onload = function() {
-      if ((count -= 1) === 0) {
+    var onload = function(e) {
+      count -= 1;
+      if (count === 0) {
         callback(result);
       }
     };
-    for (i = 0; filenames[i]; i += 1) {
+    for (i = 0; i < filenames.length; i += 1) {
       name = filenames[i];
       result[name] = new Image();
-      result[name].addEventListener('load', onload);
+      result[name].addEventListener('load', onload, false);
       result[name].src = './img/' + name;
     }
   },
   loadSounds: function(filenames, callback) {
-    console.log(callback.toString());
     var i;
     var name;
     var result = {};
@@ -57,9 +57,9 @@ var helpers = {
         callback(result);
       }
     };
-    for (i = 0; filenames[i]; i += 1) {
+    for (i = 0; i < filenames.length; i += 1) {
       name = filenames[i];
-      result[name] = new Audio();
+      result[name] = document.createElement('audio');
       result[name].addEventListener('canplay', canPlay, false);
       result[name].src = './sfx/' + name + '.mp3';
       result[name].volume = 0.2;
