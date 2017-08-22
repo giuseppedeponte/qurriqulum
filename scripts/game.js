@@ -220,9 +220,10 @@ helpers.createGame = (function() {
       update: function(game) {
         if (game.map.isCompleted()) {
           if (!this.counter) {
+            game.player.sfx.win.play();
             this.counter = 0;
           } else if (this.counter > 1000) {
-            this.counter = 0;
+            delete this.counter;
             game.nextState = 'win';
             game.transition();
           }
@@ -311,6 +312,8 @@ helpers.createGame = (function() {
           }
         };
         window.addEventListener('keydown', that.play);
+        // play losing sound
+        game.player.sfx.die.play();
       },
       stop: function(from, to, game) {
         var that = this;

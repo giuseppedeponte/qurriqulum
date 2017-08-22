@@ -46,6 +46,25 @@ var helpers = {
       result[name].src = './img/' + name;
     }
   },
+  loadSounds: function(filenames, callback) {
+    console.log(callback.toString());
+    var i;
+    var name;
+    var result = {};
+    var count = filenames.length;
+    var canPlay = function() {
+      if ((count -= 1) === 0) {
+        callback(result);
+      }
+    };
+    for (i = 0; filenames[i]; i += 1) {
+      name = filenames[i];
+      result[name] = new Audio();
+      result[name].addEventListener('canplay', canPlay, false);
+      result[name].src = './sfx/' + name + '.mp3';
+      result[name].volume = 0.2;
+    }
+  },
   drawCube: function(c, x, y, wx, wy, h, color, leftColor, rightColor) {
     // left side
     c.save();

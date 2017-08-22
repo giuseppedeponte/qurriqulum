@@ -9,5 +9,5 @@ window.addEventListener('DOMContentLoaded', function() {
       document.getElementById('loader').style.display = 'none';
       qbert = helpers.createGame(canvas, c, LEVELS);
     });
-  }, 5000);
+  }, 2000);
 });
