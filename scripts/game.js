@@ -67,7 +67,7 @@ HELPERS.createGame = (function() {
       start: function(from, to, game) {
         var that = this;
         // show the menu
-        document.getElementById('game').style.backgroundImage = 'none';
+        document.getElementById('game').style.backgroundImage = 'url(./img/arcade.png)';
         document.getElementById('menu').style.display = 'block';
         this.play = function(e) {
           e.preventDefault();

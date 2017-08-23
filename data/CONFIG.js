@@ -176,6 +176,7 @@ CONFIG.levels = [{
 }];
 
 CONFIG.assets = [
+  'arcade.png',
   'bug.png',
   'cine.gif',
   'code.gif',
