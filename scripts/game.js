@@ -1,6 +1,6 @@
 // game.js
 'use strict';
-// factory function to generate a new game object
+// factory function to generate a new Game object
 HELPERS.createGame = (function() {
   var Game = function(canvas, context, levelConfig) {
     var that = this;
@@ -101,7 +101,7 @@ HELPERS.createGame = (function() {
         // update the level
         switch (from) {
           case 'menu': {
-            this.level = 3;
+            this.level = 0;
             break;
           }
           case 'over': {
