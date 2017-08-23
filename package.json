@@ -24,10 +24,12 @@
       "HELPERS": true
     },
     "rules": {
+      "eqeqeq": 2,
       "semi": 2,
       "no-var": 0,
-      "quotes": 0,
-      "comma-dangle": ["error", "never"]
+      "quotes": ["error", "single"],
+      "comma-dangle": ["error", "never"],
+      "max-len": 0
     }
   },
   "repository": {

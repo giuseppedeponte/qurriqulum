@@ -8,7 +8,7 @@ CONFIG.levels = [{
     'backEnd: [ NodeJS, ExpressJS, MongoDB, MeteorJS, AJAX ],',
     '\u2766',
     '2017 : Formation Développeur full-stack JavaScript @ IFOCOP, Paris',
-    '2014-2017 : Webmaster/Graphiste @ nicarali.com, Strasbourg',
+    '2014-2017 : Webmaster/Graphiste @ nicarali.com, Strasbourg'
   ],
   background: 'code.gif',
   overlay: 'none',
@@ -44,7 +44,7 @@ CONFIG.levels = [{
       target: '#F8555E'
     }
   }
-},{
+}, {
   title: 'NIVEAU 2',
   subtitle: 'Conseil clients | Vente au détail',
   details: [
@@ -83,7 +83,7 @@ CONFIG.levels = [{
       target: '#ADD1D9'
     }
   }
-},{
+}, {
   title: 'NIVEAU 3',
   subtitle: 'Cinéma',
   details: [
@@ -126,7 +126,7 @@ CONFIG.levels = [{
       target: '#888'
     }
   }
-},{
+}, {
   title: 'NIVEAU 4',
   subtitle: 'Écriture',
   details: [

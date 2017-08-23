@@ -28,7 +28,7 @@ HELPERS.createGame = (function() {
     if (!this.events[event]) {
       return;
     }
-    info = info != undefined ? info : {};
+    info = info !== undefined ? info : {};
 
     for (i = 0; this.events[event][i]; i += 1) {
       this.events[event][i](event, info);
@@ -68,7 +68,7 @@ HELPERS.createGame = (function() {
         var that = this;
         // show the menu
         document.getElementById('game').style.backgroundImage = 'none';
-        document.getElementById('menu').style.display = "block";
+        document.getElementById('menu').style.display = 'block';
         this.play = function(e) {
           e.preventDefault();
           game.nextState = 'loading';
@@ -82,7 +82,7 @@ HELPERS.createGame = (function() {
         // hide the menu
         document.getElementById('play')
                 .removeEventListener('click', that.play, false);
-        document.getElementById('menu').style.display = "none";
+        document.getElementById('menu').style.display = 'none';
       }
     },
     loading: {
@@ -168,7 +168,7 @@ HELPERS.createGame = (function() {
         var that = this;
         // hide the loading element
         document.getElementById('demoImg').src = '#';
-        document.getElementById('intro').style.display = "none";
+        document.getElementById('intro').style.display = 'none';
         // remove keydown listener
         window.removeEventListener('keydown', that.play);
       }
@@ -207,7 +207,7 @@ HELPERS.createGame = (function() {
         this.loop(game);
         // show the canvas
         document.getElementById('canvas')
-                .style.display = "block";
+                .style.display = 'block';
         document.getElementById('overlay')
                 .style.display = game.currentLevel.overlay;
       },
@@ -288,18 +288,18 @@ HELPERS.createGame = (function() {
         // stop the game loop
         this.looping = false;
         // hide the canvas
-        document.getElementById('canvas').style.display = "none";
-        document.getElementById('overlay').style.display = "none";
+        document.getElementById('canvas').style.display = 'none';
+        document.getElementById('overlay').style.display = 'none';
         window.removeEventListener('keydown', that.pause);
       }
     },
     paused: {
       start: function(from, to, game) {
         var that = this;
-        document.getElementById('dialogMessage').className = "paused";
-        document.getElementById('dialogMessage').textContent = "PAUSE";
+        document.getElementById('dialogMessage').className = 'paused';
+        document.getElementById('dialogMessage').textContent = 'PAUSE';
         document.getElementById('dialogP').textContent = '';
-        document.getElementById('dialog').style.display = "block";
+        document.getElementById('dialog').style.display = 'block';
         // listen to spacebar input to resume the game
         this.play = function(e) {
           if (e.keyCode === 32) {
@@ -312,9 +312,9 @@ HELPERS.createGame = (function() {
       stop: function(from, to, game) {
         var that = this;
         // go to next level or restart
-        document.getElementById('dialogMessage').className = "";
-        document.getElementById('dialogMessage').textContent = "";
-        document.getElementById('dialog').style.display = "none";
+        document.getElementById('dialogMessage').className = '';
+        document.getElementById('dialogMessage').textContent = '';
+        document.getElementById('dialog').style.display = 'none';
         // remove keydown listener
         window.removeEventListener('keydown', that.play);
       }
@@ -323,10 +323,10 @@ HELPERS.createGame = (function() {
       start: function(from, to, game) {
         var that = this;
         // end the game
-        document.getElementById('dialogMessage').className = "over";
-        document.getElementById('dialogMessage').textContent = "GAME OVER";
+        document.getElementById('dialogMessage').className = 'over';
+        document.getElementById('dialogMessage').textContent = 'GAME OVER';
         document.getElementById('dialogP').textContent = '';
-        document.getElementById('dialog').style.display = "block";
+        document.getElementById('dialog').style.display = 'block';
 
         // listen to spacebar input to start the game
         this.play = function(e) {
@@ -342,9 +342,9 @@ HELPERS.createGame = (function() {
       stop: function(from, to, game) {
         var that = this;
         // go to next level or restart
-        document.getElementById('dialogMessage').className = "";
-        document.getElementById('dialogMessage').textContent = "";
-        document.getElementById('dialog').style.display = "none";
+        document.getElementById('dialogMessage').className = '';
+        document.getElementById('dialogMessage').textContent = '';
+        document.getElementById('dialog').style.display = 'none';
         // remove keydown listener
         window.removeEventListener('keydown', that.play);
       }
@@ -369,7 +369,7 @@ HELPERS.createGame = (function() {
                 .textContent = game.currentLevel.title
                               + ' : '
                               + game.currentLevel.subtitle;
-        document.getElementById('dialog').style.display = "block";
+        document.getElementById('dialog').style.display = 'block';
 
         // listen to spacebar input to start the game
         this.play = function(e) {

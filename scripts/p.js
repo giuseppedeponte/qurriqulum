@@ -57,7 +57,7 @@ HELPERS.createPlayer = (function() {
   };
   Player.prototype.publish = function(event, info) {
     var i;
-    info = info != undefined ? info : {};
+    info = info !== undefined ? info : {};
     for (i = 0; this.events[event][i]; i += 1) {
       this.events[event][i]('player.' + event, info);
     }
