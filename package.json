@@ -20,8 +20,8 @@
       "ecmaVersion": 5
     },
     "globals": {
-      "CONFIG": true,
-      "HELPERS": true
+      "CONFIG": false,
+      "HELPERS": false
     },
     "rules": {
       "eqeqeq": 2,
