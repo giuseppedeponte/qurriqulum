@@ -20,11 +20,16 @@ HELPERS.createTilemap = (function() {
     };
   };
   Tile.prototype.blink = function(counter) {
-    this.currentColor = this.currentColor === 0 ? this.currentColor = this.baseColors.length - 1 : this.currentColor = 0;
+    this.currentColor = this.currentColor === 0
+                        ? this.currentColor = this.baseColors.length - 1
+                        : this.currentColor = 0;
   };
   Tile.prototype.render = function(context) {
     var that = this;
-    HELPERS.drawCube(context, that.x, that.y, that.s, that.s, that.s, that.baseColors[that.currentColor], that.leftColor, that.rightColor);
+    HELPERS.drawCube(context, that.x, that.y, that.s, that.s, that.s,
+                    that.baseColors[that.currentColor],
+                    that.leftColor,
+                    that.rightColor);
     return this;
   };
   Tile.prototype.value = function(value) {
@@ -64,7 +69,11 @@ HELPERS.createTilemap = (function() {
         cY = lY + 1.5 * config.tileSize * x;
         if (config.map[y][x] !== '') {
           this.remainingTiles += this.target - config.map[y][x];
-          this.tiles[y][x] = new Tile(y + ',' + x, cX, cY, config.tileSize, config.colors.base, config.colors.left, config.colors.right, that);
+          this.tiles[y][x] = new Tile(y + ',' + x, cX, cY, config.tileSize,
+                                    config.colors.base,
+                                    config.colors.left,
+                                    config.colors.right,
+                                    that);
           this.tiles[y][x].value(config.map[y][x]);
           this.tiles[y][x].currentColor = this.tiles[y][x].value();
         } else {
@@ -129,7 +138,7 @@ HELPERS.createTilemap = (function() {
     var id = tile.id.split(',');
     var x = parseInt(id[1]);
     var y = parseInt(id[0]);
-    if (this.tiles[y] && this.tiles[y][x].value() < this.target){
+    if (this.tiles[y] && this.tiles[y][x].value() < this.target) {
       this.tiles[y][x].value(this.tiles[y][x].value() + 1);
       this.remainingTiles -= 1;
     }
@@ -153,7 +162,9 @@ HELPERS.createTilemap = (function() {
     return this;
   };
   Tilemap.prototype.isTile = function(y, x) {
-    return (this.tiles[y] && this.tiles[y][x] !== null && this.tiles[y][x] !== undefined);
+    return (this.tiles[y]
+            && this.tiles[y][x] !== null
+            && this.tiles[y][x] !== undefined);
   };
   Tilemap.prototype.getTile = function(id, getXY) {
     var parsedId = id.split(',');
@@ -162,7 +173,7 @@ HELPERS.createTilemap = (function() {
     return !this.isTile(tileY, tileX)
            ? null
            : getXY
-             ? { y: tileY, x: tileX }
+             ? {y: tileY, x: tileX}
              : this.tiles[tileY][tileX];
   };
   Tilemap.prototype.getRandomTile = function() {
@@ -179,7 +190,9 @@ HELPERS.createTilemap = (function() {
     var that = this;
     var y;
     var x;
-    if (!this.counter) { this.counter = 0; }
+    if (!this.counter) {
+      this.counter = 0;
+    }
     this.counter += 1;
     if (this.counter % 10 === 0) {
       for (y = 0; y < this.tiles.length; y += 1) {

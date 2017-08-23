@@ -62,7 +62,7 @@ HELPERS.createPlayer = (function() {
       this.events[event][i]('player.' + event, info);
     }
   };
-  Player.prototype.unsubscribe = function(){
+  Player.prototype.unsubscribe = function() {
     var i;
     for (i=0; this.subscriptions[i]; i += 1) {
       this.subscriptions[i].remove();
@@ -73,8 +73,10 @@ HELPERS.createPlayer = (function() {
     var that = this;
     var from;
     if (this.nextState !== this.currentState) {
-      if (this.states[this.currentState] && this.states[this.currentState].exit) {
-        this.states[this.currentState].exit(that.currentState, that.nextState, that);
+      if (this.states[this.currentState]
+        && this.states[this.currentState].exit) {
+        this.states[this.currentState]
+            .exit(that.currentState, that.nextState, that);
       }
       from = this.currentState;
       this.currentState = this.nextState;
@@ -121,7 +123,6 @@ HELPERS.createPlayer = (function() {
         player.img.src = player.frame.src;
       },
       exit: function(from, to, player) {
-        var that = this;
         player.subscriptions = [];
         player.subscriptions.push(player.game.on('update', function(e, info) {
           player.update(e, info);
@@ -146,7 +147,10 @@ HELPERS.createPlayer = (function() {
         }
       },
       parseKeys: function() {
-        var direction = { x: 0, y: 0 };
+        var direction = {
+          x: 0,
+          y: 0
+        };
         switch (true) {
           case this.keys.k37: {
             direction.x = -1;
@@ -236,7 +240,8 @@ HELPERS.createPlayer = (function() {
       counter: 0,
       init: function(from, to, player) {
         // get next tile reference
-        this.nextTile = player.currentTile.next(player.position.dirX, player.position.dirY);
+        this.nextTile = player.currentTile.next(player.position.dirX,
+                                                player.position.dirY);
         // start the counter
         this.counter = 0;
         // store initial position
@@ -257,11 +262,15 @@ HELPERS.createPlayer = (function() {
           this.counter += 0.005;
           // update x position
           this.prevX = player.position.x;
-          player.position.x = this.originX + (this.targetX - this.originX) * this.counter / 100;
+          player.position.x = this.originX
+                              + (this.targetX - this.originX)
+                              * this.counter / 100;
           player.position.x = Math.floor(player.position.x);
           // update y position
           this.prevY = player.position.y;
-          player.position.y = this.originY - 7 + (this.targetY - this.originY - 7) * this.counter / 100;
+          player.position.y = this.originY - 7
+                              + (this.targetY - this.originY - 7)
+                              * this.counter / 100;
           player.position.y = Math.floor(player.position.y);
           player.nextState = 'jumping';
         }
@@ -331,7 +340,9 @@ HELPERS.createPlayer = (function() {
           player.w,
           player.h
         );
-        HELPERS.drawBubble(player.position.x - player.w / 2, player.position.y - player.h, player);
+        HELPERS.drawBubble(player.position.x - player.w / 2,
+                          player.position.y - player.h,
+                          player);
       },
       exit: function(from, to, player) {
         player.currentTile = player.firstTile;
@@ -368,19 +379,22 @@ HELPERS.createPlayer = (function() {
           if (player.lives > 0) {
             player.lives -= 1;
             player.nextState = 'resuming';
-          }
-          else {
+          } else {
             player.nextState = 'dying';
           }
         } else {
           this.counter += 0.01;
           // update x position
           this.prevX = player.position.x;
-          player.position.x = this.originX + (this.targetX - this.originX) * this.counter / 1000;
+          player.position.x = this.originX
+                              + (this.targetX - this.originX)
+                              * this.counter / 1000;
           player.position.x = Math.floor(player.position.x);
           // update y position
           this.prevY = player.position.y;
-          player.position.y = this.originY - 7 + (this.targetY + this.counter - this.originY - 7) * this.counter / 1000;
+          player.position.y = this.originY - 7
+                              + (this.targetY + this.counter - this.originY - 7)
+                              * this.counter / 1000;
           player.position.y = Math.floor(player.position.y);
           player.nextState = 'falling';
         }
@@ -444,7 +458,9 @@ HELPERS.createPlayer = (function() {
       render: function(attr, player) {
         var x = player.position.x - player.w / 2;
         var y = player.position.y - player.h;
-        if (!this.show) {return;}
+        if (!this.show) {
+          return;
+        }
         player.context.drawImage(
           player.img,
           player.frame.x,

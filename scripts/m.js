@@ -47,7 +47,7 @@ HELPERS.createMonster = (function() {
       this.events[event][i]('monster.' + event, info);
     }
   };
-  Monster.prototype.unsubscribe = function(){
+  Monster.prototype.unsubscribe = function() {
     var i;
     for (i = 0; this.subscriptions[i]; i += 1) {
       this.subscriptions[i].remove();
@@ -60,8 +60,10 @@ HELPERS.createMonster = (function() {
     var that = this;
     var from;
     if (this.nextState !== this.currentState) {
-      if (this.states[this.currentState] && this.states[this.currentState].exit) {
-        this.states[this.currentState].exit(that.currentState, that.nextState, that);
+      if (this.states[this.currentState]
+        && this.states[this.currentState].exit) {
+        this.states[this.currentState]
+            .exit(that.currentState, that.nextState, that);
       }
       from = this.currentState;
       this.currentState = this.nextState;
@@ -102,7 +104,6 @@ HELPERS.createMonster = (function() {
         monster.img.src = monster.frame.src;
       },
       exit: function(from, to, monster) {
-        var that = this;
         monster.subscriptions = [];
         monster.subscriptions.push(monster.game.on('update', function(e, info) {
           monster.update(e, info);
@@ -114,7 +115,6 @@ HELPERS.createMonster = (function() {
     },
     standing: {
       init: function(from, to, monster) {
-        var that = this;
         this.counter = 0;
         // set image frame x and y
         monster.frame.x = 3 * monster.frame.w;
@@ -167,7 +167,8 @@ HELPERS.createMonster = (function() {
       counter: 0,
       init: function(from, to, monster) {
         // get next tile reference
-        this.nextTile = monster.currentTile.next(monster.position.dirX, monster.position.dirY);
+        this.nextTile = monster.currentTile.next(monster.position.dirX,
+                                                monster.position.dirY);
         // start the counter
         this.counter = 0;
         // store initial position
@@ -186,11 +187,15 @@ HELPERS.createMonster = (function() {
           this.counter += 0.003;
           // update x position
           this.prevX = monster.position.x;
-          monster.position.x = this.originX + (this.targetX - this.originX) * this.counter / 100;
+          monster.position.x = this.originX
+                               + (this.targetX - this.originX)
+                               * this.counter / 100;
           monster.position.x = Math.floor(monster.position.x);
           // update y position
           this.prevY = monster.position.y;
-          monster.position.y = this.originY - 7 + (this.targetY - this.originY - 7) * this.counter / 100;
+          monster.position.y = this.originY - 7
+                              + (this.targetY - this.originY - 7)
+                              * this.counter / 100;
           monster.position.y = Math.floor(monster.position.y);
           monster.nextState = 'jumping';
         }

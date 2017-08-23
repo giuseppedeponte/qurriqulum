@@ -1,0 +1,45 @@
+{
+  "name": "qurriqulum",
+  "version": "1.0.0",
+  "year": "2017",
+  "description": "A resume/game by Giuseppe De Ponte, fullstack JS web dev",
+  "main": "script/main.js",
+  "devDependencies": {
+    "eslint": "^4.5.0",
+    "eslint-config-google": "^0.9.1"
+  },
+  "eslintConfig": {
+    "extends": [
+      "eslint:recommended",
+      "google"
+    ],
+    "env": {
+        "browser": true
+    },
+    "parserOptions": {
+      "ecmaVersion": 5
+    },
+    "globals": {
+      "CONFIG": true,
+      "HELPERS": true
+    },
+    "rules": {
+      "semi": 2,
+      "no-var": 0,
+      "quotes": 0,
+      "comma-dangle": ["error", "never"]
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/giuseppedeponte/qurriqulum"
+  },
+  "keywords": [
+    "game",
+    "resume",
+    "web",
+    "developer"
+  ],
+  "author": "Giuseppe De Ponte",
+  "license": "ISC"
+}

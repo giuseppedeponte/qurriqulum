@@ -3,8 +3,6 @@
 // factory function to generate a new Game object
 HELPERS.createGame = (function() {
   var Game = function(canvas, context, levelConfig) {
-    var that = this;
-    var firstTile;
     this.canvas = canvas;
     this.context = context;
     this.config = levelConfig;
@@ -32,12 +30,12 @@ HELPERS.createGame = (function() {
     }
     info = info != undefined ? info : {};
 
-    for(i = 0; this.events[event][i]; i += 1) {
+    for (i = 0; this.events[event][i]; i += 1) {
       this.events[event][i](event, info);
     }
   };
   Game.prototype.subscriptions = [];
-  Game.prototype.unsubscribe = function(){
+  Game.prototype.unsubscribe = function() {
     var i;
     for (i = 0; this.subscriptions[i]; i += 1) {
       this.subscriptions[i].remove();
@@ -50,8 +48,10 @@ HELPERS.createGame = (function() {
     var that = this;
     var from;
     if (this.nextState !== this.currentState) {
-      if (this.states[this.currentState] && this.states[this.currentState].stop) {
-        this.states[this.currentState].stop(that.currentState, that.nextState, that);
+      if (this.states[this.currentState]
+          && this.states[this.currentState].stop) {
+        this.states[this.currentState]
+          .stop(that.currentState, that.nextState, that);
       }
       from = this.currentState;
       this.currentState = this.nextState;
@@ -74,12 +74,14 @@ HELPERS.createGame = (function() {
           game.nextState = 'loading';
           game.transition();
         };
-        document.getElementById('play').addEventListener('click', that.play, false);
+        document.getElementById('play')
+                .addEventListener('click', that.play, false);
       },
       stop: function(from, to, game) {
         var that = this;
         // hide the menu
-        document.getElementById('play').removeEventListener('click', that.play, false);
+        document.getElementById('play')
+                .removeEventListener('click', that.play, false);
         document.getElementById('menu').style.display = "none";
       }
     },
@@ -123,23 +125,36 @@ HELPERS.createGame = (function() {
         game.currentLevel = game.config[this.level];
 
         // show the level dialog
-        document.getElementById('levelTitle').textContent = game.currentLevel.title;
-        document.getElementById('levelSubtitle').textContent = game.currentLevel.subtitle;
+        document.getElementById('levelTitle')
+                .textContent = game.currentLevel.title;
+        document.getElementById('levelSubtitle')
+                .textContent = game.currentLevel.subtitle;
         document.getElementById('demoImg').src = '#';
         document.getElementById('intro').style.display = 'block';
         document.getElementById('demoImg').src = './img/demo.gif';
         // show the background
-        document.getElementById('game').style.backgroundImage = game.currentLevel.background !== ''
-            ? 'url(./img/'+ game.currentLevel.background +')'
-            : 'none';
+        document.getElementById('game')
+                .style.backgroundImage = (game.currentLevel.background !== '')
+                        ? 'url(./img/'+ game.currentLevel.background +')'
+                        : 'none';
 
         // create level objects
-        game.map = HELPERS.createTilemap(game, game.context, game.currentLevel.tMap);
-        firstTile = game.map.getTile(game.currentLevel.player.firstTile.y + ',' + game.currentLevel.player.firstTile.x);
-        game.player = HELPERS.createPlayer(game, game.context, game.currentLevel.player, firstTile);
+        game.map = HELPERS.createTilemap(game,
+                                        game.context,
+                                        game.currentLevel.tMap);
+        firstTile = game.map.getTile(game.currentLevel.player.firstTile.y
+                                    + ','
+                                    + game.currentLevel.player.firstTile.x);
+        game.player = HELPERS.createPlayer(game,
+                                          game.context,
+                                          game.currentLevel.player,
+                                          firstTile);
 
         firstTile = game.map.getRandomTile();
-        game.monster = HELPERS.createMonster(game, game.context, game.currentLevel.monster, firstTile);
+        game.monster = HELPERS.createMonster(game,
+                                            game.context,
+                                            game.currentLevel.monster,
+                                            firstTile);
         // listen to spacebar input to start the game
         this.play = function(e) {
           if (e.keyCode === 32) {
@@ -191,8 +206,10 @@ HELPERS.createGame = (function() {
         // start the game loop
         this.loop(game);
         // show the canvas
-        document.getElementById('canvas').style.display = "block";
-        document.getElementById('overlay').style.display = game.currentLevel.overlay;
+        document.getElementById('canvas')
+                .style.display = "block";
+        document.getElementById('overlay')
+                .style.display = game.currentLevel.overlay;
       },
       looping: true,
       loop: function(game) {
@@ -203,7 +220,9 @@ HELPERS.createGame = (function() {
         var lerp = 0;
         var step = function(timestamp) {
           if (that.looping) {
-            if (!start) { start = timestamp; }
+            if (!start) {
+              start = timestamp;
+            }
             delta = Math.min(1000, timestamp - start);
             while (delta >= fps) {
               that.update(game);
@@ -211,10 +230,10 @@ HELPERS.createGame = (function() {
             }
             lerp = delta / fps;
             that.render(game, lerp);
-            that.animationFrame = window.requestAnimationFrame(step, game.canvas);
+            that.animationFrame = requestAnimationFrame(step, game.canvas);
             start = timestamp;
           } else {
-            window.cancelAnimationFrame(that.animationFrame);
+            cancelAnimationFrame(that.animationFrame);
           }
         };
         this.animationFrame = window.requestAnimationFrame(step, game.canvas);
@@ -249,7 +268,10 @@ HELPERS.createGame = (function() {
         game.context.fillText('Score ' + game.player.score, fz, lh);
         game.context.fillStyle = 'white';
         game.context.fillText('Cible', fz, lh * 2);
-        HELPERS.drawCube(game.context, fz * 8, lh * 2 + fz, fz, fz, fz, game.currentLevel.tMap.colors.target, game.currentLevel.tMap.colors.left, game.currentLevel.tMap.colors.right);
+        HELPERS.drawCube(game.context, fz * 8, lh * 2 + fz, fz, fz, fz,
+                        game.currentLevel.tMap.colors.target,
+                        game.currentLevel.tMap.colors.left,
+                        game.currentLevel.tMap.colors.right);
         game.context.fillStyle = 'pink';
         game.context.fillText('Vies', fz, lh * 3);
         game.context.fillStyle = 'orangered';
@@ -259,7 +281,7 @@ HELPERS.createGame = (function() {
       render: function(game, lerp) {
         game.context.clearRect(0, 0, game.canvas.width, game.canvas.height);
         this.displayScore(game);
-        game.publish('render', { lerp: lerp });
+        game.publish('render', {lerp: lerp});
       },
       stop: function(from, to, game) {
         var that = this;
@@ -341,8 +363,12 @@ HELPERS.createGame = (function() {
         }
         // end the game
         document.getElementById('dialogMessage').className = 'win';
-        document.getElementById('dialogMessage').textContent = 'CONGRATULATIONS !';
-        document.getElementById('dialogSub').textContent = game.currentLevel.title + ' : ' + game.currentLevel.subtitle;
+        document.getElementById('dialogMessage')
+                .textContent = 'CONGRATULATIONS !';
+        document.getElementById('dialogSub')
+                .textContent = game.currentLevel.title
+                              + ' : '
+                              + game.currentLevel.subtitle;
         document.getElementById('dialog').style.display = "block";
 
         // listen to spacebar input to start the game
@@ -366,7 +392,7 @@ HELPERS.createGame = (function() {
         window.removeEventListener('keydown', that.play);
       }
     }
-  }
+  };
 
   return function(canvas, context, levelConfig) {
     return new Game(canvas, context, levelConfig).transition();
