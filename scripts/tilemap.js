@@ -1,6 +1,6 @@
 'use strict';
 // TILEMAP MODULE
-helpers.createTilemap = (function() {
+HELPERS.createTilemap = (function() {
   // single tile constructor
   var Tile = function(id, x, y, s, baseColors, leftColor, rightColor, map) {
     this.id = id;
@@ -24,7 +24,7 @@ helpers.createTilemap = (function() {
   };
   Tile.prototype.render = function(context) {
     var that = this;
-    helpers.drawCube(context, that.x, that.y, that.s, that.s, that.s, that.baseColors[that.currentColor], that.leftColor, that.rightColor);
+    HELPERS.drawCube(context, that.x, that.y, that.s, that.s, that.s, that.baseColors[that.currentColor], that.leftColor, that.rightColor);
     return this;
   };
   Tile.prototype.value = function(value) {

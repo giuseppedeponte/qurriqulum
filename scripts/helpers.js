@@ -28,7 +28,7 @@
     }
 }());
 /* Common methods */
-var helpers = {
+var HELPERS = {
   loadAssets : function(filenames, callback) {
     var i;
     var name;

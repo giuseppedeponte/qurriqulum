@@ -3,8 +3,9 @@ var LEVELS = [{
   title: 'NIVEAU 1',
   subtitle: 'Développement web',
   details: [
-    'HTML5 | CSS3 | JavaScript | jQuery | AngularJS | Bootstrap',
-    'NodeJS | ExpressJS | MongoDB | MeteorJS | AJAX',
+    'frontEnd: [ HTML5, CSS3, JavaScript, jQuery, AngularJS, Bootstrap, Foundation ],',
+    'backEnd: [ NodeJS, ExpressJS, MongoDB, MeteorJS, AJAX ],',
+    '\u2766',
     '2017 : Formation Développeur full-stack JavaScript @ IFOCOP, Paris',
     '2014-2017 : Webmaster/Graphiste @ nicarali.com, Strasbourg',
   ],
@@ -149,15 +150,15 @@ var LEVELS = [{
     tileSize: 30,
     target: 3,
     map: [
-      [0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [0, '', '', 0, 0, '', '', 0, ''],
-      [0, '', 0, 0, '', '', '', '', ''],
-      [0, 0, 0, '', '', '', '', '', ''],
-      [0, 0, '', '', '', '', '', '', ''],
+      [1, 1, 1, 1, 1, 1, 1, 1, 2],
+      [0, '', '', 2, 2, '', '', 2, ''],
+      [0, '', 2, 2, '', '', '', '', ''],
+      [0, 2, 2, '', '', '', '', '', ''],
+      [0, 2, '', '', '', '', '', '', ''],
       [0, '', '', '', '', '', '', '', ''],
       [0, '', '', '', '', '', '', '', ''],
-      [0, 0, '', '', '', '', '', '', ''],
-      [0, '', '', '', '', '', '', '', '']
+      [0, 2, '', '', '', '', '', '', ''],
+      [2, '', '', '', '', '', '', '', '']
     ],
     colors: {
       left: '#513C43',

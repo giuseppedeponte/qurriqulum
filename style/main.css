@@ -1,44 +1,5 @@
-/* press-start-2p-regular - latin-ext_latin */
-@font-face {
-  font-family: 'Press Start 2P';
-  font-style: normal;
-  font-weight: 400;
-  src: url('../font/press-start-2p-v5-latin-ext_latin-regular.eot'); /* IE9 Compat Modes */
-  src: local('Press Start 2P Regular'), local('PressStart2P-Regular'),
-       url('../font/press-start-2p-v5-latin-ext_latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-       url('../font/press-start-2p-v5-latin-ext_latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
-       url('../font/press-start-2p-v5-latin-ext_latin-regular.woff') format('woff'), /* Modern Browsers */
-       url('../font/press-start-2p-v5-latin-ext_latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
-       url('../font/press-start-2p-v5-latin-ext_latin-regular.svg#PressStart2P') format('svg'); /* Legacy iOS */
-}
-/* bungee-outline-regular - latin-ext_latin */
-@font-face {
-  font-family: 'Bungee Outline';
-  font-style: normal;
-  font-weight: 400;
-  src: url('../font/bungee-outline-v2-latin-ext_latin-regular.eot'); /* IE9 Compat Modes */
-  src: local('Bungee Outline'), local('BungeeOutline-Regular'),
-       url('../font/bungee-outline-v2-latin-ext_latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-       url('../font/bungee-outline-v2-latin-ext_latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
-       url('../font/bungee-outline-v2-latin-ext_latin-regular.woff') format('woff'), /* Modern Browsers */
-       url('../font/bungee-outline-v2-latin-ext_latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
-       url('../font/bungee-outline-v2-latin-ext_latin-regular.svg#BungeeOutline') format('svg'); /* Legacy iOS */
-}
-/* bungee-shade-regular - latin */
-@font-face {
-  font-family: 'Bungee Shade';
-  font-style: normal;
-  font-weight: 400;
-  src: url('../font/bungee-shade-v2-latin-regular.eot'); /* IE9 Compat Modes */
-  src: local('Bungee Shade'), local('BungeeShade-Regular'),
-       url('../font/bungee-shade-v2-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-       url('../font/bungee-shade-v2-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
-       url('../font/bungee-shade-v2-latin-regular.woff') format('woff'), /* Modern Browsers */
-       url('../font/bungee-shade-v2-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
-       url('../font/bungee-shade-v2-latin-regular.svg#BungeeShade') format('svg'); /* Legacy iOS */
-}
 kbd {
-  background-color: black;
+  background-color: #111;
   color: white;
   padding: 0.2em;
   font-family: Consolas, monospace;
@@ -49,6 +10,7 @@ body {
      background-size: 500px;
   background-position: top center;
   text-rendering: optimizeLegibility;
+  overflow: hidden; 
 }
 .hero-unit {
   border-radius: 0;
@@ -70,7 +32,7 @@ body {
   left: 0;
   width: 660px;
   height: 460px;
-  font-family: 'Press Start 2P', Consolas, monospace;
+  font-family: 'Bungee', Consolas, monospace;
   background-color: #222;
   color: springgreen;
   border: 10px solid springgreen;
@@ -88,34 +50,31 @@ body {
   border: 10px solid #FF6347;
 }
 
-#loader img {
-  margin-top: 120px;
-}
-
 #menu h1 {
   color: tomato;
   font-family: 'Bungee Outline';
   font-weight: bold;
 }
-#menu h5 {
-  margin-bottom: 0;
-  padding-bottom: 0;
+
+#menu h2 {
+  color: indianred;
 }
-#menu hr {
-  border-color: springgreen;
+
+#menu h3 {
+  margin-bottom: -11px;
+  text-align: left;
 }
 
 #menu p.well {
   background-color: #222;
-  color: springgreen;
   border: 2px solid springgreen;
   font-family: Consolas, monospace;
 }
 
 #menu .btn {
-  font-family: 'Bungee Shade';
+  font-family: 'Bungee';
   color: springgreen;
-  border: 2px solid springgreen;
+  border: 4px solid springgreen;
 }
 
 #intro,
@@ -127,9 +86,14 @@ body {
 }
 
 #intro h2 {
+  font-family: 'Bungee Shade';
   color: tomato;
-  font-size: 48px;
+  font-size: 64px;
   line-height: 1.2;
+}
+
+#intro h3 {
+  color: indianred;
 }
 
 #intro img {
@@ -149,11 +113,23 @@ body {
 
 #intro footer p,
 #dialog footer p {
+  font-family: 'Press Start 2P';
   margin: 0 auto;
   font-size: 14px;
 }
+
+#game #dialog {
+  font-family: 'Press Start 2P';
+}
+
 #dialog h3 {
   color: tomato;
+  font-family: Bungee;
+  font-size: 2em;
+}
+#dialogP {
+  font-size: 0.85em;
+  color: wheat;
 }
 #dialog li {
   margin-bottom: 1em;
@@ -161,9 +137,6 @@ body {
 
 #dialog.paused {
   opacity: 0.5;
-}
-
-#resume {
 }
 
 #canvas {
@@ -178,4 +151,9 @@ body {
   background-image: url(./../img/filmgrain.gif);
   background-repeat: no-repeat;
   background-color: transparent;
+  opacity: 0.2;
+}
+
+#mobile {
+  font-family: Consolas, monospace;
 }

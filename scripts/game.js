@@ -1,5 +1,7 @@
+// game.js
 'use strict';
-helpers.createGame = (function() {
+// factory function to generate a new game object
+HELPERS.createGame = (function() {
   var Game = function(canvas, context, levelConfig) {
     var that = this;
     var firstTile;
@@ -9,7 +11,7 @@ helpers.createGame = (function() {
     this.currentLevel = null;
     this.events = [];
   };
-  // PUB/SUB MECHANISM
+  // PUB/SUB IMPLEMENTATION
   Game.prototype.on = function(event, listener) {
     var i;
     var that = this;
@@ -41,7 +43,7 @@ helpers.createGame = (function() {
       this.subscriptions[i].remove();
     }
   };
-  // STATE MACHINE MECHANISM
+  // STATE MACHINE IMPLEMENTATION
   Game.prototype.currentState = '';
   Game.prototype.nextState = 'menu';
   Game.prototype.transition = function() {
@@ -64,8 +66,8 @@ helpers.createGame = (function() {
     menu: {
       start: function(from, to, game) {
         var that = this;
-        document.getElementById('game').style.backgroundImage = 'none';
         // show the menu
+        document.getElementById('game').style.backgroundImage = 'none';
         document.getElementById('menu').style.display = "block";
         this.play = function(e) {
           e.preventDefault();
@@ -132,12 +134,12 @@ helpers.createGame = (function() {
             : 'none';
 
         // create level objects
-        game.map = helpers.createTilemap(game, game.context, game.currentLevel.tMap);
+        game.map = HELPERS.createTilemap(game, game.context, game.currentLevel.tMap);
         firstTile = game.map.getTile(game.currentLevel.player.firstTile.y + ',' + game.currentLevel.player.firstTile.x);
-        game.player = helpers.createPlayer(game, game.context, game.currentLevel.player, firstTile);
+        game.player = HELPERS.createPlayer(game, game.context, game.currentLevel.player, firstTile);
 
         firstTile = game.map.getRandomTile();
-        game.monster = helpers.createMonster(game, game.context, game.currentLevel.monster, firstTile);
+        game.monster = HELPERS.createMonster(game, game.context, game.currentLevel.monster, firstTile);
         // listen to spacebar input to start the game
         this.play = function(e) {
           if (e.keyCode === 32) {
@@ -246,8 +248,8 @@ helpers.createGame = (function() {
         game.context.textBaseline = 'middle';
         game.context.fillText('Score ' + game.player.score, fz, lh);
         game.context.fillStyle = 'white';
-        game.context.fillText('Cible  \u21D2 ', fz, lh * 2);
-        helpers.drawCube(game.context, fz * 10.7, lh * 2 + fz, fz, fz, fz, game.currentLevel.tMap.colors.target, game.currentLevel.tMap.colors.left, game.currentLevel.tMap.colors.right);
+        game.context.fillText('Cible', fz, lh * 2);
+        HELPERS.drawCube(game.context, fz * 8, lh * 2 + fz, fz, fz, fz, game.currentLevel.tMap.colors.target, game.currentLevel.tMap.colors.left, game.currentLevel.tMap.colors.right);
         game.context.fillStyle = 'pink';
         game.context.fillText('Vies', fz, lh * 3);
         game.context.fillStyle = 'orangered';

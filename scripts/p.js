@@ -1,6 +1,6 @@
 'use strict';
 // FACTORY FUNCTION FOR THE GAME PLAYER
-helpers.createPlayer = (function() {
+HELPERS.createPlayer = (function() {
   var Player = function(game, context, config, firstTile) {
     this.game = game;
     this.context = context;
@@ -109,7 +109,7 @@ helpers.createPlayer = (function() {
         player.position.x = player.currentTile.landingPoint.x;
         player.position.y = player.currentTile.landingPoint.y;
         // load sounds
-        helpers.loadSounds(player.sfx, function(result) {
+        HELPERS.loadSounds(player.sfx, function(result) {
           player.sfx = result;
         });
         // load player img
@@ -331,7 +331,7 @@ helpers.createPlayer = (function() {
           player.w,
           player.h
         );
-        helpers.drawBubble(player.position.x - player.w / 2, player.position.y - player.h, player);
+        HELPERS.drawBubble(player.position.x - player.w / 2, player.position.y - player.h, player);
       },
       exit: function(from, to, player) {
         player.currentTile = player.firstTile;
@@ -404,7 +404,7 @@ helpers.createPlayer = (function() {
           player.w,
           player.h
         );
-        helpers.drawBubble(x, y, player);
+        HELPERS.drawBubble(x, y, player);
       },
       exit: function(from, to, player) {
         player.position.x = player.currentTile.landingPoint.x;

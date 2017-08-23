@@ -3,15 +3,14 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8" />
-  <title>Qbert</title>
-  <!--
-  <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
-  -->
+  <title>Qurriqulum</title>
+  <link href="https://fonts.googleapis.com/css?family=Bungee|Bungee+Outline|Bungee+Shade|Press+Start+2P" rel="stylesheet">
   <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap-responsive.min.css">
   <link rel="stylesheet" href="./style/main.css">
   <!-- Scripts -->
-  <script src="./scripts/helpers.js"></script>
   <script src="./data/LEVELS.js"></script>
+  <script src="./scripts/helpers.js"></script>
   <script src="./scripts/tilemap.js"></script>
   <script src="./scripts/p.js"></script>
   <script src="./scripts/m.js"></script>
@@ -19,19 +18,18 @@
   <script src="./scripts/main.js"></script>
 </head>
 <body>
-  <main class="container-fluid text-center">
+  <main class="container-fluid text-center hidden-phone">
     <div id="loader">
-      <img src="./img/load.gif" width="400" height="300" alt="loading">
+      <img src="./img/load.gif" width="800" height="600" alt="loading">
     </div>
     <div id="game">
       <div id="menu" class="hero-unit"><!-- game menu -->
         <h1>qurriqulum</h1>
-        <p>UN JEU/CV DE GIUSEPPE DE PONTE, DÉVELOPPEUR JAVASCRIPT FULLSTACK.</p>
-        <hr>
-        <h5>INSTRUCTIONS</h5>
+        <h2>UN JEU/CV DE GIUSEPPE DE PONTE, DÉVELOPPEUR JAVASCRIPT FULLSTACK.</h2>
+        <h3>INSTRUCTIONS</h3>
         <p class="well well-small">Sautez sur les cubes pour changer leur couleur jusqu'à obtenir la couleur cible (indiquée en haut à gauche de l'écran).<br>Restez sur le terrain de jeu et évitez les monstres !<br>Direction : <kbd>&larr;</kbd> <kbd>&uarr;</kbd> <kbd>&rarr;</kbd> <kbd>&darr;</kbd> || Pause : <kbd>Echap</kbd></p>
         <a id="play" href="#" role="button" class="btn btn-large btn-inverse">Jouer</a>
-        <a id="cv" href="./CV_Giuseppe_DE_PONTE_DIWJS.pdf" target="_blank" role="button" class="btn btn-large btn-inverse">Voir mon CV (pdf)</a>
+        <a id="cv" href="./CV_Giuseppe_DE_PONTE_DIWJS.pdf" target="_blank" rel="noopener" role="button" class="btn btn-large btn-inverse">Voir mon CV [pdf]</a>
       </div>
       <canvas id="canvas" width="800" height="600"></canvas><!-- canvas -->
       <div id="overlay"></div>
@@ -50,7 +48,7 @@
       <div id="dialog" class="hero-unit"><!-- pause/lose/win dialog box -->
         <section>
           <h2 id="dialogMessage">Game over</h2>
-          <h3 id="dialogSub">...</h3>
+          <h3 id="dialogSub">&nbsp;</h3>
           <ul class="unstyled" id="dialogP"></ul>
         </section>
         <footer>
@@ -59,5 +57,13 @@
       </div>
     </div>
   </main>
+  <br>
+  <div id="mobile" class="visible-phone container well text-center">
+    <h2>Désolé !</h2>
+    <p>Ce site n'est actuellement pas disponible pour mobile.</p>
+    <p><img src="./img/smash.gif" alt="Cube cassé"></p>
+    <p>Vous pouvez tout de même télécharger et consulter mon CV en version PDF.</p>
+    <a id="cv" href="./CV_Giuseppe_DE_PONTE_DIWJS.pdf" target="_blank" rel="noopener" role="button" class="btn btn-block btn-info">Voir mon CV</a>
+  </div>
 </body>
 </html>

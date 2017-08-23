@@ -5,9 +5,9 @@ window.addEventListener('DOMContentLoaded', function() {
   var qbert;
   document.getElementById('loader').style.display = 'block';
   setTimeout(function() {
-    helpers.loadAssets(ASSETS, function() {
+    HELPERS.loadAssets(ASSETS, function() {
       document.getElementById('loader').style.display = 'none';
-      qbert = helpers.createGame(canvas, c, LEVELS);
+      qbert = HELPERS.createGame(canvas, c, LEVELS);
     });
-  }, 2000);
+  }, 4000);
 }, false);
