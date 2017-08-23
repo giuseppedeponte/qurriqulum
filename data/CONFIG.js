@@ -1,5 +1,6 @@
 'use strict';
-var LEVELS = [{
+var CONFIG = {};
+CONFIG.levels = [{
   title: 'NIVEAU 1',
   subtitle: 'Développement web',
   details: [
@@ -49,7 +50,7 @@ var LEVELS = [{
   details: [
     '2010-2017 : Conseiller de vente @ Le Géant des Beaux-Arts, Paris'
   ],
-  background: 'store2.gif',
+  background: 'store.gif',
   overlay: 'none',
   player: {
     firstTile: {
@@ -108,7 +109,7 @@ var LEVELS = [{
     target: 2,
     map: [
       [0, 0, 0, 0, 0, 0],
-      [0, 1, 1, 1, 0],
+      [0, '', 1, 1, 0],
       [0, 1, 1, 0],
       [0, 1, 0],
       [0, 0],
@@ -174,18 +175,17 @@ var LEVELS = [{
   }
 }];
 
-var ASSETS = [
+CONFIG.assets = [
   'bug.png',
   'cine.gif',
   'code.gif',
   'cubes.png',
   'dali.png',
+  'demo.gif',
   'evilMe.png',
   'filmgrain.gif',
   'laptop.gif',
   'm.png',
   'player.png',
-  'qbert-sm.gif',
-  'store.gif',
-  'store2.gif'
+  'store.gif'
 ];

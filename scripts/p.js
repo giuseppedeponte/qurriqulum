@@ -6,11 +6,11 @@ HELPERS.createPlayer = (function() {
     this.context = context;
     this.img = null;
     this.sfx = [
-      'scream',
       'bouncee',
+      'die',
       'resume',
-      'win',
-      'die'
+      'scream',
+      'win'
     ];
     this.lives = 5;
     this.score = 0;

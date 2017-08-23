@@ -101,7 +101,7 @@ HELPERS.createGame = (function() {
         // update the level
         switch (from) {
           case 'menu': {
-            this.level = 0;
+            this.level = 3;
             break;
           }
           case 'over': {
@@ -127,7 +127,7 @@ HELPERS.createGame = (function() {
         document.getElementById('levelSubtitle').textContent = game.currentLevel.subtitle;
         document.getElementById('demoImg').src = '#';
         document.getElementById('intro').style.display = 'block';
-        document.getElementById('demoImg').src = './img/qbert-sm.gif';
+        document.getElementById('demoImg').src = './img/demo.gif';
         // show the background
         document.getElementById('game').style.backgroundImage = game.currentLevel.background !== ''
             ? 'url(./img/'+ game.currentLevel.background +')'
