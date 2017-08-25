@@ -5,13 +5,6 @@ HELPERS.createPlayer = (function() {
     this.game = game;
     this.context = context;
     this.img = null;
-    this.sfx = [
-      'bouncee',
-      'die',
-      'resume',
-      'scream',
-      'win'
-    ];
     this.lives = 5;
     this.score = 0;
     this.firstTile = firstTile;
@@ -110,10 +103,6 @@ HELPERS.createPlayer = (function() {
         // load player initial position
         player.position.x = player.currentTile.landingPoint.x;
         player.position.y = player.currentTile.landingPoint.y;
-        // load sounds
-        HELPERS.loadSounds(player.sfx, function(result) {
-          player.sfx = result;
-        });
         // load player img
         player.img = new Image();
         player.img.addEventListener('load', function() {
@@ -256,7 +245,9 @@ HELPERS.createPlayer = (function() {
         // check if animation is over
         if (this.counter >= 100) {
           // jumping sound
-          player.sfx.bouncee.play();
+          if (player.game.sfx && player.game.sfx.bouncee) {
+            player.game.sfx.bouncee.play();
+          }
           player.nextState = 'standing';
         } else {
           this.counter += 0.005;
@@ -313,7 +304,9 @@ HELPERS.createPlayer = (function() {
         player.frame.x = 3 * player.frame.w;
         player.frame.y = 0;
         // scream
-        player.sfx.scream.play();
+        if (player.game.sfx && player.game.sfx.scream) {
+          player.game.sfx.scream.play();
+        }
       },
       update: function(attr, player) {
         if (this.counter > 50000) {
@@ -371,7 +364,9 @@ HELPERS.createPlayer = (function() {
         // set img frame x and y
         player.frame.x = 2 * player.frame.w;
         // scream !
-        player.sfx.scream.play();
+        if (player.game.sfx && player.game.sfx.scream) {
+          player.game.sfx.scream.play();
+        }
       },
       update: function(attr, player) {
         // check if animation is over
@@ -437,7 +432,9 @@ HELPERS.createPlayer = (function() {
         player.frame.x = 3 * player.frame.w;
         this.show = true;
         // resuming sound
-        player.sfx.resume.play();
+        if (player.game.sfx && player.game.sfx.resume) {
+          player.game.sfx.resume.play();
+        }
       },
       update: function(attr, player) {
         if (this.counter < 50000) {

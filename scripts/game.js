@@ -8,6 +8,13 @@ HELPERS.createGame = (function() {
     this.config = levelConfig;
     this.currentLevel = null;
     this.events = [];
+    this.sounds = [
+      'bouncee',
+      'die',
+      'resume',
+      'scream',
+      'win'
+    ];
   };
   // PUB/SUB IMPLEMENTATION
   Game.prototype.on = function(event, listener) {
@@ -74,6 +81,10 @@ HELPERS.createGame = (function() {
           game.nextState = 'loading';
           game.transition();
         };
+        // load sounds
+        HELPERS.loadSounds(game.sounds, function(result) {
+          game.sfx = result;
+        });
         document.getElementById('play')
                 .addEventListener('click', that.play, false);
       },
@@ -248,7 +259,9 @@ HELPERS.createGame = (function() {
             game.nextState = 'win';
             game.transition();
           }
-          game.player.sfx.win.play();
+          if (game.sfx && game.sfx.win) {
+            game.sfx.win.play();
+          }
           this.counter += 0.01;
         }
         game.publish('update');
@@ -337,7 +350,9 @@ HELPERS.createGame = (function() {
         };
         window.addEventListener('keydown', that.play, false);
         // play losing sound
-        game.player.sfx.die.play();
+        if (game.sfx && game.sfx.die) {
+          game.player.sfx.die.play();
+        }
       },
       stop: function(from, to, game) {
         var that = this;

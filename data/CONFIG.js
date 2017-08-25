@@ -5,7 +5,7 @@ CONFIG.levels = [{
   subtitle: 'Développement web',
   details: [
     'frontEnd: [ HTML5, CSS3, JavaScript, jQuery, AngularJS, Bootstrap, Foundation ],',
-    'backEnd: [ NodeJS, ExpressJS, MongoDB, MeteorJS, AJAX ],',
+    'backEnd: [ NodeJS, ExpressJS, MongoDB, MeteorJS, AJAX ]',
     '\u2766',
     '2017 : Formation Développeur full-stack JavaScript @ IFOCOP, Paris',
     '2014-2017 : Webmaster/Graphiste @ nicarali.com, Strasbourg'
@@ -48,6 +48,7 @@ CONFIG.levels = [{
   title: 'NIVEAU 2',
   subtitle: 'Conseil clients | Vente au détail',
   details: [
+    'compétences : [conseil clients, encaissement, gestion de rayons, logistique, inventaires, marchandisage]',
     '2010-2017 : Conseiller de vente @ Le Géant des Beaux-Arts, Paris'
   ],
   background: 'store.gif',
@@ -130,6 +131,7 @@ CONFIG.levels = [{
   title: 'NIVEAU 4',
   subtitle: 'Écriture',
   details: [
+    'langues: [italien, français, anglais]',
     '2009 : Formation de langue française écrite @ Aleph Écriture, Paris',
     '2008-2010 : Story Editor @ Affabula Readings, Turin',
     '2008 : Master en écritures pour le cinéma : Scénario et Critique @ Université de Udine'

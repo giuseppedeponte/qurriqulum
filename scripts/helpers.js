@@ -52,7 +52,8 @@ HELPERS.loadSounds = function(filenames, callback) {
   var name;
   var result = {};
   var count = filenames.length;
-  var canPlay = function() {
+  var canPlay = function(e) {
+    console.log(e.target);
     if ((count -= 1) === 0) {
       callback(result);
     }
@@ -62,7 +63,7 @@ HELPERS.loadSounds = function(filenames, callback) {
     result[name] = document.createElement('audio');
     result[name].addEventListener('canplay', canPlay, false);
     result[name].src = './sfx/' + name + '.mp3';
-    result[name].volume = 0.2;
+    result[name].volume = 0.05;
   }
 };
 HELPERS.drawCube = function(c, x, y, wx, wy, h, color, leftColor, rightColor) {
