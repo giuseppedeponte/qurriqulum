@@ -114,7 +114,7 @@ HELPERS.createGame = (function() {
         // update the level
         switch (from) {
           case 'menu': {
-            this.level = 0;
+            this.level = 3;
             break;
           }
           case 'over': {
@@ -126,11 +126,14 @@ HELPERS.createGame = (function() {
             this.reset(game);
             if (this.level < game.config.length - 1) {
               this.level += 1;
-            } else {
-              game.nextState = 'menu';
-              game.transition();
-              return;
             }
+            break;
+          }
+          case 'ending': {
+            this.reset(game);
+            game.nextState = 'menu';
+            game.transition();
+            return;
           }
         }
         game.currentLevel = game.config[this.level];
@@ -335,6 +338,10 @@ HELPERS.createGame = (function() {
     over: {
       start: function(from, to, game) {
         var that = this;
+        // play losing sound
+        if (game.sfx && game.sfx.die) {
+          game.sfx.die.play();
+        }
         // end the game
         document.getElementById('dialogMessage').className = 'over';
         document.getElementById('dialogMessage').textContent = 'GAME OVER';
@@ -349,10 +356,6 @@ HELPERS.createGame = (function() {
           }
         };
         window.addEventListener('keydown', that.play, false);
-        // play losing sound
-        if (game.sfx && game.sfx.die) {
-          game.player.sfx.die.play();
-        }
       },
       stop: function(from, to, game) {
         var that = this;
@@ -379,17 +382,18 @@ HELPERS.createGame = (function() {
         // end the game
         document.getElementById('dialogMessage').className = 'win';
         document.getElementById('dialogMessage')
-                .textContent = 'CONGRATULATIONS !';
+                .textContent = 'Bravo ! Vous avez débloqué une nouvelle compétence';
         document.getElementById('dialogSub')
-                .textContent = game.currentLevel.title
-                              + ' : '
-                              + game.currentLevel.subtitle;
+                .textContent = game.currentLevel.subtitle;
         document.getElementById('dialog').style.display = 'block';
 
         // listen to spacebar input to start the game
         this.play = function(e) {
           if (e.keyCode === 32) {
             game.nextState = 'loading';
+            if (parseInt(game.currentLevel.title.substr(-1)) === game.config.length) {
+              game.nextState = 'ending';
+            }
             game.transition();
           }
         };
@@ -403,6 +407,27 @@ HELPERS.createGame = (function() {
         document.getElementById('dialogSub').textContent = '';
         document.getElementById('dialogP').textContent = '';
         document.getElementById('dialog').style.display = 'none';
+        // remove keydown listener
+        window.removeEventListener('keydown', that.play);
+      }
+    },
+    ending: {
+      start: function(from, to, game) {
+        var that = this;
+        document.getElementById('game').style.backgroundImage = 'url(./img/arcade.png)';
+        document.getElementById('credits').style.display ='block';
+        // listen to spacebar input to restart the game
+        this.play = function(e) {
+          if (e.keyCode === 32) {
+            game.nextState = 'loading';
+            game.transition();
+          }
+        };
+        window.addEventListener('keydown', that.play, false);
+      },
+      stop: function(from, to, game) {
+        var that = this;
+        document.getElementById('credits').style.display ='none';
         // remove keydown listener
         window.removeEventListener('keydown', that.play);
       }

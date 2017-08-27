@@ -53,7 +53,6 @@ HELPERS.loadSounds = function(filenames, callback) {
   var result = {};
   var count = filenames.length;
   var canPlay = function(e) {
-    console.log(e.target);
     if ((count -= 1) === 0) {
       callback(result);
     }

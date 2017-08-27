@@ -4,7 +4,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="UTF-8" />
   <title>Qurriqulum</title>
-  <link href="https://fonts.googleapis.com/css?family=Bungee|Bungee+Outline|Bungee+Shade|Press+Start+2P" rel="stylesheet">
   <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.min.css">
   <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap-responsive.min.css">
   <link rel="stylesheet" href="./style/main.css">
@@ -23,17 +22,17 @@
       <img src="./img/load.gif" width="800" height="600" alt="loading">
     </div>
     <div id="game">
-      <div id="menu" class="hero-unit"><!-- game menu -->
+      <div id="menu" class="hero-unit">
         <h1>qurriqulum</h1>
         <h2>UN JEU/CV DE GIUSEPPE DE PONTE, DÉVELOPPEUR JAVASCRIPT FULLSTACK.</h2>
         <h3>INSTRUCTIONS</h3>
-        <p class="well well-small">Sautez sur les cubes pour changer leur couleur jusqu'à obtenir la couleur cible (indiquée en haut à gauche de l'écran).<br>Restez sur le terrain de jeu et évitez les monstres !<br>Direction : <kbd>&larr;</kbd> <kbd>&uarr;</kbd> <kbd>&rarr;</kbd> <kbd>&darr;</kbd> || Pause : <kbd>Echap</kbd></p>
+        <p class="well well-small">Sautez sur les cubes pour changer leur couleur jusqu'à obtenir la couleur cible (indiquée en haut à gauche de l'écran).<br>Restez sur le terrain de jeu, évitez les monstres et débloquez les compétences et expériences professionnelles de Giuseppe !<br>Direction : <kbd>&larr;</kbd> <kbd>&uarr;</kbd> <kbd>&rarr;</kbd> <kbd>&darr;</kbd> || Pause : <kbd>Echap</kbd></p>
         <a id="play" href="#" role="button" class="btn btn-large btn-inverse">Jouer</a>
         <a id="cv" href="./data/CV_Giuseppe_DE_PONTE_DIWJS.pdf" target="_blank" rel="noopener" role="button" class="btn btn-large btn-inverse">Voir mon CV [pdf]</a>
       </div>
       <canvas id="canvas" width="800" height="600"></canvas><!-- canvas -->
       <div id="overlay"></div>
-      <div id="intro" class="hero-unit"><!-- intro dialog box -->
+      <div id="intro" class="hero-unit">
         <header>
           <img id="demoImg" class="img-responsive img-rounded" src="./img/demo.gif" alt="demo" width="126" height="196" />
           <h2 id="levelTitle">Level 0</h2>
@@ -45,11 +44,27 @@
           <p>&raquo;&raquo; appuyez sur espace pour continuer &laquo;&laquo;</p>
         </footer>
       </div>
-      <div id="dialog" class="hero-unit"><!-- pause/lose/win dialog box -->
+      <div id="dialog" class="hero-unit">
         <section>
-          <h2 id="dialogMessage">Game over</h2>
+          <h4 id="dialogMessage">Game over</h4>
           <h3 id="dialogSub">&nbsp;</h3>
           <ul class="unstyled" id="dialogP"></ul>
+        </section>
+        <footer>
+          <p>&raquo;&raquo; appuyez sur espace pour continuer &laquo;&laquo;</p>
+        </footer>
+      </div>
+      <div id="credits" class="hero-unit">
+        <section>
+          <h4>Hourra ! Vous avez débloqué toutes les compétences du</h4>
+          <h3>Qurriqulum</h3>
+          <br>
+          <ul class="unstyled">
+            <li>Un jeu réalisé en HTML, CSS (avec un peu de Bootstrap) et JAVASCRIPT</li>
+            <li>Librement inspiré par le jeu <a href="https://en.wikipedia.org/wiki/Q*bert" target="_blank" rel="noopener">Q*bert</a> développé en 1982 par W. Davis et J. Lee.</li>
+            <li>Retrouvez le code source de ce jeu sur <a href="https://github.com/giuseppedeponte/qurriqulum/" target="_blank" rel="noopener">@github.com:giuseppedeponte/qurriqulum</a></li>
+            <li>Ou envoyez-moi un petit message sur ma page <a href="https://www.linkedin.com/in/giuseppedeponte/" target="_blank" rel="noopener">LinkedIn</a>, ou à l'adresse e-mail <a href="mailto:giuseppedeponte@gmail.com" target="_blank" rel="noopener">giuseppedeponte@gmail.com</a></li>
+          </ul>
         </section>
         <footer>
           <p>&raquo;&raquo; appuyez sur espace pour continuer &laquo;&laquo;</p>

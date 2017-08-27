@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Bungee|Bungee+Outline|Bungee+Shade|Press+Start+2P');
 kbd {
   background-color: #111;
   color: white;
@@ -48,10 +49,12 @@ body {
   background-color: #FFEAB9;
   border: 10px solid #FF6347;
 }
-#menu h1 {
+#menu h1,
+#credits h3 {
   color: tomato;
   font-family: 'Bungee Outline';
   font-weight: bold;
+  font-size: 60px;
 }
 #menu h2 {
   color: indianred;
@@ -93,35 +96,42 @@ body {
   height: 196px;
 }
 #intro footer,
-#dialog footer {
+#dialog footer,
+#credits footer {
   width: 100%;
   position: absolute;
   bottom: 10px;
   left: 0;
 }
 #intro footer p,
-#dialog footer p {
+#dialog footer p,
+#credits footer p {
   font-family: 'Press Start 2P';
   margin: 0 auto;
   font-size: 14px;
 }
-#game #dialog {
+#game #dialog,
+#game #credits {
   font-family: 'Press Start 2P';
 }
+#dialogMessage.paused,
+#dialogMessage.over {
+  font-size: 31.5px;
+}
+
 #dialog h3 {
   color: tomato;
   font-family: Bungee;
   font-size: 2em;
 }
-#dialogP {
+#dialogP,
+#credits ul {
   font-size: 0.85em;
   color: wheat;
 }
-#dialog li {
+#dialog li,
+#credits li {
   margin-bottom: 1em;
-}
-#dialog.paused {
-  opacity: 0.5;
 }
 #canvas {
   width: 780px;
