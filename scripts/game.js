@@ -114,7 +114,7 @@ HELPERS.createGame = (function() {
         // update the level
         switch (from) {
           case 'menu': {
-            this.level = 3;
+            this.level = 0;
             break;
           }
           case 'over': {
