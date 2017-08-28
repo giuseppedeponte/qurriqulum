@@ -48,7 +48,8 @@ CONFIG.levels = [{
   title: 'NIVEAU 2',
   subtitle: 'Conseil clients | Vente au détail',
   details: [
-    'compétences : [conseil clients, encaissement, gestion de rayons, logistique, inventaires, marchandisage]',
+    '[ conseil clients, encaissement, gestion de rayons, logistique, inventaires, marchandisage, ... ]',
+    '\u2766',
     '2010-2017 : Conseiller de vente @ Le Géant des Beaux-Arts, Paris'
   ],
   background: 'store.gif',
@@ -88,7 +89,9 @@ CONFIG.levels = [{
   title: 'NIVEAU 3',
   subtitle: 'Cinéma',
   details: [
-    '2007 : Licence en Disciplines de l\'Art, de la Musique et du Spectacle, option cinéma @ Université de Turin',
+    '[ théorie & histoire du cinéma, écriture cinématographique, montage audio-vidéo ]',
+    '\u2766',
+    '2007 : Licence en D.A.M.S., option cinéma @ Université de Turin',
     '2006 : Assistant à la production théâtrale @ Laboratorio Sperimentale di Ricerca sull\'Arte dell\'attore, Turin',
     '2005 : Réalisateur/Monteur vidéo @ Piemonte Groove, Turin'
   ],
@@ -131,7 +134,8 @@ CONFIG.levels = [{
   title: 'NIVEAU 4',
   subtitle: 'Écriture',
   details: [
-    'langues: [italien, français, anglais]',
+    'langues: [ italien, français, anglais ]',
+    '\u2766',
     '2009 : Formation de langue française écrite @ Aleph Écriture, Paris',
     '2008-2010 : Story Editor @ Affabula Readings, Turin',
     '2008 : Master en écritures pour le cinéma : Scénario et Critique @ Université de Udine'

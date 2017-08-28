@@ -297,9 +297,6 @@ HELPERS.createPlayer = (function() {
     // the player is hit by an enemy
     hit: {
       init: function(from, to, player) {
-        if (player.lives > 0) {
-          player.lives -= 1;
-        }
         this.counter = 0;
         player.frame.x = 3 * player.frame.w;
         player.frame.y = 0;
@@ -470,9 +467,7 @@ HELPERS.createPlayer = (function() {
           player.h
         );
       },
-      exit: function(from, to, player) {
-
-      }
+      exit: function(from, to, player) {}
     },
     // the player has no more lives
     dying: {
