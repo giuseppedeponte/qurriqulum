@@ -154,3 +154,14 @@ noscript {
   top: 10px;
   width: 100%;
 }
+#joystick-wrapper {
+  margin: 0 auto;
+  padding: 0;
+  width: 300px;
+}
+#joystick {
+  background: white;
+}
+#spacebar {
+  
+}
