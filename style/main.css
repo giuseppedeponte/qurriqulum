@@ -149,3 +149,8 @@ body {
 #mobile {
   font-family: Consolas, monospace;
 }
+noscript {
+  position: absolute;
+  top: 10px;
+  width: 100%;
+}
