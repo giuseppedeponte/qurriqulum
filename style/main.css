@@ -157,11 +157,14 @@ noscript {
 #joystick-wrapper {
   margin: 0 auto;
   padding: 0;
-  width: 300px;
+  width: 250px;
 }
-#joystick {
-  background: white;
+#spacebar, #escape {
+  width: 92px;
+  font-family: 'Press Start 2P', Consolas, monospace;
+  color: springgreen;
+  border: 4px solid springgreen;
 }
 #spacebar {
-  
+  width: 158px;
 }
