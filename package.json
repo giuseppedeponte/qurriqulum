@@ -5,7 +5,7 @@
   "description": "A resume/game by Giuseppe De Ponte, fullstack JS web dev",
   "main": "script/main.js",
   "devDependencies": {
-    "eslint": "^4.5.0",
+    "eslint": "^9.9.1",
     "eslint-config-google": "^0.9.1"
   },
   "eslintConfig": {
