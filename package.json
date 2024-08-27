@@ -1,7 +1,7 @@
 {
   "name": "qurriqulum",
-  "version": "1.0.0",
-  "year": "2017",
+  "version": "2.0.0",
+  "year": "2024",
   "description": "A resume/game by Giuseppe De Ponte, fullstack JS web dev",
   "main": "script/main.js",
   "devDependencies": {
@@ -14,7 +14,7 @@
       "google"
     ],
     "env": {
-        "browser": true
+      "browser": true
     },
     "parserOptions": {
       "ecmaVersion": 5
@@ -27,8 +27,14 @@
       "eqeqeq": 2,
       "semi": 2,
       "no-var": 0,
-      "quotes": ["error", "single"],
-      "comma-dangle": ["error", "never"],
+      "quotes": [
+        "error",
+        "single"
+      ],
+      "comma-dangle": [
+        "error",
+        "never"
+      ],
       "max-len": 0
     }
   },

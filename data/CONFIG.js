@@ -5,10 +5,10 @@ CONFIG.levels = [
     title: "NIVEAU 1",
     subtitle: "Développement web",
     details: [
-      "frontEnd: [ HTML5, CSS3, JavaScript, React, Redux, jQuery, Webpack ],",
-      "backEnd: [ NodeJS, ExpressJS, MongoDB, Serverless, PHP, MySQL ]",
+      "Full stack : JavaScript, React, NodeJS, Python, SQL, HTML/CSS, ...",
       "\u2766",
-      "2017-aujourd'hui : développeur full-stack JS @ FoodChéri, Paris",
+      "2020—2024 : responsable des outils numériques @ La France insoumise, Paris",
+      "2017—2020 : développeur full-stack JS @ FoodChéri, Paris",
       "2017 : Formation développeur full-stack JavaScript @ IFOCOP, Paris"
     ],
     background: "code.gif",
